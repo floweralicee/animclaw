@@ -226,6 +226,7 @@ export function generateWorkspaceMd(objects: SeedObject[]): string {
     "# Workspace Schema",
     "",
     "Auto-generated summary of the workspace database.",
+    "Configured for: **AI Animation Production** (solo studio).",
     "",
   ];
   for (const obj of objects) {
@@ -444,7 +445,9 @@ export function seedWorkspaceFromAssets(params: {
     "task/.object.yaml",
     "script/.object.yaml",
     "script/up.md",
+    "script/charactersheet.md",
     "shot/.object.yaml",
+    "workspace_context.yaml",
     "WORKSPACE.md",
     "IDENTITY.md",
     ...MANAGED_SKILLS.map((s) => `skills/${s.name}/SKILL.md`),
@@ -502,6 +505,28 @@ export function seedWorkspaceFromAssets(params: {
   if (existsSync(upScriptSrc) && !existsSync(upScriptDst)) {
     try {
       copyFileSync(upScriptSrc, upScriptDst);
+    } catch {
+      // Best-effort; non-critical
+    }
+  }
+
+  // Copy character sheet into script/
+  const charsheetSrc = path.join(params.packageRoot, "assets", "seed", "up", "charactersheet.md");
+  const charsheetDst = path.join(scriptDir, "charactersheet.md");
+  if (existsSync(charsheetSrc) && !existsSync(charsheetDst)) {
+    try {
+      copyFileSync(charsheetSrc, charsheetDst);
+    } catch {
+      // Best-effort; non-critical
+    }
+  }
+
+  // Seed workspace_context.yaml for solo AI animation studio defaults
+  const ctxSrc = path.join(params.packageRoot, "assets", "seed", "workspace_context.yaml");
+  const ctxDst = path.join(workspaceDir, "workspace_context.yaml");
+  if (existsSync(ctxSrc) && !existsSync(ctxDst)) {
+    try {
+      copyFileSync(ctxSrc, ctxDst);
     } catch {
       // Best-effort; non-critical
     }
