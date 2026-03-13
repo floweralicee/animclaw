@@ -86,6 +86,59 @@ export const SEED_OBJECTS: SeedObject[] = [
       { name: "Notes", type: "richtext" },
     ],
   },
+  {
+    id: "seed_obj_script_000000000000000",
+    name: "script",
+    description: "Script library",
+    icon: "file-text",
+    defaultView: "table",
+    entryCount: 1,
+    fields: [
+      { name: "Title", type: "text", required: true },
+      { name: "Writer", type: "text" },
+      {
+        name: "Genre",
+        type: "enum",
+        enumValues: ["Animation", "Drama", "Comedy", "Horror", "Thriller", "Sci-Fi", "Documentary", "Other"],
+      },
+      {
+        name: "Status",
+        type: "enum",
+        enumValues: ["Development", "Pre-Production", "Production", "Post-Production", "Completed", "Archived"],
+      },
+      {
+        name: "Format",
+        type: "enum",
+        enumValues: ["Feature Film", "Short Film", "TV Episode", "Web Series", "Documentary", "Other"],
+      },
+      { name: "Pages", type: "number" },
+      { name: "Notes", type: "richtext" },
+    ],
+  },
+  {
+    id: "seed_obj_shot_0000000000000000",
+    name: "shot",
+    description: "Shot list",
+    icon: "camera",
+    defaultView: "table",
+    entryCount: 20,
+    fields: [
+      { name: "Shot #", type: "text", required: true },
+      { name: "Scene #", type: "text" },
+      { name: "Location", type: "text" },
+      { name: "INT/EXT", type: "enum", enumValues: ["INT", "EXT", "INT/EXT"] },
+      { name: "Time of Day", type: "enum", enumValues: ["Day", "Night", "Morning", "Evening", "Continuous"] },
+      {
+        name: "Shot Type",
+        type: "enum",
+        enumValues: ["Establishing", "Wide", "Medium", "Close-Up", "Extreme Close-Up", "POV", "Two-Shot", "Over-the-Shoulder", "Insert"],
+      },
+      { name: "Description", type: "text" },
+      { name: "Status", type: "enum", enumValues: ["Not Started", "In Progress", "Complete", "Hold"] },
+      { name: "Characters", type: "tags" },
+      { name: "Notes", type: "richtext" },
+    ],
+  },
 ];
 
 export function buildDenchClawIdentity(workspaceDir: string): string {
@@ -389,6 +442,9 @@ export function seedWorkspaceFromAssets(params: {
     "people/.object.yaml",
     "company/.object.yaml",
     "task/.object.yaml",
+    "script/.object.yaml",
+    "script/up.md",
+    "shot/.object.yaml",
     "WORKSPACE.md",
     "IDENTITY.md",
     ...MANAGED_SKILLS.map((s) => `skills/${s.name}/SKILL.md`),
@@ -438,6 +494,18 @@ export function seedWorkspaceFromAssets(params: {
     writeFileSync(path.join(objDir, ".object.yaml"), generateObjectYaml(obj), "utf-8");
   }
   writeIfMissing(path.join(workspaceDir, "WORKSPACE.md"), generateWorkspaceMd(SEED_OBJECTS));
+
+  // Copy the Up script markdown into script/
+  const upScriptSrc = path.join(params.packageRoot, "assets", "seed", "up", "up-script.md");
+  const scriptDir = path.join(workspaceDir, "script");
+  const upScriptDst = path.join(scriptDir, "up.md");
+  if (existsSync(upScriptSrc) && !existsSync(upScriptDst)) {
+    try {
+      copyFileSync(upScriptSrc, upScriptDst);
+    } catch {
+      // Best-effort; non-critical
+    }
+  }
 
   // Create default apps directory
   const appsDir = path.join(workspaceDir, "apps");
