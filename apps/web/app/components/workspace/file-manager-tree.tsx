@@ -760,7 +760,7 @@ function flattenVisible(tree: TreeNode[], expanded: Set<string>): TreeNode[] {
 
 // --- Main Exported Component ---
 
-const STORAGE_KEY = "denchclaw-tree-expanded";
+const STORAGE_KEY = "animclaw-tree-expanded";
 
 function loadExpandedPaths(): Set<string> {
   try {

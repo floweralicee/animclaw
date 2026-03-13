@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy.sh — build and publish denchclaw to npm
+# deploy.sh — build and publish animclaw to npm
 #
 # Versioning convention (standard semver):
 #   --bump <kind>     Increment current package version.
@@ -17,9 +17,9 @@
 
 set -euo pipefail
 
-PACKAGE_NAME="denchclaw"
-ALIAS_PACKAGE_NAME="dench"
-ALIAS_PACKAGE_DIR="packages/dench"
+PACKAGE_NAME="animclaw"
+ALIAS_PACKAGE_NAME="animclaw"
+ALIAS_PACKAGE_DIR="packages/animclaw"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
@@ -310,22 +310,22 @@ echo "standalone node_modules verified ($CHECKED)"
 # ── publish ──────────────────────────────────────────────────────────────────
 
 # Always tag as "latest" — npm skips the latest tag for prerelease versions
-# by default, but we want `npm i -g denchclaw` to always resolve to
+# by default, but we want `npm i -g animclaw` to always resolve to
 # the most recently published version.
 echo "publishing ${PACKAGE_NAME}@${VERSION}..."
 npm publish --access public --tag latest "${NPM_FLAGS[@]}"
 
-# ── publish alias package (dench → denchclaw) ────────────────────────────────
+# ── publish alias package (animclaw → animclaw) ────────────────────────────────
 
 ALIAS_PUBLISHED=false
 ALIAS_DIR="${ROOT_DIR}/${ALIAS_PACKAGE_DIR}"
 if [[ -d "$ALIAS_DIR" ]]; then
-  # Pin the alias package version and its denchclaw dependency to this release.
+  # Pin the alias package version and its animclaw dependency to this release.
   node -e "
     const fs = require('fs');
     const pkg = JSON.parse(fs.readFileSync('${ALIAS_DIR}/package.json', 'utf-8'));
     pkg.version = '${VERSION}';
-    pkg.dependencies.denchclaw = '^${VERSION}';
+    pkg.dependencies.animclaw = '^${VERSION}';
     fs.writeFileSync('${ALIAS_DIR}/package.json', JSON.stringify(pkg, null, 2) + '\n');
   "
   echo "publishing ${ALIAS_PACKAGE_NAME}@${VERSION}..."
@@ -341,17 +341,17 @@ fi
 # Verify published npx flows for both CLI aliases.
 if [[ "$SKIP_NPX_SMOKE" != true ]]; then
   echo "verifying npx binaries..."
-  verify_npx_command "$VERSION" "npx denchclaw" \
+  verify_npx_command "$VERSION" "npx animclaw" \
     npx --yes "${PACKAGE_NAME}@${VERSION}" --version
   if [[ "$ALIAS_PUBLISHED" == true ]]; then
-    verify_npx_command "$VERSION" "npx dench (via dench package)" \
+    verify_npx_command "$VERSION" "npx animclaw (via animclaw package)" \
       npx --yes "${ALIAS_PACKAGE_NAME}@${VERSION}" --version
   fi
-  verify_npx_invocation "npx denchclaw update --help" \
+  verify_npx_invocation "npx animclaw update --help" \
     npx --yes "${PACKAGE_NAME}@${VERSION}" update --help
-  verify_npx_invocation "npx denchclaw start --help" \
+  verify_npx_invocation "npx animclaw start --help" \
     npx --yes "${PACKAGE_NAME}@${VERSION}" start --help
-  verify_npx_invocation "npx denchclaw stop --help" \
+  verify_npx_invocation "npx animclaw stop --help" \
     npx --yes "${PACKAGE_NAME}@${VERSION}" stop --help
 fi
 

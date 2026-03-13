@@ -19,7 +19,7 @@ import {
 } from "./web-runtime.js";
 import { seedWorkspaceFromAssets, type WorkspaceSeedResult } from "./workspace-seed.js";
 
-const DEFAULT_DENCHCLAW_PROFILE = "dench";
+const DEFAULT_DENCHCLAW_PROFILE = "animclaw";
 const DENCHCLAW_GATEWAY_PORT_START = 19001;
 const MAX_PORT_SCAN_ATTEMPTS = 100;
 const DEFAULT_BOOTSTRAP_ROLLOUT_STAGE = "default";
@@ -346,13 +346,13 @@ export function resolveBootstrapRolloutStage(
   env: NodeJS.ProcessEnv = process.env,
 ): BootstrapRolloutStage {
   return normalizeBootstrapRolloutStage(
-    env.DENCHCLAW_BOOTSTRAP_ROLLOUT ?? env.OPENCLAW_BOOTSTRAP_ROLLOUT,
+    env.ANIMCLAW_BOOTSTRAP_ROLLOUT ?? env.OPENCLAW_BOOTSTRAP_ROLLOUT,
   );
 }
 
 export function isLegacyFallbackEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
   return (
-    isTruthyEnvValue(env.DENCHCLAW_BOOTSTRAP_LEGACY_FALLBACK) ||
+    isTruthyEnvValue(env.ANIMCLAW_BOOTSTRAP_LEGACY_FALLBACK) ||
     isTruthyEnvValue(env.OPENCLAW_BOOTSTRAP_LEGACY_FALLBACK)
   );
 }
@@ -833,7 +833,7 @@ function createOpenClawSetupProgress(params: {
 
 /**
  * Returns a copy of `process.env` with `npm_config_*`, `npm_package_*`, and
- * npm lifecycle variables stripped. When denchclaw is launched via `npx`, npm
+ * npm lifecycle variables stripped. When animclaw is launched via `npx`, npm
  * injects environment variables (most critically `npm_config_prefix`) that
  * redirect `npm install -g` and `npm ls -g` to a temporary npx-managed
  * prefix instead of the user's real global npm directory. Stripping these
@@ -1261,14 +1261,14 @@ function remediationForGatewayFailure(
   if (normalized.includes("address already in use") || normalized.includes("eaddrinuse")) {
     return `Port ${port} is busy. The bootstrap will auto-assign an available port, or you can explicitly specify one with \`--gateway-port <port>\`.`;
   }
-  return `Run \`openclaw --profile ${profile} doctor --fix\` and retry \`npx denchclaw bootstrap\`.`;
+  return `Run \`openclaw --profile ${profile} doctor --fix\` and retry \`npx animclaw bootstrap\`.`;
 }
 
 function remediationForWebUiFailure(port: number): string {
   return [
     `Web UI did not respond on ${port}.`,
-    `Run \`npx denchclaw update --web-port ${port}\` to refresh the managed web runtime.`,
-    `If the port is stuck, run \`npx denchclaw stop --web-port ${port}\` first.`,
+    `Run \`npx animclaw update --web-port ${port}\` to refresh the managed web runtime.`,
+    `If the port is stuck, run \`npx animclaw stop --web-port ${port}\` first.`,
   ].join(" ");
 }
 
@@ -1427,8 +1427,8 @@ export function buildBootstrapDiagnostics(params: {
       createCheck(
         "profile",
         "fail",
-        `DenchClaw profile drift detected (${params.profile}).`,
-        `DenchClaw requires \`--profile ${DEFAULT_DENCHCLAW_PROFILE}\`. Re-run bootstrap to repair environment defaults.`,
+        `AnimClaw profile drift detected (${params.profile}).`,
+        `AnimClaw requires \`--profile ${DEFAULT_DENCHCLAW_PROFILE}\`. Re-run bootstrap to repair environment defaults.`,
       ),
     );
   }
@@ -1489,7 +1489,7 @@ export function buildBootstrapDiagnostics(params: {
         "state-isolation",
         "fail",
         `Unexpected state dir: ${stateDir}.`,
-        `DenchClaw requires \`${expectedStateDir}\`. Re-run bootstrap to restore pinned defaults.`,
+        `AnimClaw requires \`${expectedStateDir}\`. Re-run bootstrap to restore pinned defaults.`,
       ),
     );
   }
@@ -1504,7 +1504,7 @@ export function buildBootstrapDiagnostics(params: {
         "daemon-label",
         "fail",
         `Gateway service label mismatch (${launchAgentLabel}).`,
-        `DenchClaw requires launch agent label ${expectedLaunchAgentLabel}.`,
+        `AnimClaw requires launch agent label ${expectedLaunchAgentLabel}.`,
       ),
     );
   }
@@ -1515,14 +1515,14 @@ export function buildBootstrapDiagnostics(params: {
       params.rolloutStage === "default" ? "pass" : "warn",
       `Bootstrap rollout stage: ${params.rolloutStage}${params.legacyFallbackEnabled ? " (legacy fallback enabled)" : ""}.`,
       params.rolloutStage === "beta"
-        ? "Enable beta cutover by setting DENCHCLAW_BOOTSTRAP_BETA_OPT_IN=1."
+        ? "Enable beta cutover by setting ANIMCLAW_BOOTSTRAP_BETA_OPT_IN=1."
         : undefined,
     ),
   );
 
-  const migrationSuiteOk = isTruthyEnvValue(env.DENCHCLAW_BOOTSTRAP_MIGRATION_SUITE_OK);
-  const onboardingE2EOk = isTruthyEnvValue(env.DENCHCLAW_BOOTSTRAP_ONBOARDING_E2E_OK);
-  const enforceCutoverGates = isTruthyEnvValue(env.DENCHCLAW_BOOTSTRAP_ENFORCE_SAFETY_GATES);
+  const migrationSuiteOk = isTruthyEnvValue(env.ANIMCLAW_BOOTSTRAP_MIGRATION_SUITE_OK);
+  const onboardingE2EOk = isTruthyEnvValue(env.ANIMCLAW_BOOTSTRAP_ONBOARDING_E2E_OK);
+  const enforceCutoverGates = isTruthyEnvValue(env.ANIMCLAW_BOOTSTRAP_ENFORCE_SAFETY_GATES);
   const cutoverGatePassed = migrationSuiteOk && onboardingE2EOk;
   checks.push(
     createCheck(
@@ -1531,7 +1531,7 @@ export function buildBootstrapDiagnostics(params: {
       `Cutover gate: migrationSuite=${migrationSuiteOk ? "pass" : "missing"}, onboardingE2E=${onboardingE2EOk ? "pass" : "missing"}.`,
       cutoverGatePassed
         ? undefined
-        : "Run migration contracts + onboarding E2E and set DENCHCLAW_BOOTSTRAP_MIGRATION_SUITE_OK=1 and DENCHCLAW_BOOTSTRAP_ONBOARDING_E2E_OK=1 before full cutover.",
+        : "Run migration contracts + onboarding E2E and set ANIMCLAW_BOOTSTRAP_MIGRATION_SUITE_OK=1 and ANIMCLAW_BOOTSTRAP_ONBOARDING_E2E_OK=1 before full cutover.",
     ),
   );
 
@@ -1636,12 +1636,12 @@ export async function bootstrapCommand(
     if (!telemetryCfg.noticeShown) {
       runtime.log(
         theme.muted(
-          "Dench collects anonymous telemetry to improve the product.\n" +
+          "AnimClaw collects anonymous telemetry to improve the product.\n" +
             "No personal data is ever collected. Disable anytime:\n" +
-            "  npx denchclaw telemetry disable\n" +
-            "  DENCHCLAW_TELEMETRY_DISABLED=1\n" +
+            "  npx animclaw telemetry disable\n" +
+            "  ANIMCLAW_TELEMETRY_DISABLED=1\n" +
             "  DO_NOT_TRACK=1\n" +
-            "Learn more: https://github.com/DenchHQ/DenchClaw/blob/main/TELEMETRY.md\n",
+            "Learn more: https://github.com/AnimClaw/AnimClaw/blob/main/TELEMETRY.md\n",
         ),
       );
       markNoticeShown();
@@ -1681,7 +1681,7 @@ export async function bootstrapCommand(
   }
 
   // Determine gateway port: use explicit override, honour previously persisted
-  // port, or find an available one in the DenchClaw range (19001+).
+  // port, or find an available one in the AnimClaw range (19001+).
   // NEVER claim OpenClaw's default port (18789) — that belongs to the host
   // OpenClaw installation and sharing it causes port-hijack on restart.
   const explicitPort = parseOptionalPort(opts.gatewayPort);
@@ -1789,7 +1789,7 @@ export async function bootstrapCommand(
   // the same gateway target on subsequent requests.
   await ensureGatewayPort(openclawCommand, profile, gatewayPort);
   postOnboardSpinner?.message("Setting tools profile…");
-  // DenchClaw requires the full tool profile; onboarding defaults can drift to
+  // AnimClaw requires the full tool profile; onboarding defaults can drift to
   // messaging-only, so enforce this on every bootstrap run.
   await ensureToolsProfile(openclawCommand, profile);
 
@@ -1925,7 +1925,7 @@ export async function bootstrapCommand(
     }
     logBootstrapChecklist(diagnostics, runtime);
     runtime.log("");
-    runtime.log(theme.heading("DenchClaw ready"));
+    runtime.log(theme.heading("AnimClaw ready"));
     runtime.log(`Profile: ${profile}`);
     runtime.log(`OpenClaw CLI: ${installResult.version ?? "detected"}`);
     runtime.log(`Gateway: ${gatewayProbe.ok ? "reachable" : "check failed"}`);

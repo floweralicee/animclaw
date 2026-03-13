@@ -165,7 +165,7 @@ async function promptAndOpenWebUi(params: {
 
 async function runOpenClawUpdateWithProgress(openclawCommand: string): Promise<void> {
   const s = spinner();
-  s.start("Updating OpenClaw (required for this major Dench upgrade)...");
+  s.start("Updating OpenClaw (required for this major AnimClaw upgrade)...");
   const result = await new Promise<SpawnResult>((resolve, reject) => {
     const child = spawn(openclawCommand, ["update", "--yes"], {
       stdio: ["ignore", "pipe", "pipe"],
@@ -229,7 +229,7 @@ async function runOpenClawUpdateWithProgress(openclawCommand: string): Promise<v
   throw new Error(
     detail
       ? `OpenClaw update failed.\n${detail}`
-      : "OpenClaw update failed. Fix this before running `npx denchclaw update` again.",
+      : "OpenClaw update failed. Fix this before running `npx animclaw update` again.",
   );
 }
 
@@ -248,7 +248,7 @@ async function ensureMajorUpgradeAcknowledged(params: {
   if (params.nonInteractive || !process.stdin.isTTY) {
     if (!params.yes) {
       throw new Error(
-        `Major Dench upgrade detected (${params.previousVersion ?? "unknown"} -> ${params.currentVersion}). Re-run with --yes to approve the required OpenClaw update.`,
+        `Major AnimClaw upgrade detected (${params.previousVersion ?? "unknown"} -> ${params.currentVersion}). Re-run with --yes to approve the required OpenClaw update.`,
       );
     }
     return;
@@ -260,7 +260,7 @@ async function ensureMajorUpgradeAcknowledged(params: {
 
   const decision = await confirm({
     message: stylePromptMessage(
-      `Major Dench upgrade detected (${params.previousVersion ?? "unknown"} -> ${params.currentVersion}). Continue with mandatory OpenClaw update now?`,
+      `Major AnimClaw upgrade detected (${params.previousVersion ?? "unknown"} -> ${params.currentVersion}). Continue with mandatory OpenClaw update now?`,
     ),
     initialValue: true,
   });
@@ -455,7 +455,7 @@ export async function updateWebRuntimeCommand(
 
   if (!opts.json) {
     runtime.log("");
-    runtime.log(theme.heading("Dench web update"));
+    runtime.log(theme.heading("AnimClaw web update"));
     runtime.log(`Profile: ${profile}`);
     runtime.log(`Version: ${VERSION}`);
     runtime.log(`Web port: ${selectedPort}`);
@@ -467,7 +467,7 @@ export async function updateWebRuntimeCommand(
     if (summary.skippedForeignPids.length > 0) {
       runtime.log(
         theme.warn(
-          `Skipped non-Dench listeners on ${selectedPort}: ${summary.skippedForeignPids.join(", ")}`,
+          `Skipped non-AnimClaw listeners on ${selectedPort}: ${summary.skippedForeignPids.join(", ")}`,
         ),
       );
     }
@@ -531,7 +531,7 @@ export async function stopWebRuntimeCommand(
   }
 
   runtime.log("");
-  runtime.log(theme.heading("Dench web stop"));
+  runtime.log(theme.heading("AnimClaw web stop"));
   runtime.log(`Profile: ${profile}`);
   runtime.log(`Web port: ${selectedPort}`);
   runtime.log(
@@ -542,7 +542,7 @@ export async function stopWebRuntimeCommand(
   if (summary.skippedForeignPids.length > 0) {
     runtime.log(
       theme.warn(
-        `Left non-Dench listener(s) running on ${selectedPort}: ${summary.skippedForeignPids.join(", ")}`,
+        `Left non-AnimClaw listener(s) running on ${selectedPort}: ${summary.skippedForeignPids.join(", ")}`,
       ),
     );
   }
@@ -586,7 +586,7 @@ export async function startWebRuntimeCommand(
 
   if (stopResult.skippedForeignPids.length > 0) {
     throw new Error(
-      `Cannot start on ${selectedPort}; non-Dench listener(s) still own the port: ${stopResult.skippedForeignPids.join(", ")}`,
+      `Cannot start on ${selectedPort}; non-AnimClaw listener(s) still own the port: ${stopResult.skippedForeignPids.join(", ")}`,
     );
   }
 
@@ -611,7 +611,7 @@ export async function startWebRuntimeCommand(
     throw new Error(
       [
         `Managed web runtime is missing at ${runtimeServerPath}.`,
-        "Run `npx denchclaw update` (or `npx denchclaw`) to install/update the web runtime first.",
+        "Run `npx animclaw update` (or `npx animclaw`) to install/update the web runtime first.",
       ].join(" "),
     );
   }
@@ -634,7 +634,7 @@ export async function startWebRuntimeCommand(
   }
 
   runtime.log("");
-  runtime.log(theme.heading(`Dench web ${label}`));
+  runtime.log(theme.heading(`AnimClaw web ${label}`));
   runtime.log(`Profile: ${profile}`);
   runtime.log(`Web port: ${selectedPort}`);
   runtime.log(`Gateway: ${summary.gatewayRestarted ? "restarted" : "restart failed"}`);

@@ -109,7 +109,7 @@ export async function POST(req: Request) {
   }
   if (body.path?.trim()) {
     return Response.json(
-      { error: "Custom workspace paths are currently disabled. Workspaces are created in ~/.openclaw-dench." },
+      { error: "Custom workspace paths are currently disabled. Workspaces are created in ~/.openclaw-animclaw." },
       { status: 400 },
     );
   }
@@ -164,7 +164,7 @@ export async function POST(req: Request) {
     }
   }
 
-  // Seed managed skills, DenchClaw identity, DuckDB, and CRM object projections.
+  // Seed managed skills, AnimClaw identity, DuckDB, and CRM object projections.
   // This is the single source of truth shared with the CLI bootstrap path.
   if (projectRoot) {
     const seedResult = seedWorkspaceFromAssets({ workspaceDir, packageRoot: projectRoot });
@@ -174,7 +174,7 @@ export async function POST(req: Request) {
     }
   } else {
     // No project root available (e.g. standalone/production build without
-    // the repo tree). Still write the DenchClaw identity so the agent has
+    // the repo tree). Still write the AnimClaw identity so the agent has
     // a usable IDENTITY.md.
     const identityPath = join(workspaceDir, "IDENTITY.md");
     writeFileSync(identityPath, buildDenchClawIdentity(workspaceDir) + "\n", "utf-8");

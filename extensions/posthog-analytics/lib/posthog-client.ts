@@ -31,7 +31,7 @@ export class PostHogClient {
       distinct_id: event.distinctId,
       properties: {
         ...event.properties,
-        $lib: "denchclaw-posthog-plugin",
+        $lib: "animclaw-posthog-plugin",
       },
       timestamp: new Date().toISOString(),
     });

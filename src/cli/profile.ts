@@ -3,8 +3,8 @@ import path from "node:path";
 import { resolveRequiredHomeDir } from "../infra/home-dir.js";
 import { isValidProfileName } from "./profile-utils.js";
 
-export const DENCHCLAW_PROFILE = "dench";
-const DENCHCLAW_STATE_DIRNAME = ".openclaw-dench";
+export const DENCHCLAW_PROFILE = "animclaw";
+const DENCHCLAW_STATE_DIRNAME = ".openclaw-animclaw";
 
 export type CliProfileParseResult =
   | { ok: true; profile: string | null; argv: string[] }
@@ -108,7 +108,7 @@ export function applyCliProfileEnv(params: {
   const requestedProfile = (params.profile?.trim() || env.OPENCLAW_PROFILE?.trim() || null) ?? null;
   const profile = DENCHCLAW_PROFILE;
 
-  // DenchClaw always runs in the pinned profile/state path.
+  // AnimClaw always runs in the pinned profile/state path.
   env.OPENCLAW_PROFILE = profile;
 
   const stateDir = resolveProfileStateDir(env, homedir);
@@ -117,7 +117,7 @@ export function applyCliProfileEnv(params: {
 
   const warning =
     requestedProfile && requestedProfile !== profile
-      ? `Ignoring requested profile '${requestedProfile}'; DenchClaw always uses --profile ${DENCHCLAW_PROFILE}.`
+      ? `Ignoring requested profile '${requestedProfile}'; AnimClaw always uses --profile ${DENCHCLAW_PROFILE}.`
       : undefined;
 
   return {

@@ -523,9 +523,9 @@ describe("emitTrace", () => {
 describe("emitCustomEvent", () => {
   it("captures event with $process_person_profile: false (prevents person profile creation)", () => {
     const ph = createMockPostHog();
-    emitCustomEvent(ph, "dench_session_start", { session_id: "abc" });
+    emitCustomEvent(ph, "animclaw_session_start", { session_id: "abc" });
     const call = ph.capture.mock.calls[0][0];
-    expect(call.event).toBe("dench_session_start");
+    expect(call.event).toBe("animclaw_session_start");
     expect(call.properties.$process_person_profile).toBe(false);
   });
 });

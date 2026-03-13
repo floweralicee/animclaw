@@ -216,8 +216,8 @@ const LEFT_SIDEBAR_MIN = 200;
 const LEFT_SIDEBAR_MAX = 480;
 const RIGHT_SIDEBAR_MIN = 260;
 const RIGHT_SIDEBAR_MAX = 900;
-const STORAGE_LEFT = "dench-workspace-left-sidebar-width";
-const STORAGE_RIGHT = "dench-workspace-right-sidebar-width";
+const STORAGE_LEFT = "animclaw-workspace-left-sidebar-width";
+const STORAGE_RIGHT = "animclaw-workspace-right-sidebar-width";
 
 function clamp(n: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, n));
@@ -303,7 +303,7 @@ function objectNameFromPath(path: string): string {
 
 /** Infer a tree node type from filename extension for ad-hoc path previews. */
 function inferNodeTypeFromFileName(fileName: string): TreeNode["type"] {
-  if (fileName.endsWith(".dench.app")) return "app";
+  if (fileName.endsWith(".animclaw.app")) return "app";
   const ext = fileName.split(".").pop()?.toLowerCase() ?? "";
   if (ext === "md" || ext === "mdx") {return "document";}
   if (ext === "duckdb" || ext === "sqlite" || ext === "sqlite3" || ext === "db") {return "database";}
@@ -855,7 +855,7 @@ function WorkspacePageInner() {
           }
         } else if (node.type === "app") {
           // Fetch manifest from the tree node or API
-          const manifestRes = await fetch(`/api/apps?app=${encodeURIComponent(node.path)}&file=.dench.yaml&meta=1`);
+          const manifestRes = await fetch(`/api/apps?app=${encodeURIComponent(node.path)}&file=.animclaw.yaml&meta=1`);
           let manifest: DenchAppManifest = { name: node.name };
           if (manifestRes.ok) {
             try { manifest = await manifestRes.json(); } catch { /* use default */ }

@@ -31,7 +31,7 @@ export type TabState = {
   activeTabId: string | null;
 };
 
-const STORAGE_PREFIX = "dench:tabs";
+const STORAGE_PREFIX = "animclaw:tabs";
 
 function storageKey(workspaceId?: string | null): string {
   return `${STORAGE_PREFIX}:${workspaceId || "default"}`;
@@ -184,7 +184,7 @@ export function updateTabTitle(state: TabState, tabId: string, title: string): T
 }
 
 export function inferTabType(path: string): TabType {
-  if (path.includes(".dench.app")) return "app";
+  if (path.includes(".animclaw.app")) return "app";
   if (path.startsWith("~cron")) return "cron";
   return "file";
 }

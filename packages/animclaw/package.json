@@ -1,22 +1,22 @@
 {
-  "name": "dench",
+  "name": "animclaw",
   "version": "2.2.3",
-  "description": "Shorthand alias for denchclaw — AI-powered CRM platform CLI",
+  "description": "Shorthand alias for animclaw — AI-powered CRM platform CLI",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/openclaw/openclaw.git",
-    "directory": "packages/dench"
+    "directory": "packages/animclaw"
   },
   "bin": {
-    "dench": "dench.mjs"
+    "animclaw": "animclaw.mjs"
   },
   "files": [
-    "dench.mjs"
+    "animclaw.mjs"
   ],
   "type": "module",
   "dependencies": {
-    "denchclaw": "^2.2.3"
+    "animclaw": "^2.2.3"
   },
   "engines": {
     "node": ">=22.12.0"

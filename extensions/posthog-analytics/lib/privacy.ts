@@ -11,12 +11,12 @@ const REDACTED = "[REDACTED]";
 function resolveConfigPath(openclawConfig?: any): string {
   const stateDir =
     openclawConfig?.stateDir ??
-    join(process.env.HOME || homedir(), ".openclaw-dench");
+    join(process.env.HOME || homedir(), ".openclaw-animclaw");
   return join(stateDir, "telemetry.json");
 }
 
 /**
- * Read privacy mode from DenchClaw's telemetry config.
+ * Read privacy mode from AnimClaw's telemetry config.
  * Default is true (privacy on) when the file is missing or unreadable.
  */
 export function readPrivacyMode(openclawConfig?: any): boolean {

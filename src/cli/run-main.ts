@@ -66,13 +66,13 @@ function normalizeBootstrapRolloutStage(
 export function resolveBootstrapRolloutStage(
   env: NodeJS.ProcessEnv = process.env,
 ): BootstrapRolloutStage {
-  const raw = env.DENCHCLAW_BOOTSTRAP_ROLLOUT ?? env.OPENCLAW_BOOTSTRAP_ROLLOUT;
+  const raw = env.ANIMCLAW_BOOTSTRAP_ROLLOUT ?? env.OPENCLAW_BOOTSTRAP_ROLLOUT;
   return normalizeBootstrapRolloutStage(raw) ?? "default";
 }
 
 export function shouldEnableBootstrapCutover(env: NodeJS.ProcessEnv = process.env): boolean {
   if (
-    isTruthyEnvValue(env.DENCHCLAW_BOOTSTRAP_LEGACY_FALLBACK) ||
+    isTruthyEnvValue(env.ANIMCLAW_BOOTSTRAP_LEGACY_FALLBACK) ||
     isTruthyEnvValue(env.OPENCLAW_BOOTSTRAP_LEGACY_FALLBACK)
   ) {
     return false;
@@ -83,7 +83,7 @@ export function shouldEnableBootstrapCutover(env: NodeJS.ProcessEnv = process.en
   }
   if (stage === "beta") {
     return (
-      isTruthyEnvValue(env.DENCHCLAW_BOOTSTRAP_BETA_OPT_IN) ||
+      isTruthyEnvValue(env.ANIMCLAW_BOOTSTRAP_BETA_OPT_IN) ||
       isTruthyEnvValue(env.OPENCLAW_BOOTSTRAP_BETA_OPT_IN)
     );
   }
@@ -100,7 +100,7 @@ export function rewriteBareArgvToBootstrap(
   if (getPrimaryCommand(argv)) {
     return argv;
   }
-  if (resolveCliName(argv) !== "denchclaw") {
+  if (resolveCliName(argv) !== "animclaw") {
     return argv;
   }
   if (!shouldEnableBootstrapCutover(env)) {
@@ -111,7 +111,7 @@ export function rewriteBareArgvToBootstrap(
 
 function isDelegationDisabled(env: NodeJS.ProcessEnv = process.env): boolean {
   return (
-    isTruthyEnvValue(env.DENCHCLAW_DISABLE_OPENCLAW_DELEGATION) ||
+    isTruthyEnvValue(env.ANIMCLAW_DISABLE_OPENCLAW_DELEGATION) ||
     isTruthyEnvValue(env.OPENCLAW_DISABLE_OPENCLAW_DELEGATION)
   );
 }
@@ -140,7 +140,7 @@ export function shouldDelegateToGlobalOpenClaw(
 export function shouldHideCliBanner(argv: string[], env: NodeJS.ProcessEnv = process.env): boolean {
   const commandPath = getCommandPath(argv, 2);
   return (
-    isTruthyEnvValue(env.DENCHCLAW_HIDE_BANNER) ||
+    isTruthyEnvValue(env.ANIMCLAW_HIDE_BANNER) ||
     isTruthyEnvValue(env.OPENCLAW_HIDE_BANNER) ||
     commandPath[0] === "completion" ||
     (commandPath[0] === "plugins" && commandPath[1] === "update")
@@ -149,7 +149,7 @@ export function shouldHideCliBanner(argv: string[], env: NodeJS.ProcessEnv = pro
 
 async function delegateToGlobalOpenClaw(argv: string[]): Promise<number> {
   if (
-    isTruthyEnvValue(process.env.DENCHCLAW_DELEGATED) ||
+    isTruthyEnvValue(process.env.ANIMCLAW_DELEGATED) ||
     isTruthyEnvValue(process.env.OPENCLAW_DELEGATED)
   ) {
     throw new Error(
@@ -162,7 +162,7 @@ async function delegateToGlobalOpenClaw(argv: string[]): Promise<number> {
       stdio: "inherit",
       env: {
         ...process.env,
-        DENCHCLAW_DELEGATED: "1",
+        ANIMCLAW_DELEGATED: "1",
         OPENCLAW_DELEGATED: "1",
       },
     });
@@ -203,8 +203,8 @@ export async function runCli(argv: string[] = process.argv) {
   // Enforce the minimum supported runtime before doing any work.
   assertSupportedRuntime();
 
-  // Show the animated DenchClaw banner early so it appears for ALL invocations
-  // (bare `denchclaw`, subcommands, help, etc.). The bannerEmitted flag inside
+  // Show the animated AnimClaw banner early so it appears for ALL invocations
+  // (bare `animclaw`, subcommands, help, etc.). The bannerEmitted flag inside
   // emitCliBanner prevents double-emission from the route / preAction hooks.
   if (!shouldHideCliBanner(normalizedArgv, process.env)) {
     await emitCliBanner(VERSION, { argv: normalizedArgv });

@@ -33,18 +33,18 @@ describe("evaluateWebProfilesPayload", () => {
 
 describe("classifyWebPortListener", () => {
   it("classifies listeners under managed runtime dir as managed ownership (prevents cross-process kills)", () => {
-    const managedRuntimeAppDir = "/Users/test/.openclaw-dench/web-runtime/app";
+    const managedRuntimeAppDir = "/Users/test/.openclaw-animclaw/web-runtime/app";
     const ownership = classifyWebPortListener({
-      cwd: "/Users/test/.openclaw-dench/web-runtime/app",
+      cwd: "/Users/test/.openclaw-animclaw/web-runtime/app",
       managedRuntimeAppDir,
     });
     expect(ownership).toBe("managed");
   });
 
-  it("classifies legacy standalone cwd as dench-owned legacy runtime (supports old bootstrap cleanup)", () => {
+  it("classifies legacy standalone cwd as animclaw-owned legacy runtime (supports old bootstrap cleanup)", () => {
     const ownership = classifyWebPortListener({
       cwd: "/Users/test/projects/ironclaw/apps/web/.next/standalone/apps/web",
-      managedRuntimeAppDir: "/Users/test/.openclaw-dench/web-runtime/app",
+      managedRuntimeAppDir: "/Users/test/.openclaw-animclaw/web-runtime/app",
     });
     expect(ownership).toBe("legacy-standalone");
   });
@@ -52,7 +52,7 @@ describe("classifyWebPortListener", () => {
   it("classifies unknown cwd as foreign ownership (enforces process boundary safety)", () => {
     const ownership = classifyWebPortListener({
       cwd: "/Applications/OtherApp/runtime",
-      managedRuntimeAppDir: "/Users/test/.openclaw-dench/web-runtime/app",
+      managedRuntimeAppDir: "/Users/test/.openclaw-animclaw/web-runtime/app",
     });
     expect(ownership).toBe("foreign");
   });

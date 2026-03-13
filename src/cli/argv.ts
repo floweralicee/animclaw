@@ -159,17 +159,17 @@ export function buildParseArgv(params: {
   const programName = params.programName ?? "";
   const normalizedArgv =
     programName && baseArgv[0] === programName
-      ? baseArgv.slice(1)
-      : baseArgv[0]?.endsWith("openclaw") || baseArgv[0]?.endsWith("denchclaw")
         ? baseArgv.slice(1)
-        : baseArgv;
+        : baseArgv[0]?.endsWith("openclaw") || baseArgv[0]?.endsWith("animclaw")
+          ? baseArgv.slice(1)
+          : baseArgv;
   const executable = (normalizedArgv[0]?.split(/[/\\]/).pop() ?? "").toLowerCase();
   const looksLikeNode =
     normalizedArgv.length >= 2 && (isNodeExecutable(executable) || isBunExecutable(executable));
   if (looksLikeNode) {
     return normalizedArgv;
   }
-  return ["node", programName || "denchclaw", ...normalizedArgv];
+  return ["node", programName || "animclaw", ...normalizedArgv];
 }
 
 const nodeExecutablePattern = /^node-\d+(?:\.\d+)*(?:\.exe)?$/;

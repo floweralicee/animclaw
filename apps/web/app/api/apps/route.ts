@@ -74,17 +74,17 @@ export async function GET(req: Request) {
     return Response.json({ error: "App not found" }, { status: 404 });
   }
 
-  // Meta-only request: return parsed .dench.yaml manifest
+  // Meta-only request: return parsed .animclaw.yaml manifest
   if (metaOnly) {
-    const manifestPath = join(appAbsPath, ".dench.yaml");
+    const manifestPath = join(appAbsPath, ".animclaw.yaml");
     if (!await pathExists(manifestPath)) {
-      return Response.json({ name: appPath.split("/").pop()?.replace(/\.dench\.app$/, "") || "App" });
+      return Response.json({ name: appPath.split("/").pop()?.replace(/\.animclaw\.app$/, "") || "App" });
     }
     try {
       const content = await readFile(manifestPath, "utf-8");
       const parsed = parseSimpleYaml(content);
       return Response.json({
-        name: parsed.name || appPath.split("/").pop()?.replace(/\.dench\.app$/, "") || "App",
+        name: parsed.name || appPath.split("/").pop()?.replace(/\.animclaw\.app$/, "") || "App",
         description: parsed.description,
         icon: parsed.icon,
         version: parsed.version,
@@ -124,7 +124,7 @@ export async function GET(req: Request) {
     const mimeType = getMimeType(filePath);
     const ext = extname(filePath).toLowerCase();
 
-    // For HTML files, inject the DenchClaw bridge SDK
+    // For HTML files, inject the AnimClaw bridge SDK
     if (ext === ".html" || ext === ".htm") {
       const htmlContent = await readFile(fileAbsPath, "utf-8");
       const injected = injectBridgeIntoHtml(htmlContent);

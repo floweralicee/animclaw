@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 vi.mock("@/lib/workspace", () => ({
   discoverWorkspaces: vi.fn(() => []),
   getActiveWorkspaceName: vi.fn(() => null),
-  resolveOpenClawStateDir: vi.fn(() => "/home/testuser/.openclaw-dench"),
+  resolveOpenClawStateDir: vi.fn(() => "/home/testuser/.openclaw-animclaw"),
   resolveWorkspaceRoot: vi.fn(() => null),
   setUIActiveWorkspace: vi.fn(),
 }));
@@ -18,7 +18,7 @@ vi.mock("node:fs", () => ({
 
 describe("profiles API", () => {
   const originalEnv = { ...process.env };
-  const STATE_DIR = "/home/testuser/.openclaw-dench";
+  const STATE_DIR = "/home/testuser/.openclaw-animclaw";
 
   beforeEach(() => {
     vi.resetModules();

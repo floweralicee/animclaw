@@ -7,7 +7,7 @@ import type { PluginConfig } from "./lib/types.js";
 
 export const id = "posthog-analytics";
 
-const DEBUG = process.env.DENCHCLAW_POSTHOG_DEBUG === "1";
+const DEBUG = process.env.ANIMCLAW_POSTHOG_DEBUG === "1";
 
 function debugLog(label: string, data: unknown): void {
   if (!DEBUG) return;
@@ -117,7 +117,7 @@ export default function register(api: any) {
 
       emitGeneration(ph, traceCtx, sk, event, getPrivacyMode());
       emitTrace(ph, traceCtx, sk, event, getPrivacyMode());
-      emitCustomEvent(ph, "dench_turn_completed", {
+      emitCustomEvent(ph, "animclaw_turn_completed", {
         session_id: sk,
         run_id: ctx.runId,
         model: traceCtx.getModel(sk),
@@ -130,7 +130,7 @@ export default function register(api: any) {
   api.on(
     "message_received",
     (event: any, ctx: any) => {
-      emitCustomEvent(ph, "dench_message_received", {
+      emitCustomEvent(ph, "animclaw_message_received", {
         channel: ctx.channel ?? ctx.channelId,
         session_id: ctx.sessionId,
         has_attachments: Boolean(event.attachments?.length),
@@ -142,7 +142,7 @@ export default function register(api: any) {
   api.on(
     "session_start",
     (_event: any, ctx: any) => {
-      emitCustomEvent(ph, "dench_session_start", {
+      emitCustomEvent(ph, "animclaw_session_start", {
         session_id: ctx.sessionId,
         channel: ctx.channel ?? ctx.channelId,
       });
@@ -153,7 +153,7 @@ export default function register(api: any) {
   api.on(
     "session_end",
     (_event: any, ctx: any) => {
-      emitCustomEvent(ph, "dench_session_end", {
+      emitCustomEvent(ph, "animclaw_session_end", {
         session_id: ctx.sessionId,
         channel: ctx.channel ?? ctx.channelId,
       });

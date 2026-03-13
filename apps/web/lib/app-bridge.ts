@@ -1,12 +1,12 @@
 /**
- * DenchClaw App Bridge SDK.
+ * AnimClaw App Bridge SDK.
  *
  * This module generates the client-side SDK script that gets injected into
- * app iframes, providing `window.dench` for app-to-DenchClaw communication.
+ * app iframes, providing `window.dench` for app-to-AnimClaw communication.
  *
  * Protocol:
- *   App -> Parent: { type: "dench:request", id, method, params }
- *   Parent -> App: { type: "dench:response", id, result, error }
+ *   App -> Parent: { type: "animclaw:request", id, method, params }
+ *   Parent -> App: { type: "animclaw:response", id, result, error }
  */
 
 export function generateBridgeScript(): string {
@@ -22,7 +22,7 @@ export function generateBridgeScript(): string {
       var id = ++_requestId;
       _pendingRequests[id] = { resolve: resolve, reject: reject };
       window.parent.postMessage({
-        type: "dench:request",
+        type: "animclaw:request",
         id: id,
         method: method,
         params: params
@@ -38,7 +38,7 @@ export function generateBridgeScript(): string {
   }
 
   window.addEventListener("message", function(event) {
-    if (!event.data || event.data.type !== "dench:response") return;
+    if (!event.data || event.data.type !== "animclaw:response") return;
     var pending = _pendingRequests[event.data.id];
     if (!pending) return;
     delete _pendingRequests[event.data.id];

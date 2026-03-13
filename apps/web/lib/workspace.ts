@@ -18,13 +18,13 @@ async function pathExistsAsync(path: string): Promise<boolean> {
   }
 }
 
-const UI_STATE_FILENAME = ".dench-ui-state.json";
-const FIXED_STATE_DIRNAME = ".openclaw-dench";
+const UI_STATE_FILENAME = ".animclaw-ui-state.json";
+const FIXED_STATE_DIRNAME = ".openclaw-animclaw";
 const WORKSPACE_PREFIX = "workspace-";
 const ROOT_WORKSPACE_DIRNAME = "workspace";
 const WORKSPACE_NAME_RE = /^[a-z0-9][a-z0-9_-]{0,63}$/i;
 const DEFAULT_WORKSPACE_NAME = "default";
-const DENCHCLAW_PROFILE = "dench";
+const DENCHCLAW_PROFILE = "animclaw";
 
 /** In-memory override; takes precedence over persisted state. */
 let _uiActiveWorkspace: string | null | undefined;
@@ -215,7 +215,11 @@ export function discoverWorkspaces(): DiscoveredWorkspace[] {
     });
   }
 
-  discovered.sort((a, b) => a.name.localeCompare(b.name));
+  discovered.sort((a, b) => {
+    if (a.name === DEFAULT_WORKSPACE_NAME) return -1;
+    if (b.name === DEFAULT_WORKSPACE_NAME) return 1;
+    return a.name.localeCompare(b.name);
+  });
 
   if (!discovered.some((item) => item.isActive) && discovered.length > 0) {
     discovered[0] = {
@@ -249,7 +253,7 @@ export function getRegisteredWorkspacePath(_profile: string | null): string | nu
 }
 export function registerWorkspacePath(_profile: string, _absolutePath: string): void {
   // No-op: workspace paths are discovered from managed dirs:
-  // ~/.openclaw-dench/workspace (default) and ~/.openclaw-dench/workspace-<name>.
+  // ~/.openclaw-animclaw/workspace (default) and ~/.openclaw-animclaw/workspace-<name>.
 }
 
 export function isValidWorkspaceName(name: string): boolean {

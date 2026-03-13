@@ -58,7 +58,7 @@ function createWebProfilesResponse(params?: {
   payload?: { profiles?: unknown[]; activeProfile?: string | null };
 }): Response {
   const status = params?.status ?? 200;
-  const payload = params?.payload ?? { profiles: [], activeProfile: "dench" };
+  const payload = params?.payload ?? { profiles: [], activeProfile: "animclaw" };
   return {
     status,
     json: async () => payload,
@@ -67,7 +67,7 @@ function createWebProfilesResponse(params?: {
 
 function createTempStateDir(): string {
   const suffix = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  const dir = path.join(os.tmpdir(), `denchclaw-bootstrap-${suffix}`);
+  const dir = path.join(os.tmpdir(), `animclaw-bootstrap-${suffix}`);
   mkdirSync(dir, { recursive: true });
   return dir;
 }
@@ -165,7 +165,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
 
   beforeEach(() => {
     homeDir = createTempStateDir();
-    stateDir = path.join(homeDir, ".openclaw-dench");
+    stateDir = path.join(homeDir, ".openclaw-animclaw");
     writeBootstrapFixtures(stateDir);
     spawnCalls = [];
     forceGlobalMissing = false;
@@ -178,7 +178,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
       HOME: homeDir,
       USERPROFILE: homeDir,
       OPENCLAW_HOME: homeDir,
-      OPENCLAW_PROFILE: "dench",
+      OPENCLAW_PROFILE: "animclaw",
       OPENCLAW_STATE_DIR: stateDir,
       VITEST: "true",
     };
@@ -304,7 +304,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(onboardCalls[0]?.args).toEqual(
       expect.arrayContaining([
         "--profile",
-        "dench",
+        "animclaw",
         "onboard",
         "--install-daemon",
         "--non-interactive",
@@ -316,13 +316,13 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(summary.onboarded).toBe(true);
   });
 
-  it("ignores bootstrap --profile override and keeps dench profile (prevents profile drift)", async () => {
+  it("ignores bootstrap --profile override and keeps animclaw profile (prevents profile drift)", async () => {
     const runtime: RuntimeEnv = {
       log: vi.fn(),
       error: vi.fn(),
       exit: vi.fn(),
     };
-    process.env.OPENCLAW_PROFILE = "dench";
+    process.env.OPENCLAW_PROFILE = "animclaw";
 
     const summary = await bootstrapCommand(
       {
@@ -337,9 +337,9 @@ describe("bootstrapCommand always-onboard behavior", () => {
     const onboardCall = spawnCalls.find(
       (call) => call.command === "openclaw" && call.args.includes("onboard"),
     );
-    expect(onboardCall?.args).toEqual(expect.arrayContaining(["--profile", "dench"]));
+    expect(onboardCall?.args).toEqual(expect.arrayContaining(["--profile", "animclaw"]));
     expect(onboardCall?.args.includes("team-a")).toBe(false);
-    expect(summary.profile).toBe("dench");
+    expect(summary.profile).toBe("animclaw");
   });
 
   it("adds --reset to onboarding args when --force-onboard is requested", async () => {
@@ -622,7 +622,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(summary.workspaceSeed?.reason).toBe("already-exists");
     expect(readFileSync(workspaceDbPath, "utf-8")).toBe("existing-db-content");
     const identityContent = readFileSync(identityPath, "utf-8");
-    expect(identityContent).toContain("You are **DenchClaw**");
+    expect(identityContent).toContain("You are **AnimClaw**");
     expect(identityContent).toContain(path.join(workspaceDir, "skills", "crm", "SKILL.md"));
     expect(identityContent).not.toContain("# stale identity");
   });
@@ -666,7 +666,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
     const identityPath = path.join(managedWorkspace, "IDENTITY.md");
     expect(existsSync(identityPath)).toBe(true);
     const identityContent = readFileSync(identityPath, "utf-8");
-    expect(identityContent).toContain("You are **DenchClaw**");
+    expect(identityContent).toContain("You are **AnimClaw**");
     expect(identityContent).toContain(path.join(managedWorkspace, "skills", "crm", "SKILL.md"));
   });
 
@@ -746,11 +746,11 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(workspaceConfigSetCalls.length).toBeGreaterThan(0);
     const lastArgs = workspaceConfigSetCalls.at(-1)?.args ?? [];
     expect(lastArgs).toEqual(
-      expect.arrayContaining(["--profile", "dench", "config", "set", "agents.defaults.workspace"]),
+      expect.arrayContaining(["--profile", "animclaw", "config", "set", "agents.defaults.workspace"]),
     );
     const configuredWorkspace = lastArgs.at(-1) ?? "";
-    expect(configuredWorkspace).toContain(path.join(".openclaw-dench", "workspace"));
-    expect(configuredWorkspace).not.toContain("workspace-dench");
+    expect(configuredWorkspace).toContain(path.join(".openclaw-animclaw", "workspace"));
+    expect(configuredWorkspace).not.toContain("workspace-animclaw");
   });
 
   it("forces tools.profile to full during bootstrap (prevents messaging-only tool drift)", async () => {
@@ -780,7 +780,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(toolsProfileSetCalls.length).toBeGreaterThan(0);
     const lastArgs = toolsProfileSetCalls.at(-1)?.args ?? [];
     expect(lastArgs).toEqual(
-      expect.arrayContaining(["--profile", "dench", "config", "set", "tools.profile", "full"]),
+      expect.arrayContaining(["--profile", "animclaw", "config", "set", "tools.profile", "full"]),
     );
     expect(lastArgs).not.toContain("messaging");
   });
@@ -820,7 +820,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(toolsProfileSetCalls).toHaveLength(2);
     for (const call of toolsProfileSetCalls) {
       expect(call.args).toEqual(
-        expect.arrayContaining(["--profile", "dench", "config", "set", "tools.profile", "full"]),
+        expect.arrayContaining(["--profile", "animclaw", "config", "set", "tools.profile", "full"]),
       );
     }
   });
@@ -993,7 +993,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(gatewayInstallCalled).toBe(true);
     expect(gatewayStartCalled).toBe(true);
     expect(toolsProfileSetCall?.args).toEqual(
-      expect.arrayContaining(["--profile", "dench", "config", "set", "tools.profile", "full"]),
+      expect.arrayContaining(["--profile", "animclaw", "config", "set", "tools.profile", "full"]),
     );
     expect(summary.gatewayReachable).toBe(true);
     expect(summary.gatewayAutoFix?.attempted).toBe(true);
@@ -1010,7 +1010,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
         }
         return createWebProfilesResponse({
           status: 200,
-          payload: { profiles: [], activeProfile: "dench" },
+          payload: { profiles: [], activeProfile: "animclaw" },
         });
       }
       if (url.includes("127.0.0.1:3101/api/profiles")) {
@@ -1109,7 +1109,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
   it("strips npm_config_* env vars from npm global commands (prevents npx prefix hijack)", async () => {
     process.env.npm_config_prefix = "/tmp/npx-fake-prefix";
     process.env.npm_config_global_prefix = "/tmp/npx-fake-global";
-    process.env.npm_package_name = "denchclaw";
+    process.env.npm_package_name = "animclaw";
     process.env.npm_lifecycle_event = "npx";
 
     const runtime: RuntimeEnv = {

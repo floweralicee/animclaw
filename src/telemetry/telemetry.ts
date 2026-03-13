@@ -9,7 +9,7 @@ let client: PostHog | null = null;
 export function isTelemetryEnabled(): boolean {
   if (!POSTHOG_KEY) return false;
   if (process.env.DO_NOT_TRACK === "1") return false;
-  if (process.env.DENCHCLAW_TELEMETRY_DISABLED === "1") return false;
+  if (process.env.ANIMCLAW_TELEMETRY_DISABLED === "1") return false;
   if (process.env.CI) return false;
 
   try {
@@ -45,7 +45,7 @@ function ensureClient(): PostHog | null {
 export function track(event: string, properties?: Record<string, unknown>): void {
   if (!isTelemetryEnabled()) return;
 
-  if (process.env.DENCHCLAW_TELEMETRY_DEBUG === "1") {
+  if (process.env.ANIMCLAW_TELEMETRY_DEBUG === "1") {
     process.stderr.write(
       `[telemetry:debug] ${JSON.stringify({ event, properties }, null, 2)}\n`,
     );

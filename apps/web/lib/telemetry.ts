@@ -24,14 +24,14 @@ function ensureClient(): PostHog | null {
 let _cachedAnonymousId: string | null = null;
 
 /**
- * Read the persisted install-scoped anonymous ID from ~/.openclaw-dench/telemetry.json,
+ * Read the persisted install-scoped anonymous ID from ~/.openclaw-animclaw/telemetry.json,
  * generating and writing one if absent.
  */
 export function getOrCreateAnonymousId(): string {
   if (_cachedAnonymousId) return _cachedAnonymousId;
 
   try {
-    const stateDir = join(process.env.HOME || homedir(), ".openclaw-dench");
+    const stateDir = join(process.env.HOME || homedir(), ".openclaw-animclaw");
     const configPath = join(stateDir, "telemetry.json");
 
     let raw: Record<string, unknown> = {};

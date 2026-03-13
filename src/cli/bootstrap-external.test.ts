@@ -24,9 +24,9 @@ function getCheck(
 function createTempStateDir(): string {
   const homeDir = path.join(
     tmpdir(),
-    `denchclaw-test-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    `animclaw-test-${Date.now()}-${Math.random().toString(36).slice(2)}`,
   );
-  const stateDir = path.join(homeDir, ".openclaw-dench");
+  const stateDir = path.join(homeDir, ".openclaw-animclaw");
   mkdirSync(stateDir, { recursive: true });
   return stateDir;
 }
@@ -66,7 +66,7 @@ describe("bootstrap-external diagnostics", () => {
   });
 
   const baseParams = (dir: string) => ({
-    profile: "dench",
+    profile: "animclaw",
     openClawCliAvailable: true,
     openClawVersion: "2026.3.1",
     gatewayPort: 19001,
@@ -170,7 +170,7 @@ describe("bootstrap-external diagnostics", () => {
     expect(gateway.status).toBe("fail");
     expect(String(gateway.remediation)).toContain("dangerouslyDisableDeviceAuth true");
     expect(String(gateway.remediation)).toContain("dangerouslyDisableDeviceAuth false");
-    expect(String(gateway.remediation)).toContain("--profile dench");
+    expect(String(gateway.remediation)).toContain("--profile animclaw");
   });
 
   it("marks rollout-stage as warning for beta and includes opt-in guidance", () => {
@@ -181,7 +181,7 @@ describe("bootstrap-external diagnostics", () => {
 
     const rollout = getCheck(diagnostics, "rollout-stage");
     expect(rollout.status).toBe("warn");
-    expect(String(rollout.remediation)).toContain("DENCHCLAW_BOOTSTRAP_BETA_OPT_IN");
+    expect(String(rollout.remediation)).toContain("ANIMCLAW_BOOTSTRAP_BETA_OPT_IN");
   });
 
   it("fails cutover-gates when enforcement is enabled without gate envs", () => {
@@ -190,7 +190,7 @@ describe("bootstrap-external diagnostics", () => {
       env: {
         HOME: path.dirname(stateDir),
         OPENCLAW_HOME: path.dirname(stateDir),
-        DENCHCLAW_BOOTSTRAP_ENFORCE_SAFETY_GATES: "1",
+        ANIMCLAW_BOOTSTRAP_ENFORCE_SAFETY_GATES: "1",
       },
     });
 
@@ -204,8 +204,8 @@ describe("bootstrap-external diagnostics", () => {
       env: {
         HOME: path.dirname(stateDir),
         OPENCLAW_HOME: path.dirname(stateDir),
-        DENCHCLAW_BOOTSTRAP_MIGRATION_SUITE_OK: "1",
-        DENCHCLAW_BOOTSTRAP_ONBOARDING_E2E_OK: "1",
+        ANIMCLAW_BOOTSTRAP_MIGRATION_SUITE_OK: "1",
+        ANIMCLAW_BOOTSTRAP_ONBOARDING_E2E_OK: "1",
       },
     });
 
@@ -302,18 +302,18 @@ describe("checkAgentAuth", () => {
 });
 
 describe("bootstrap-external rollout env helpers", () => {
-  it("resolves rollout stage from denchclaw/openclaw env vars", () => {
-    expect(resolveBootstrapRolloutStage({ DENCHCLAW_BOOTSTRAP_ROLLOUT: "beta" })).toBe("beta");
+  it("resolves rollout stage from animclaw/openclaw env vars", () => {
+    expect(resolveBootstrapRolloutStage({ ANIMCLAW_BOOTSTRAP_ROLLOUT: "beta" })).toBe("beta");
     expect(resolveBootstrapRolloutStage({ OPENCLAW_BOOTSTRAP_ROLLOUT: "internal" })).toBe(
       "internal",
     );
-    expect(resolveBootstrapRolloutStage({ DENCHCLAW_BOOTSTRAP_ROLLOUT: "invalid" })).toBe(
+    expect(resolveBootstrapRolloutStage({ ANIMCLAW_BOOTSTRAP_ROLLOUT: "invalid" })).toBe(
       "default",
     );
   });
 
   it("detects legacy fallback via either env namespace", () => {
-    expect(isLegacyFallbackEnabled({ DENCHCLAW_BOOTSTRAP_LEGACY_FALLBACK: "1" })).toBe(true);
+    expect(isLegacyFallbackEnabled({ ANIMCLAW_BOOTSTRAP_LEGACY_FALLBACK: "1" })).toBe(true);
     expect(isLegacyFallbackEnabled({ OPENCLAW_BOOTSTRAP_LEGACY_FALLBACK: "true" })).toBe(true);
     expect(isLegacyFallbackEnabled({})).toBe(false);
   });
@@ -400,7 +400,7 @@ describe("isPersistedPortAcceptable", () => {
     expect(isPersistedPortAcceptable(18789)).toBe(false);
   });
 
-  it("accepts DenchClaw's own port range (normal operation)", () => {
+  it("accepts AnimClaw's own port range (normal operation)", () => {
     expect(isPersistedPortAcceptable(19001)).toBe(true);
     expect(isPersistedPortAcceptable(19002)).toBe(true);
     expect(isPersistedPortAcceptable(19100)).toBe(true);
@@ -422,7 +422,7 @@ describe("isPersistedPortAcceptable", () => {
     expect(isPersistedPortAcceptable(port)).toBe(false);
   });
 
-  it("accepts valid 19001 from config (end-to-end: read + guard allows DenchClaw port)", () => {
+  it("accepts valid 19001 from config (end-to-end: read + guard allows AnimClaw port)", () => {
     writeConfig(stateDir, { gateway: { port: 19001 } });
     const port = readExistingGatewayPort(stateDir);
     expect(port).toBe(19001);

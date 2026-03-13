@@ -24,7 +24,7 @@ export const isNixMode = resolveIsNixMode();
 
 // Support historical (and occasionally misspelled) legacy state dirs.
 const LEGACY_STATE_DIRNAMES = [".clawdbot", ".moldbot", ".moltbot"] as const;
-const NEW_STATE_DIRNAME = ".openclaw-dench";
+const NEW_STATE_DIRNAME = ".openclaw-animclaw";
 const CONFIG_FILENAME = "openclaw.json";
 const LEGACY_CONFIG_FILENAMES = ["clawdbot.json", "moldbot.json", "moltbot.json"] as const;
 
@@ -59,7 +59,7 @@ export function resolveNewStateDir(homedir: () => string = resolveDefaultHomeDir
 
 /**
  * State directory for mutable data (sessions, logs, caches).
- * DenchClaw always pins this to ~/.openclaw-dench.
+ * AnimClaw always pins this to ~/.openclaw-animclaw.
  */
 export function resolveStateDir(
   env: NodeJS.ProcessEnv = process.env,
@@ -257,7 +257,7 @@ export function resolveGatewayPort(
     }
   }
   const profile = env.OPENCLAW_PROFILE?.trim();
-  if (profile === "dench") {
+  if (profile === "animclaw") {
     return DENCHCLAW_DEFAULT_GATEWAY_PORT;
   }
   return DEFAULT_GATEWAY_PORT;

@@ -65,8 +65,8 @@ function makeDirent(name: string, isDir: boolean): Dirent {
 
 describe("workspace (flat workspace model)", () => {
   const originalEnv = { ...process.env };
-  const STATE_DIR = "/home/testuser/.openclaw-dench";
-  const UI_STATE_PATH = join(STATE_DIR, ".dench-ui-state.json");
+  const STATE_DIR = "/home/testuser/.openclaw-animclaw";
+  const UI_STATE_PATH = join(STATE_DIR, ".animclaw-ui-state.json");
 
   beforeEach(() => {
     vi.resetModules();
@@ -147,7 +147,7 @@ describe("workspace (flat workspace model)", () => {
   // ─── getEffectiveProfile ──────────────────────────────────────────
 
   describe("getEffectiveProfile", () => {
-    it("always returns 'dench' regardless of env/state (single profile enforcement)", async () => {
+    it("always returns 'animclaw' regardless of env/state (single profile enforcement)", async () => {
       process.env.OPENCLAW_PROFILE = "work";
       const { getEffectiveProfile, setUIActiveProfile, mockReadFile } =
         await importWorkspace();
@@ -155,7 +155,7 @@ describe("workspace (flat workspace model)", () => {
         JSON.stringify({ activeWorkspace: "something" }) as never,
       );
       setUIActiveProfile("custom");
-      expect(getEffectiveProfile()).toBe("dench");
+      expect(getEffectiveProfile()).toBe("animclaw");
     });
   });
 
@@ -369,7 +369,7 @@ describe("workspace (flat workspace model)", () => {
       expect(workspaces[0]?.isActive).toBe(true);
     });
 
-    it("keeps root default and workspace-dench as distinct workspaces", async () => {
+    it("keeps root default and workspace-animclaw as distinct workspaces", async () => {
       const { discoverWorkspaces, mockReaddir, mockExists, mockReadFile } =
         await importWorkspace();
       mockReadFile.mockImplementation(() => {
@@ -377,25 +377,25 @@ describe("workspace (flat workspace model)", () => {
       });
       mockReaddir.mockReturnValue([
         makeDirent("workspace", true),
-        makeDirent("workspace-dench", true),
+        makeDirent("workspace-animclaw", true),
       ] as unknown as Dirent[]);
       mockExists.mockImplementation((p) => {
         const s = String(p);
-        return s === join(STATE_DIR, "workspace") || s === join(STATE_DIR, "workspace-dench");
+        return s === join(STATE_DIR, "workspace") || s === join(STATE_DIR, "workspace-animclaw");
       });
 
       const workspaces = discoverWorkspaces();
       expect(workspaces).toHaveLength(2);
       const names = workspaces.map((workspace) => workspace.name);
       expect(names).toContain("default");
-      expect(names).toContain("dench");
+      expect(names).toContain("animclaw");
       const rootDefault = workspaces.find((workspace) => workspace.name === "default");
-      const profileDench = workspaces.find((workspace) => workspace.name === "dench");
+      const profileDench = workspaces.find((workspace) => workspace.name === "animclaw");
       expect(rootDefault?.workspaceDir).toBe(join(STATE_DIR, "workspace"));
-      expect(profileDench?.workspaceDir).toBe(join(STATE_DIR, "workspace-dench"));
+      expect(profileDench?.workspaceDir).toBe(join(STATE_DIR, "workspace-animclaw"));
     });
 
-    it("lists default, dench, and custom workspace side by side", async () => {
+    it("lists default, animclaw, and custom workspace side by side", async () => {
       const { discoverWorkspaces, mockReaddir, mockExists, mockReadFile } =
         await importWorkspace();
       mockReadFile.mockImplementation(() => {
@@ -403,14 +403,14 @@ describe("workspace (flat workspace model)", () => {
       });
       mockReaddir.mockReturnValue([
         makeDirent("workspace", true),
-        makeDirent("workspace-dench", true),
+        makeDirent("workspace-animclaw", true),
         makeDirent("workspace-kumareth", true),
       ] as unknown as Dirent[]);
       mockExists.mockImplementation((p) => {
         const s = String(p);
         return (
           s === join(STATE_DIR, "workspace") ||
-          s === join(STATE_DIR, "workspace-dench") ||
+          s === join(STATE_DIR, "workspace-animclaw") ||
           s === join(STATE_DIR, "workspace-kumareth")
         );
       });
@@ -418,7 +418,7 @@ describe("workspace (flat workspace model)", () => {
       const workspaces = discoverWorkspaces();
       expect(workspaces.map((workspace) => workspace.name)).toEqual([
         "default",
-        "dench",
+        "animclaw",
         "kumareth",
       ]);
     });
@@ -611,7 +611,7 @@ describe("workspace (flat workspace model)", () => {
       mockWriteFile.mockClear();
       registerWorkspacePath("myprofile", "/my/workspace");
       const stateWrites = mockWriteFile.mock.calls.filter((c) =>
-        (c[0] as string).includes(".dench-ui-state.json"),
+        (c[0] as string).includes(".animclaw-ui-state.json"),
       );
       expect(stateWrites).toHaveLength(0);
     });

@@ -3,41 +3,41 @@ import { applyCliProfileEnv, parseCliProfileArgs, DENCHCLAW_PROFILE } from "./pr
 
 describe("parseCliProfileArgs", () => {
   it("returns default profile parsing when no args are provided", () => {
-    expect(parseCliProfileArgs(["node", "denchclaw"])).toEqual({
+    expect(parseCliProfileArgs(["node", "animclaw"])).toEqual({
       ok: true,
       profile: null,
-      argv: ["node", "denchclaw"],
+      argv: ["node", "animclaw"],
     });
   });
 
   it("parses --profile and strips profile flags before command execution", () => {
-    expect(parseCliProfileArgs(["node", "denchclaw", "--profile", "dev", "chat"])).toEqual({
+    expect(parseCliProfileArgs(["node", "animclaw", "--profile", "dev", "chat"])).toEqual({
       ok: true,
       profile: "dev",
-      argv: ["node", "denchclaw", "chat"],
+      argv: ["node", "animclaw", "chat"],
     });
 
-    expect(parseCliProfileArgs(["node", "denchclaw", "--profile=team-a", "status"])).toEqual({
+    expect(parseCliProfileArgs(["node", "animclaw", "--profile=team-a", "status"])).toEqual({
       ok: true,
       profile: "team-a",
-      argv: ["node", "denchclaw", "status"],
+      argv: ["node", "animclaw", "status"],
     });
   });
 
   it("rejects missing and invalid profile inputs", () => {
-    expect(parseCliProfileArgs(["node", "denchclaw", "--profile"])).toEqual({
+    expect(parseCliProfileArgs(["node", "animclaw", "--profile"])).toEqual({
       ok: false,
       error: "--profile requires a value",
     });
 
-    expect(parseCliProfileArgs(["node", "denchclaw", "--profile", "bad profile"])).toEqual({
+    expect(parseCliProfileArgs(["node", "animclaw", "--profile", "bad profile"])).toEqual({
       ok: false,
       error: 'Invalid --profile (use letters, numbers, "_", "-" only)',
     });
   });
 
-  it("allows --dev and --profile together (DenchClaw forces dench anyway)", () => {
-    const result = parseCliProfileArgs(["node", "denchclaw", "--dev", "--profile", "team-a"]);
+  it("allows --dev and --profile together (AnimClaw forces animclaw anyway)", () => {
+    const result = parseCliProfileArgs(["node", "animclaw", "--dev", "--profile", "team-a"]);
     expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.profile).toBe("team-a");
@@ -45,16 +45,16 @@ describe("parseCliProfileArgs", () => {
   });
 
   it("stops profile parsing once command path begins", () => {
-    expect(parseCliProfileArgs(["node", "denchclaw", "chat", "--profile", "dev"])).toEqual({
+    expect(parseCliProfileArgs(["node", "animclaw", "chat", "--profile", "dev"])).toEqual({
       ok: true,
       profile: null,
-      argv: ["node", "denchclaw", "chat", "--profile", "dev"],
+      argv: ["node", "animclaw", "chat", "--profile", "dev"],
     });
   });
 });
 
 describe("applyCliProfileEnv", () => {
-  it("always forces dench profile regardless of requested profile (single profile enforcement)", () => {
+  it("always forces animclaw profile regardless of requested profile (single profile enforcement)", () => {
     const env: Record<string, string | undefined> = {};
     const result = applyCliProfileEnv({
       profile: "team-a",
@@ -64,11 +64,11 @@ describe("applyCliProfileEnv", () => {
 
     expect(result.effectiveProfile).toBe(DENCHCLAW_PROFILE);
     expect(env.OPENCLAW_PROFILE).toBe(DENCHCLAW_PROFILE);
-    expect(env.OPENCLAW_STATE_DIR).toBe("/tmp/home/.openclaw-dench");
-    expect(env.OPENCLAW_CONFIG_PATH).toBe("/tmp/home/.openclaw-dench/openclaw.json");
+    expect(env.OPENCLAW_STATE_DIR).toBe("/tmp/home/.openclaw-animclaw");
+    expect(env.OPENCLAW_CONFIG_PATH).toBe("/tmp/home/.openclaw-animclaw/openclaw.json");
   });
 
-  it("emits warning when non-dench profile is requested (prevents silent override)", () => {
+  it("emits warning when non-animclaw profile is requested (prevents silent override)", () => {
     const env: Record<string, string | undefined> = {};
     const result = applyCliProfileEnv({
       profile: "team-a",
@@ -82,7 +82,7 @@ describe("applyCliProfileEnv", () => {
     expect(result.requestedProfile).toBe("team-a");
   });
 
-  it("no warning when dench profile is requested (normal path)", () => {
+  it("no warning when animclaw profile is requested (normal path)", () => {
     const env: Record<string, string | undefined> = {};
     const result = applyCliProfileEnv({
       profile: DENCHCLAW_PROFILE,
@@ -116,9 +116,9 @@ describe("applyCliProfileEnv", () => {
       homedir: () => "/tmp/home",
     });
 
-    expect(env.OPENCLAW_STATE_DIR).toBe("/tmp/home/.openclaw-dench");
-    expect(env.OPENCLAW_CONFIG_PATH).toBe("/tmp/home/.openclaw-dench/openclaw.json");
-    expect(result.stateDir).toBe("/tmp/home/.openclaw-dench");
+    expect(env.OPENCLAW_STATE_DIR).toBe("/tmp/home/.openclaw-animclaw");
+    expect(env.OPENCLAW_CONFIG_PATH).toBe("/tmp/home/.openclaw-animclaw/openclaw.json");
+    expect(result.stateDir).toBe("/tmp/home/.openclaw-animclaw");
   });
 
   it("picks up OPENCLAW_PROFILE from env when no explicit profile is passed", () => {

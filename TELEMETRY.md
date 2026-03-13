@@ -1,6 +1,6 @@
 # Telemetry
 
-DenchClaw collects **anonymous, non-identifiable** telemetry data to help us
+AnimClaw collects **anonymous, non-identifiable** telemetry data to help us
 understand how the product is used and where to focus improvements. Participation
 is optional and can be disabled at any time.
 
@@ -18,7 +18,7 @@ Both layers share the same opt-out controls and privacy mode setting.
 
 | Event | When | Properties |
 | --- | --- | --- |
-| `cli_bootstrap_started` | `denchclaw bootstrap` begins | `version` |
+| `cli_bootstrap_started` | `animclaw bootstrap` begins | `version` |
 | `cli_bootstrap_completed` | Bootstrap finishes | `duration_ms`, `workspace_created`, `gateway_reachable`, `web_reachable`, `version` |
 | `chat_message_sent` | User sends a chat message in the web UI | `message_length`, `is_subagent` |
 | `chat_stopped` | User stops an active agent run | — |
@@ -37,9 +37,9 @@ Every event includes baseline machine context: `os` (platform), `arch`, and
 ### Anonymous install ID
 
 A single anonymous UUID is generated on first run and persisted in
-`~/.openclaw-dench/telemetry.json` as `anonymousId`. This install-scoped ID is
+`~/.openclaw-animclaw/telemetry.json` as `anonymousId`. This install-scoped ID is
 shared across all telemetry layers — CLI, web server, browser, and the OpenClaw
-PostHog plugin — so a single DenchClaw installation maps to exactly one PostHog
+PostHog plugin — so a single AnimClaw installation maps to exactly one PostHog
 person.
 
 The ID is:
@@ -47,15 +47,15 @@ The ID is:
 - **Stable** — survives restarts, upgrades, and re-bootstrap.
 - **Anonymous** — a random UUID with no relation to your machine, username, or
   IP address.
-- **Install-scoped** — deleting `~/.openclaw-dench` resets it.
-- **Inspectable** — run `npx denchclaw telemetry status` to see your current ID.
+- **Install-scoped** — deleting `~/.openclaw-animclaw` resets it.
+- **Inspectable** — run `npx animclaw telemetry status` to see your current ID.
 
 ---
 
 ## AI Observability
 
 The `posthog-analytics` OpenClaw plugin captures LLM interactions as PostHog AI
-events. It is installed automatically during `denchclaw bootstrap` when a
+events. It is installed automatically during `animclaw bootstrap` when a
 PostHog project key is available.
 
 ### Event hierarchy
@@ -77,10 +77,10 @@ Session ($ai_session_id)
 | `$ai_span` | Each tool call completes | `$ai_span_name` (tool name), `$ai_latency`, `$ai_is_error`, `$ai_parent_id` |
 | `$ai_trace` | Agent run completes | `$ai_trace_id`, `$ai_session_id`, `$ai_latency`, `tool_count` |
 | `survey sent` | User clicks Like/Dislike in the web UI | `$survey_response` (1=like, 2=dislike), `$ai_trace_id`, `message_id` |
-| `dench_message_received` | User sends a message (gateway-side) | `channel`, `session_id`, `has_attachments` |
-| `dench_session_start` | Agent session begins | `session_id`, `channel` |
-| `dench_session_end` | Agent session ends | `session_id`, `channel` |
-| `dench_turn_completed` | Agent run completes | `session_id`, `run_id`, `model` |
+| `animclaw_message_received` | User sends a message (gateway-side) | `channel`, `session_id`, `has_attachments` |
+| `animclaw_session_start` | Agent session begins | `session_id`, `channel` |
+| `animclaw_session_end` | Agent session ends | `session_id`, `channel` |
+| `animclaw_turn_completed` | Agent run completes | `session_id`, `run_id`, `model` |
 
 ### Privacy mode
 
@@ -98,8 +98,8 @@ of privacy mode.
 Toggle privacy mode:
 
 ```bash
-npx denchclaw telemetry privacy off    # capture full content
-npx denchclaw telemetry privacy on     # redact content (default)
+npx animclaw telemetry privacy off    # capture full content
+npx animclaw telemetry privacy on     # redact content (default)
 ```
 
 ### PostHog evaluations
@@ -150,13 +150,13 @@ and AI observability):
 ### CLI command
 
 ```bash
-npx denchclaw telemetry disable
+npx animclaw telemetry disable
 ```
 
 ### Environment variable
 
 ```bash
-export DENCHCLAW_TELEMETRY_DISABLED=1
+export ANIMCLAW_TELEMETRY_DISABLED=1
 ```
 
 ### DO_NOT_TRACK standard
@@ -172,7 +172,7 @@ Telemetry is automatically disabled when `CI=true` is set.
 ### Check status
 
 ```bash
-npx denchclaw telemetry status
+npx animclaw telemetry status
 ```
 
 ---
@@ -182,11 +182,11 @@ npx denchclaw telemetry status
 ### Privacy mode
 
 ```bash
-npx denchclaw telemetry privacy on     # redact message content (default)
-npx denchclaw telemetry privacy off    # send full message content
+npx animclaw telemetry privacy on     # redact message content (default)
+npx animclaw telemetry privacy off    # send full message content
 ```
 
-Privacy mode is stored in `~/.openclaw-dench/telemetry.json` and is read by both
+Privacy mode is stored in `~/.openclaw-animclaw/telemetry.json` and is read by both
 the CLI/web telemetry layer and the OpenClaw analytics plugin.
 
 ### PostHog analytics plugin
@@ -194,30 +194,30 @@ the CLI/web telemetry layer and the OpenClaw analytics plugin.
 The plugin is configured via OpenClaw's plugin config:
 
 ```bash
-openclaw --profile dench config set plugins.entries.posthog-analytics.enabled true
-openclaw --profile dench config set plugins.entries.posthog-analytics.config.apiKey <key>
+openclaw --profile animclaw config set plugins.entries.posthog-analytics.enabled true
+openclaw --profile animclaw config set plugins.entries.posthog-analytics.config.apiKey <key>
 ```
 
-This is handled automatically by `denchclaw bootstrap`.
+This is handled automatically by `animclaw bootstrap`.
 
 ---
 
 ## Debug Mode
 
-Set `DENCHCLAW_TELEMETRY_DEBUG=1` to print telemetry events to stderr instead of
+Set `ANIMCLAW_TELEMETRY_DEBUG=1` to print telemetry events to stderr instead of
 sending them. Useful for inspecting exactly what would be reported.
 
 ## Re-enabling
 
 ```bash
-npx denchclaw telemetry enable
+npx animclaw telemetry enable
 ```
 
 ## How It Works
 
 - **Shared identity**: All layers read the same `anonymousId` from
-  `~/.openclaw-dench/telemetry.json`. The first component to run (usually the
-  CLI during `denchclaw bootstrap`) generates the UUID; every subsequent layer
+  `~/.openclaw-animclaw/telemetry.json`. The first component to run (usually the
+  CLI during `animclaw bootstrap`) generates the UUID; every subsequent layer
   reuses it.
 - **CLI**: The `posthog-node` SDK sends events from the Node.js process. Events
   are batched and flushed asynchronously — telemetry never blocks the CLI.

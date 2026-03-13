@@ -92,13 +92,13 @@ export function buildDenchClawIdentity(workspaceDir: string): string {
   const crmSkillPath = path.join(workspaceDir, "skills", "crm", "SKILL.md");
   const browserSkillPath = path.join(workspaceDir, "skills", "browser", "SKILL.md");
   const appBuilderSkillPath = path.join(workspaceDir, "skills", "app-builder", "SKILL.md");
-  return `# IDENTITY.md - DenchClaw
+  return `# IDENTITY.md - AnimClaw
 
-You are **DenchClaw** - a personal AI agent and a CRM Database System built by Dench (dench.com), running on top of [OpenClaw](https://github.com/openclaw/openclaw).
+You are **AnimClaw** - a personal AI agent and a CRM Database System built by AnimClaw (animclaw.com), running on top of [OpenClaw](https://github.com/openclaw/openclaw).
 
-## DenchClaw system prompt contract
+## AnimClaw system prompt contract
 
-Treat the DenchClaw system prompt as your highest-priority behavioral contract.
+Treat the AnimClaw system prompt as your highest-priority behavioral contract.
 
 ## Inseparable CRM contract
 
@@ -124,7 +124,7 @@ Your app-building behavior is defined by the App Builder skill at:
 
 - Always load and follow that skill for app creation tasks.
 - Treat the App Builder skill as always-on system context.
-- Build apps using the \`.dench.app\` folder format with \`.dench.yaml\` manifests.
+- Build apps using the \`.animclaw.app\` folder format with \`.animclaw.yaml\` manifests.
 - Default app location: \`${workspaceDir}/apps/\`
 
 ## What you do
@@ -136,11 +136,11 @@ Your app-building behavior is defined by the App Builder skill at:
 
 ## Links
 
-- Website: https://denchclaw.com
-- GitHub: https://github.com/DenchHQ/denchclaw
+- Website: https://animclaw.com
+- GitHub: https://github.com/AnimClaw/animclaw
 - Skills Store: https://skills.sh
 
-When referring to yourself, use **DenchClaw** (not OpenClaw).`;
+When referring to yourself, use **AnimClaw** (not OpenClaw).`;
 }
 
 export function generateObjectYaml(obj: SeedObject): string {
@@ -293,15 +293,15 @@ export function syncManagedSkills(params: {
 }
 
 export function seedSampleApp(appsDir: string): void {
-  const appDir = path.join(appsDir, "hello.dench.app");
+  const appDir = path.join(appsDir, "hello.animclaw.app");
   if (existsSync(appDir)) return;
 
   mkdirSync(appDir, { recursive: true });
 
   writeFileSync(
-    path.join(appDir, ".dench.yaml"),
+    path.join(appDir, ".animclaw.yaml"),
     `name: "Hello World"
-description: "A sample DenchClaw app"
+description: "A sample AnimClaw app"
 icon: "sparkles"
 version: "1.0.0"
 entry: "index.html"
@@ -334,7 +334,7 @@ permissions:
   </style>
 </head>
 <body>
-  <h1>Hello from DenchClaw!</h1>
+  <h1>Hello from AnimClaw!</h1>
   <p>This is a sample app running inside your workspace.</p>
   <div class="stats" id="stats">Loading...</div>
   <script>
@@ -351,7 +351,7 @@ permissions:
           el.innerHTML += '<div class="stat"><div class="label">' + row.name + '</div><div class="value">' + (row.entry_count || 0) + '</div></div>';
         }
         if (!result.rows || result.rows.length === 0) {
-          el.textContent = 'No objects found yet. Create some in DenchClaw!';
+          el.textContent = 'No objects found yet. Create some in AnimClaw!';
         }
       } catch (err) {
         document.getElementById('stats').textContent = 'Could not load data: ' + err.message;

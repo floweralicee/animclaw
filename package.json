@@ -1,28 +1,27 @@
 {
-  "name": "denchclaw",
+  "name": "animclaw",
   "version": "2.2.3",
   "description": "Fully Managed OpenClaw Framework for managing your CRM, Sales Automation and Outreach agents. The only local productivity tool you need.",
   "keywords": [],
-  "homepage": "https://github.com/DenchHQ/DenchClaw#readme",
+  "homepage": "https://github.com/AnimClaw/AnimClaw#readme",
   "bugs": {
-    "url": "https://github.com/DenchHQ/DenchClaw/issues"
+    "url": "https://github.com/AnimClaw/AnimClaw/issues"
   },
   "license": "MIT",
-  "author": "Kumar Abhirup <kumar@dench.com>, Dench.com <support@dench.com>",
+  "author": "Kumar Abhirup <kumar@animclaw.com>, AnimClaw.com <support@animclaw.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DenchHQ/DenchClaw.git"
+    "url": "git+https://github.com/AnimClaw/AnimClaw.git"
   },
   "bin": {
-    "dench": "denchclaw.mjs",
-    "denchclaw": "denchclaw.mjs"
+    "animclaw": "animclaw.mjs"
   },
   "files": [
     "apps/web/.next/standalone/",
     "apps/web/.next/static/",
     "apps/web/public/",
     "LICENSE",
-    "denchclaw.mjs",
+    "animclaw.mjs",
     "README.md",
     "assets/",
     "dist/",
@@ -33,19 +32,19 @@
   "main": "dist/entry.js",
   "exports": {
     ".": "./dist/entry.js",
-    "./cli-entry": "./denchclaw.mjs"
+    "./cli-entry": "./animclaw.mjs"
   },
   "scripts": {
     "build": "tsdown",
     "build:plugin-env": "node scripts/build-plugin-env.mjs",
     "check": "pnpm format:check && pnpm lint",
-    "denchclaw": "node denchclaw.mjs",
-    "dev": "node denchclaw.mjs",
+    "animclaw": "node animclaw.mjs",
+    "dev": "node animclaw.mjs",
     "format": "oxfmt --write",
     "format:check": "oxfmt --check",
     "lint": "oxlint --type-aware",
     "prepack": "pnpm build:plugin-env && pnpm build && pnpm web:build && pnpm web:prepack",
-    "start": "node denchclaw.mjs",
+    "start": "node animclaw.mjs",
     "test": "pnpm test:cli && pnpm --dir apps/web test",
     "test:cli": "vitest run --config vitest.unit.config.ts src/cli/run-main.test.ts src/cli/bootstrap-external.test.ts src/cli/bootstrap-external.bootstrap-command.test.ts src/cli/workspace-seed.test.ts src/cli/web-runtime.test.ts src/cli/web-runtime-command.test.ts src/cli/flatten-standalone-deps.test.ts",
     "test:web": "pnpm --dir apps/web test",

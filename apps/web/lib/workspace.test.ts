@@ -57,7 +57,7 @@ function makeDirent(name: string, isDir: boolean): Dirent {
 
 describe("workspace utilities", () => {
   const originalEnv = { ...process.env };
-  const STATE_DIR = join("/home/testuser", ".openclaw-dench");
+  const STATE_DIR = join("/home/testuser", ".openclaw-animclaw");
   const WS_DIR = join(STATE_DIR, "workspace-test");
 
   beforeEach(() => {
@@ -171,7 +171,7 @@ describe("workspace utilities", () => {
       expect(resolveWorkspaceRoot()).toBe(fallbackWs);
     });
 
-    it("resolves bootstrap root workspace as dench default", async () => {
+    it("resolves bootstrap root workspace as AnimClaw default", async () => {
       delete process.env.OPENCLAW_WORKSPACE;
       const { resolveWorkspaceRoot, mockExists, mockReaddir } = await importWorkspace();
       const rootWorkspace = join(STATE_DIR, "workspace");
@@ -189,7 +189,7 @@ describe("workspace utilities", () => {
   // ─── resolveWebChatDir ────────────────────────────────────────────
 
   describe("resolveWebChatDir", () => {
-    it("falls back to root workspace chat dir for dench default", async () => {
+    it("falls back to root workspace chat dir for AnimClaw default", async () => {
       delete process.env.OPENCLAW_WORKSPACE;
       const { resolveWebChatDir, mockReadFile, mockReaddir } = await importWorkspace();
       mockReadFile.mockImplementation(() => {

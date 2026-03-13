@@ -1,12 +1,12 @@
 ---
 name: app-builder
-description: Build and manage DenchClaw apps — self-contained web applications that run inside the workspace with access to DuckDB data and the DenchClaw bridge API. Covers static HTML apps, 2D games with p5.js, 3D experiences with Three.js, data dashboards, interactive tools, and more.
+description: Build and manage AnimClaw apps — self-contained web applications that run inside the workspace with access to DuckDB data and the AnimClaw bridge API. Covers static HTML apps, 2D games with p5.js, 3D experiences with Three.js, data dashboards, interactive tools, and more.
 metadata: { "openclaw": { "inject": true, "always": true, "emoji": "🔨" } }
 ---
 
 # App Builder
 
-You can build **Dench Apps** — self-contained web applications that run inside DenchClaw's workspace. Apps appear in the sidebar with their own icon and name, and open as tabs in the main content area. They run in a sandboxed iframe with `allow-same-origin allow-scripts allow-popups allow-forms`.
+You can build **AnimClaw Apps** — self-contained web applications that run inside AnimClaw's workspace. Apps appear in the sidebar with their own icon and name, and open as tabs in the main content area. They run in a sandboxed iframe with `allow-same-origin allow-scripts allow-popups allow-forms`.
 
 ---
 
@@ -31,12 +31,12 @@ You can build **Dench Apps** — self-contained web applications that run inside
 
 ## App Structure
 
-Every app is a folder ending in `.dench.app/`. The default location is `{{WORKSPACE_PATH}}/apps/`, but apps can live anywhere in the workspace.
+Every app is a folder ending in `.animclaw.app/`. The default location is `{{WORKSPACE_PATH}}/apps/`, but apps can live anywhere in the workspace.
 
 ```
 apps/
-  my-app.dench.app/
-    .dench.yaml          # Required manifest
+  my-app.animclaw.app/
+    .animclaw.yaml          # Required manifest
     index.html           # Entry point
     style.css            # Styles (optional, can inline)
     app.js               # Logic (optional, can inline)
@@ -49,10 +49,10 @@ apps/
 
 ### Critical Rules
 
-- The folder name MUST end with `.dench.app`
-- The `.dench.yaml` manifest is REQUIRED inside every `.dench.app` folder
+- The folder name MUST end with `.animclaw.app`
+- The `.animclaw.yaml` manifest is REQUIRED inside every `.animclaw.app` folder
 - The entry HTML file gets the bridge SDK (`window.dench`) auto-injected before `</head>`
-- All file paths within the app are relative to the `.dench.app` folder root
+- All file paths within the app are relative to the `.animclaw.app` folder root
 - The app is served at `/api/apps/serve/<appPath>/<filePath>` — relative references (CSS, JS, images) resolve correctly
 - Apps run in an iframe sandbox: `allow-same-origin allow-scripts allow-popups allow-forms`
 
@@ -60,7 +60,7 @@ apps/
 
 ## Manifest Reference
 
-Every `.dench.app` folder MUST contain a `.dench.yaml` manifest.
+Every `.animclaw.app` folder MUST contain a `.animclaw.yaml` manifest.
 
 ### Full Schema
 
@@ -145,18 +145,18 @@ const tree = await window.dench.files.list();
 
 ```javascript
 // Get the app's own parsed manifest
-const manifest = await window.dench.app.getManifest();
+const manifest = await window.animclaw.app.getManifest();
 // Returns: { name, description, icon, version, author, entry, runtime, permissions }
 
-// Get current DenchClaw UI theme
-const theme = await window.dench.app.getTheme();
+// Get current AnimClaw UI theme
+const theme = await window.animclaw.app.getTheme();
 // Returns: "dark" or "light"
 ```
 
 ### Agent Communication (no permission required)
 
 ```javascript
-// Send a message to the DenchClaw agent (triggers a chat message)
+// Send a message to the AnimClaw agent (triggers a chat message)
 await window.dench.agent.send("Analyze the data in the people table");
 ```
 
@@ -174,7 +174,7 @@ function whenDenchReady(fn) {
 }
 
 whenDenchReady(async () => {
-  const theme = await window.dench.app.getTheme();
+  const theme = await window.animclaw.app.getTheme();
   document.body.className = theme;
 });
 ```
@@ -183,7 +183,7 @@ whenDenchReady(async () => {
 
 ## Theme & Styling System
 
-Apps should respect the DenchClaw theme. The bridge provides the current theme ("dark" or "light"). Build your CSS to support both.
+Apps should respect the AnimClaw theme. The bridge provides the current theme ("dark" or "light"). Build your CSS to support both.
 
 ### Recommended Base Styles
 
@@ -239,7 +239,7 @@ Always apply the theme as the first action in your app:
 ```javascript
 async function initTheme() {
   try {
-    const theme = await window.dench.app.getTheme();
+    const theme = await window.animclaw.app.getTheme();
     document.body.className = theme;
   } catch {
     document.body.className = 'dark';
@@ -349,14 +349,14 @@ For Three.js and other module-based libraries, use import maps:
 ### p5.js App Template
 
 ```
-apps/my-game.dench.app/
-  .dench.yaml
+apps/my-game.animclaw.app/
+  .animclaw.yaml
   index.html
   sketch.js
   assets/           # sprites, sounds, fonts
 ```
 
-**`.dench.yaml`:**
+**`.animclaw.yaml`:**
 ```yaml
 name: "My Game"
 description: "A fun 2D game built with p5.js"
@@ -397,9 +397,9 @@ let isDark = true;
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Detect theme from DenchClaw
+  // Detect theme from AnimClaw
   if (window.dench) {
-    window.dench.app.getTheme().then(theme => {
+    window.animclaw.app.getTheme().then(theme => {
       isDark = theme === 'dark';
     }).catch(() => {});
   }
@@ -430,7 +430,7 @@ const sketch = (p) => {
     player = { x: p.width / 2, y: p.height / 2, size: 30, speed: 4 };
 
     if (window.dench) {
-      window.dench.app.getTheme().then(theme => { isDark = theme === 'dark'; }).catch(() => {});
+      window.animclaw.app.getTheme().then(theme => { isDark = theme === 'dark'; }).catch(() => {});
     }
   };
 
@@ -881,8 +881,8 @@ async function saveScore(score) {
 ### Three.js App Template
 
 ```
-apps/my-3d-app.dench.app/
-  .dench.yaml
+apps/my-3d-app.animclaw.app/
+  .animclaw.yaml
   index.html
   app.js            # Main Three.js module
   assets/
@@ -890,7 +890,7 @@ apps/my-3d-app.dench.app/
     texture.jpg     # Textures (optional)
 ```
 
-**`.dench.yaml`:**
+**`.animclaw.yaml`:**
 ```yaml
 name: "3D World"
 description: "An interactive 3D experience"
@@ -1004,7 +1004,7 @@ scene.add(cube);
 
 // --- Theme ---
 if (window.dench) {
-  window.dench.app.getTheme().then(theme => {
+  window.animclaw.app.getTheme().then(theme => {
     if (theme === 'light') {
       scene.background = new THREE.Color(0xf0f0f5);
       scene.fog = new THREE.Fog(0xf0f0f5, 50, 200);
@@ -1508,8 +1508,8 @@ document.querySelectorAll('.kanban-column').forEach(col => {
 For complex apps, split code across multiple files:
 
 ```
-apps/complex-app.dench.app/
-  .dench.yaml
+apps/complex-app.animclaw.app/
+  .animclaw.yaml
   index.html
   css/
     main.css
@@ -1544,7 +1544,7 @@ const ui = new UI(game);
 
 async function init() {
   if (window.dench) {
-    const theme = await window.dench.app.getTheme();
+    const theme = await window.animclaw.app.getTheme();
     renderer.setTheme(theme);
   }
   game.start();
@@ -1579,7 +1579,7 @@ Relative imports (`./game.js`) work because all files are served from the same `
 
 ### Referencing Assets
 
-All asset paths are relative to the `.dench.app` folder root:
+All asset paths are relative to the `.animclaw.app` folder root:
 
 ```javascript
 // In p5.js
@@ -1658,7 +1658,7 @@ function createCheckerTexture(size = 256, divisions = 8) {
 
 - **Always use `runtime: "static"`** unless explicitly asked for React/TSX/npm
 - **Request only needed permissions** — no permissions needed for pure games/tools
-- **Keep apps self-contained** — all resources within the `.dench.app` folder
+- **Keep apps self-contained** — all resources within the `.animclaw.app` folder
 - **Use semantic HTML** and responsive design
 - **Handle errors** for all bridge API calls
 - **Apply the theme** as the very first thing on load
@@ -1749,7 +1749,7 @@ function showError(message) {
 async function init() {
   // Apply theme (degrade gracefully if bridge unavailable)
   try {
-    const theme = await window.dench.app.getTheme();
+    const theme = await window.animclaw.app.getTheme();
     document.body.className = theme;
   } catch {
     document.body.className = 'dark';
@@ -1773,7 +1773,7 @@ async function init() {
 
 A complete asteroid-dodge game with scoring, particles, and game states.
 
-**`.dench.yaml`:**
+**`.animclaw.yaml`:**
 ```yaml
 name: "Asteroid Dodge"
 description: "Dodge the falling asteroids! Arrow keys or WASD to move."
@@ -1820,7 +1820,7 @@ function setup() {
   }));
 
   if (window.dench) {
-    window.dench.app.getTheme().catch(() => {});
+    window.animclaw.app.getTheme().catch(() => {});
   }
 }
 
@@ -2036,7 +2036,7 @@ function windowResized() {
 
 ### Example 2: 3D Scene Viewer (Three.js)
 
-**`.dench.yaml`:**
+**`.animclaw.yaml`:**
 ```yaml
 name: "3D Playground"
 description: "Interactive 3D scene with orbit controls"
@@ -2083,7 +2083,7 @@ const scene = new THREE.Scene();
 let bgColor = 0x0f0f1a;
 
 if (window.dench) {
-  window.dench.app.getTheme().then(t => {
+  window.animclaw.app.getTheme().then(t => {
     bgColor = t === 'light' ? 0xf0f0f5 : 0x0f0f1a;
     scene.background = new THREE.Color(bgColor);
     scene.fog = new THREE.Fog(bgColor, 30, 100);
@@ -2178,7 +2178,7 @@ addEventListener('resize', () => {
 
 ### Example 3: Data Dashboard
 
-**`.dench.yaml`:**
+**`.animclaw.yaml`:**
 ```yaml
 name: "Dashboard"
 description: "Workspace overview dashboard"
@@ -2229,7 +2229,7 @@ permissions:
   <script>
     async function init() {
       try {
-        const theme = await window.dench.app.getTheme();
+        const theme = await window.animclaw.app.getTheme();
         document.body.className = theme;
       } catch { document.body.className = 'dark'; }
 
@@ -2325,11 +2325,11 @@ When asked to build an app, follow these steps:
    - 3D game / scene / visualization → **Three.js** (always)
    - Data dashboard → **Chart.js** or **plain HTML/CSS**
    - Interactive tool / form → **plain HTML/CSS/JS**
-3. **Create the app folder**: `apps/<name>.dench.app/`
-4. **Create `.dench.yaml`** with manifest (always include `name`, `entry`, `runtime`)
+3. **Create the app folder**: `apps/<name>.animclaw.app/`
+4. **Create `.animclaw.yaml`** with manifest (always include `name`, `entry`, `runtime`)
 5. **Create `index.html`** as the entry point with CDN script tags
 6. **Create separate JS file(s)** for app logic — avoid massive inline scripts
-7. **Apply theme** via `window.dench.app.getTheme()` on init
+7. **Apply theme** via `window.animclaw.app.getTheme()` on init
 8. **Handle window resizing** (canvas-based apps must call `resizeCanvas` / update renderer)
 9. **Add error handling** for all bridge API calls
-10. **Test the app** opens correctly as a tab in DenchClaw
+10. **Test the app** opens correctly as a tab in AnimClaw

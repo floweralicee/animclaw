@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { DenchAppManifest } from "../../workspace/workspace-content";
 
-/** Build a path-based URL for serving files from a .dench.app folder. */
+/** Build a path-based URL for serving files from a .animclaw.app folder. */
 export function appServeUrl(appPath: string, filePath: string): string {
   return `/api/apps/serve/${appPath}/${filePath}`;
 }
@@ -41,7 +41,7 @@ export function AppViewer({ appPath, manifest }: AppViewerProps) {
   // Set up postMessage bridge listener
   useEffect(() => {
     const handleMessage = async (event: MessageEvent) => {
-      if (!event.data || event.data.type !== "dench:request") return;
+      if (!event.data || event.data.type !== "animclaw:request") return;
 
       const { id, method, params } = event.data;
       const iframe = iframeRef.current;
@@ -78,7 +78,7 @@ export function AppViewer({ appPath, manifest }: AppViewerProps) {
           result = await res.json();
         } else {
           iframe.contentWindow.postMessage({
-            type: "dench:response",
+            type: "animclaw:response",
             id,
             error: `Unknown method or insufficient permissions: ${method}`,
           }, "*");
@@ -86,13 +86,13 @@ export function AppViewer({ appPath, manifest }: AppViewerProps) {
         }
 
         iframe.contentWindow.postMessage({
-          type: "dench:response",
+          type: "animclaw:response",
           id,
           result,
         }, "*");
       } catch (err) {
         iframe.contentWindow?.postMessage({
-          type: "dench:response",
+          type: "animclaw:response",
           id,
           error: err instanceof Error ? err.message : "Unknown error",
         }, "*");

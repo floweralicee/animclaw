@@ -232,7 +232,7 @@ export function resolveProfileStateDir(
 ): string {
   void profile;
   const home = resolveRequiredHomeDir(env, os.homedir);
-  return path.join(home, ".openclaw-dench");
+  return path.join(home, ".openclaw-animclaw");
 }
 
 export function resolveManagedWebRuntimeDir(stateDir: string): string {
@@ -720,7 +720,19 @@ export function installManagedWebRuntime(params: {
 
   mkdirSync(runtimeDir, { recursive: true });
   rmSync(runtimeAppDir, { recursive: true, force: true });
-  cpSync(sourceAppDir, runtimeAppDir, { recursive: true, force: true, dereference: true });
+  cpSync(sourceAppDir, runtimeAppDir, {
+    recursive: true,
+    force: true,
+    dereference: true,
+    filter: (src) => {
+      try {
+        if (lstatSync(src).isSymbolicLink()) return existsSync(src);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+  });
 
   dereferenceRuntimeNodeModules(runtimeAppDir, standaloneDir);
   ensureStaticAssets(runtimeAppDir, params.packageRoot);
@@ -870,7 +882,7 @@ export async function ensureManagedWebRuntime(params: {
       .join(", ");
     return {
       ready: false,
-      reason: `port ${params.port} is owned by non-Dench process(es): ${detail}`,
+      reason: `port ${params.port} is owned by non-AnimClaw process(es): ${detail}`,
     };
   }
 

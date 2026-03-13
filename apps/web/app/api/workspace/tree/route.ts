@@ -106,18 +106,18 @@ async function resolveEntryType(
   return null;
 }
 
-/** Read .dench.yaml manifest from a .dench.app directory. */
+/** Read .animclaw.yaml manifest from a .animclaw.app directory. */
 async function readAppManifest(
   dirPath: string,
 ): Promise<TreeNode["appManifest"] | null> {
-  const yamlPath = join(dirPath, ".dench.yaml");
+  const yamlPath = join(dirPath, ".animclaw.yaml");
   if (!await pathExists(yamlPath)) return null;
 
   try {
     const content = await readFile(yamlPath, "utf-8");
     const parsed = parseSimpleYaml(content);
     return {
-      name: (parsed.name as string) || dirPath.split("/").pop()?.replace(/\.dench\.app$/, "") || "App",
+      name: (parsed.name as string) || dirPath.split("/").pop()?.replace(/\.animclaw\.app$/, "") || "App",
       description: parsed.description as string | undefined,
       icon: parsed.icon as string | undefined,
       version: parsed.version as string | undefined,
@@ -177,10 +177,10 @@ async function buildTree(
     const isSymlink = entry.isSymbolicLink();
 
     if (effectiveType === "directory") {
-      // Detect .dench.app folders -- treat as app nodes (no children exposed)
-      if (entry.name.endsWith(".dench.app")) {
+      // Detect .animclaw.app folders -- treat as app nodes (no children exposed)
+      if (entry.name.endsWith(".animclaw.app")) {
         const manifest = await readAppManifest(absPath);
-        const displayName = manifest?.name || entry.name.replace(/\.dench\.app$/, "");
+        const displayName = manifest?.name || entry.name.replace(/\.animclaw\.app$/, "");
         nodes.push({
           name: displayName,
           path: relPath,

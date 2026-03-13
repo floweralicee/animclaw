@@ -10,7 +10,7 @@ import {
   type StartManagedWebRuntimeResult,
 } from "./web-runtime.js";
 
-const LAUNCH_AGENT_LABEL = "ai.denchclaw.web-runtime";
+const LAUNCH_AGENT_LABEL = "ai.animclaw.web-runtime";
 
 export function resolveLaunchAgentPlistPath(): string {
   return path.join(

@@ -12,7 +12,7 @@ import {
 function createTempDir(): string {
   const dir = path.join(
     os.tmpdir(),
-    `denchclaw-seed-test-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    `animclaw-seed-test-${Date.now()}-${Math.random().toString(36).slice(2)}`,
   );
   mkdirSync(dir, { recursive: true });
   return dir;
@@ -68,19 +68,19 @@ describe("seedWorkspaceFromAssets", () => {
     expect(existsSync(identityPath)).toBe(true);
 
     const identityContent = readFileSync(identityPath, "utf-8");
-    expect(identityContent).toContain("DenchClaw");
+    expect(identityContent).toContain("AnimClaw");
     expect(identityContent).toContain(path.join(workspaceDir, "skills", "crm", "SKILL.md"));
     expect(identityContent).not.toContain("~skills/crm/SKILL.md");
   });
 
-  it("IDENTITY.md references DenchClaw system prompt contract", () => {
+  it("IDENTITY.md references AnimClaw system prompt contract", () => {
     const packageRoot = createPackageRoot(tempDir);
     const workspaceDir = path.join(tempDir, "workspace-contract");
 
     seedWorkspaceFromAssets({ workspaceDir, packageRoot });
 
     const identityContent = readFileSync(path.join(workspaceDir, "IDENTITY.md"), "utf-8");
-    expect(identityContent).toContain("DenchClaw system prompt contract");
+    expect(identityContent).toContain("AnimClaw system prompt contract");
   });
 
   it("creates CRM object projection files on first seed", () => {
@@ -120,7 +120,7 @@ describe("seedWorkspaceFromAssets", () => {
     seedWorkspaceFromAssets({ workspaceDir, packageRoot });
 
     const identityContent = readFileSync(path.join(workspaceDir, "IDENTITY.md"), "utf-8");
-    expect(identityContent).toContain("DenchClaw");
+    expect(identityContent).toContain("AnimClaw");
     expect(identityContent).not.toContain("# stale identity");
   });
 
@@ -166,7 +166,7 @@ describe("syncManagedSkills", () => {
 
     const identityPath = path.join(workspaceDir, "IDENTITY.md");
     expect(existsSync(identityPath)).toBe(true);
-    expect(readFileSync(identityPath, "utf-8")).toContain("DenchClaw");
+    expect(readFileSync(identityPath, "utf-8")).toContain("AnimClaw");
   });
 
   it("overwrites stale skills with updated content", () => {
@@ -202,7 +202,7 @@ describe("syncManagedSkills", () => {
     expect(result.workspaceDirs).toEqual([wsA, wsB]);
     for (const ws of [wsA, wsB]) {
       expect(existsSync(path.join(ws, "skills", "crm", "SKILL.md"))).toBe(true);
-      expect(readFileSync(path.join(ws, "IDENTITY.md"), "utf-8")).toContain("DenchClaw");
+      expect(readFileSync(path.join(ws, "IDENTITY.md"), "utf-8")).toContain("AnimClaw");
     }
   });
 });

@@ -50,7 +50,7 @@ import { join } from "node:path";
 
 describe("workspace-scoped chat session isolation", () => {
   const originalEnv = { ...process.env };
-  const STATE_DIR = "/home/testuser/.openclaw-dench";
+  const STATE_DIR = "/home/testuser/.openclaw-animclaw";
 
   const workspaceDir = (name: string) =>
     name === "default"

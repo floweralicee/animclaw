@@ -375,7 +375,7 @@ export function emitTrace(
 }
 
 /**
- * Emit a custom DenchClaw event (not a PostHog $ai_* event).
+ * Emit a custom AnimClaw event (not a PostHog $ai_* event).
  */
 export function emitCustomEvent(
   ph: PostHogClient,

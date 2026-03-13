@@ -15,7 +15,7 @@ import "@xterm/xterm/css/xterm.css";
 const MIN_DRAWER_HEIGHT = 180;
 const MAX_DRAWER_HEIGHT_RATIO = 0.75;
 const DEFAULT_DRAWER_HEIGHT = 280;
-const STORAGE_KEY = "dench-terminal-height";
+const STORAGE_KEY = "animclaw-terminal-height";
 const DEFAULT_WS_PORT = 3101;
 const MAX_TERMINALS = 8;
 
