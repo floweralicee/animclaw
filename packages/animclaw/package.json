@@ -1,6 +1,6 @@
 {
   "name": "animclaw",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "description": "Shorthand alias for animclaw — AI-powered CRM platform CLI",
   "license": "MIT",
   "repository": {
@@ -16,7 +16,7 @@
   ],
   "type": "module",
   "dependencies": {
-    "animclaw": "^2.2.3"
+    "animclaw": "^2.2.5"
   },
   "engines": {
     "node": ">=22.12.0"

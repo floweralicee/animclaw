@@ -91,8 +91,8 @@ function mediaTypeLabel(mediaType: MediaType): string {
 
 function mediaTypeColor(mediaType: MediaType): string {
   switch (mediaType) {
-    case "image": return "#60a5fa";
-    case "video": return "#c084fc";
+    case "image": return "var(--color-file-image)";
+    case "video": return "var(--color-file-video)";
     case "audio": return "#f59e0b";
     case "pdf": return "#ef4444";
   }

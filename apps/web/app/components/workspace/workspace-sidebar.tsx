@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
+import { HanaLogo } from "../hana-logo";
 import { FileManagerTree, type TreeNode } from "./file-manager-tree";
 import { ProfileSwitcher } from "./profile-switcher";
 import { CreateWorkspaceDialog } from "./create-workspace-dialog";
@@ -53,24 +54,6 @@ type WorkspaceSidebarProps = {
   /** Called after workspace switches or workspace creation so parent can refresh state. */
   onWorkspaceChanged?: () => void;
 };
-
-function HomeIcon() {
-	return (
-		<svg
-			width="16"
-			height="16"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		>
-			<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-			<polyline points="9 22 9 12 15 12 15 22" />
-		</svg>
-	);
-}
 
 function FolderOpenIcon() {
 	return (
@@ -470,7 +453,7 @@ export function WorkspaceSidebar({
 								style={{ color: "var(--color-text-muted)" }}
 								title="Return to workspace"
 							>
-								<HomeIcon />
+								<HanaLogo size={16} animated={true} />
 							</button>
 						)}
 					</>
@@ -486,10 +469,7 @@ export function WorkspaceSidebar({
 							}}
 							title="All Chats"
 						>
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-								<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-								<polyline points="9 22 9 12 15 12 15 22" />
-							</svg>
+							<HanaLogo size={20} animated={true} />
 						</button>
 						<div className="flex-1 min-w-0 px-1.5">
 							<div className="text-[13px] font-semibold truncate text-stone-700 dark:text-stone-200">

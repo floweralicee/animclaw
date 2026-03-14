@@ -29,9 +29,7 @@ describe("argv helpers", () => {
   it("parses positive integer flags and rejects invalid numeric values", () => {
     expect(getPositiveIntFlagValue(["node", "animclaw", "--port", "19001"], "--port")).toBe(19001);
     expect(getPositiveIntFlagValue(["node", "animclaw", "--port", "0"], "--port")).toBeUndefined();
-    expect(
-      getPositiveIntFlagValue(["node", "animclaw", "--port", "-1"], "--port"),
-    ).toBeUndefined();
+    expect(getPositiveIntFlagValue(["node", "animclaw", "--port", "-1"], "--port")).toBeUndefined();
     expect(
       getPositiveIntFlagValue(["node", "animclaw", "--port", "abc"], "--port"),
     ).toBeUndefined();

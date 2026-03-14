@@ -203,7 +203,7 @@ export function ReportCard({ config }: ReportCardProps) {
         style={{ borderColor: "var(--color-border)" }}
       >
         <div className="flex items-center gap-2 min-w-0">
-          <span style={{ color: "#22c55e" }}>
+          <span style={{ color: "var(--color-success)" }}>
             <ChartBarIcon />
           </span>
           <span
@@ -215,8 +215,8 @@ export function ReportCard({ config }: ReportCardProps) {
           <span
             className="text-[10px] px-1.5 py-0.5 rounded-full flex-shrink-0"
             style={{
-              background: "rgba(34, 197, 94, 0.1)",
-              color: "#22c55e",
+              background: "var(--diff-add-bg)",
+              color: "var(--color-success)",
             }}
           >
             {config.panels.length} chart{config.panels.length !== 1 ? "s" : ""}
@@ -254,7 +254,7 @@ export function ReportCard({ config }: ReportCardProps) {
           ) : (
             <span
               className="flex items-center gap-1 text-[10px] px-2 py-1 rounded-md"
-              style={{ color: "#22c55e", background: "rgba(34, 197, 94, 0.1)" }}
+              style={{ color: "var(--color-success)", background: "var(--diff-add-bg)" }}
             >
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
@@ -385,7 +385,7 @@ function CompactPanelCard({
           </div>
         ) : data?.error ? (
           <div className="flex items-center justify-center" style={{ height: 200 }}>
-            <p className="text-[10px]" style={{ color: "#f87171" }}>
+            <p className="text-[10px]" style={{ color: "var(--color-error)" }}>
               {data.error}
             </p>
           </div>
@@ -445,12 +445,12 @@ function ExpandedPanelCard({
           </div>
         ) : data?.error ? (
           <div className="flex flex-col items-center justify-center gap-1.5" style={{ height: 280 }}>
-            <p className="text-[10px]" style={{ color: "#f87171" }}>
+            <p className="text-[10px]" style={{ color: "var(--color-error)" }}>
               Query error
             </p>
             <p
               className="text-[10px] px-2 py-1 rounded max-w-xs text-center"
-              style={{ background: "rgba(248, 113, 113, 0.1)", color: "#f87171" }}
+              style={{ background: "var(--diff-del-bg)", color: "var(--color-error)" }}
             >
               {data.error}
             </p>

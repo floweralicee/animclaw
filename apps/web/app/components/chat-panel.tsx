@@ -13,9 +13,7 @@ import {
 } from "react";
 import { motion, LayoutGroup } from "framer-motion";
 import {
-	Mail, Users, DollarSign, Calendar, Zap, FileText, Database,
-	Code, Bug, Clock, BarChart3, PenTool, Globe, Search, Sparkles,
-	FolderOpen, Table, BrainCircuit, MessageSquare, Workflow,
+	Zap, Workflow, Award, Camera, Clapperboard,
 } from "lucide-react";
 import { ChatMessage } from "./chat-message";
 import {
@@ -35,124 +33,34 @@ import { UnicodeSpinner } from "./unicode-spinner";
 
 const PROMPT_SUGGESTIONS = [
 	{
-		id: "email-draft",
-		label: "Draft an Email",
-		icon: Mail,
-		prompt: "Draft a professional follow-up email to a client after our initial meeting, thanking them and summarizing the next steps we discussed",
+		id: "festival-submission",
+		label: "Festival Submission Pack",
+		icon: Award,
+		prompt: "Prepare my film festival submission materials, including synopsis, logline, bio, director statement, and short social copy.",
 	},
 	{
-		id: "enrich-contacts",
-		label: "Enrich Leads",
-		icon: Users,
-		prompt: "When a new contact is added to my CRM, find their LinkedIn profile and company details and update the record",
+		id: "break-down-script",
+		label: "Break Down Script",
+		icon: Clapperboard,
+		prompt: "Break this script into scenes, locations, characters, props, visual beats, and production needs.",
 	},
 	{
-		id: "invoice-reminder",
-		label: "Invoice Reminder",
-		icon: DollarSign,
-		prompt: "Draft a friendly payment reminder email for an invoice that is 7 days overdue, including the invoice number and amount",
+		id: "build-shot-list",
+		label: "Build Shot List",
+		icon: Camera,
+		prompt: "Turn this script or scene into a shot list with shot size, camera angle, action, emotion, purpose, and generation-ready prompt fields.",
 	},
 	{
-		id: "schedule-report",
-		label: "Weekly Report",
-		icon: Calendar,
-		prompt: "Set up a cron job that runs every Friday at 4pm to compile a summary of all completed tasks this week and email it to the team",
-	},
-	{
-		id: "auto-tasks",
-		label: "Auto Tasks",
-		icon: Zap,
-		prompt: "Create a workflow that automatically creates a task whenever someone mentions me in an email with a request or action item",
-	},
-	{
-		id: "summarize-docs",
-		label: "Summarize Docs",
-		icon: FileText,
-		prompt: "Read through all the documents in my workspace and create a concise summary of the key information across all files",
-	},
-	{
-		id: "query-data",
-		label: "Query Database",
-		icon: Database,
-		prompt: "Connect to my database and show me the top 10 customers by revenue this quarter, including their contact details",
-	},
-	{
-		id: "code-review",
-		label: "Review Code",
-		icon: Code,
-		prompt: "Review the code in my workspace for potential bugs, security issues, and performance improvements. Prioritize critical findings",
-	},
-	{
-		id: "debug-error",
-		label: "Debug Error",
-		icon: Bug,
-		prompt: "Help me debug this error I'm seeing in production. Walk me through the likely causes and how to fix each one",
-	},
-	{
-		id: "daily-digest",
-		label: "Daily Digest",
-		icon: Clock,
-		prompt: "Set up a daily digest that runs every morning at 9am summarizing my unread emails, calendar events, and pending tasks",
-	},
-	{
-		id: "analyze-csv",
-		label: "Analyze Data",
-		icon: BarChart3,
-		prompt: "Analyze the CSV file in my workspace — find trends, outliers, and generate a visual report with key insights",
-	},
-	{
-		id: "write-content",
-		label: "Write Content",
-		icon: PenTool,
-		prompt: "Write a compelling blog post about how AI automation is transforming small business operations in 2026",
-	},
-	{
-		id: "web-research",
-		label: "Web Research",
-		icon: Globe,
-		prompt: "Research the top 5 competitors in my industry and create a comparison table with their pricing, features, and market position",
-	},
-	{
-		id: "search-files",
-		label: "Search Files",
-		icon: Search,
-		prompt: "Search through all files in my workspace and find every mention of customer feedback, complaints, or feature requests",
-	},
-	{
-		id: "brainstorm",
-		label: "Brainstorm Ideas",
-		icon: Sparkles,
-		prompt: "Help me brainstorm 10 creative marketing campaign ideas for launching a new product to our existing customer base",
-	},
-	{
-		id: "organize-files",
-		label: "Organize Files",
-		icon: FolderOpen,
-		prompt: "Look at all the files in my workspace and suggest a better folder structure. Then reorganize them for me",
-	},
-	{
-		id: "create-spreadsheet",
-		label: "Build Spreadsheet",
-		icon: Table,
-		prompt: "Create a project tracking spreadsheet with columns for task name, assignee, status, priority, due date, and notes",
-	},
-	{
-		id: "ai-strategy",
-		label: "AI Strategy",
-		icon: BrainCircuit,
-		prompt: "Help me create an AI adoption strategy for my team — which tasks should we automate first for the biggest impact?",
-	},
-	{
-		id: "meeting-prep",
-		label: "Meeting Prep",
-		icon: MessageSquare,
-		prompt: "Prepare a briefing document for my upcoming client meeting. Include their recent activity, open issues, and talking points",
-	},
-	{
-		id: "build-workflow",
-		label: "Build Workflow",
+		id: "plan-pipeline",
+		label: "Plan My Pipeline",
 		icon: Workflow,
-		prompt: "Design an automated onboarding workflow for new clients — from welcome email to document collection to account setup",
+		prompt: "Map out the best production pipeline for my project based on its format, team size, budget, and timeline. Show me what should happen in pre-production, production, and post.",
+	},
+	{
+		id: "automate-production",
+		label: "Automate My Production",
+		icon: Zap,
+		prompt: "Find the repetitive tasks in my production process and suggest automations for them. Focus on shot tracking, file organization, review reminders, approvals, and handoffs.",
 	},
 ];
 
@@ -904,8 +812,7 @@ export const ChatPanel = forwardRef<ChatPanelHandle, ChatPanelProps>(
 		}, []);
 
 		useEffect(() => {
-			const shuffled = [...PROMPT_SUGGESTIONS].sort(() => 0.5 - Math.random());
-			setVisiblePrompts(shuffled.slice(0, 7));
+			setVisiblePrompts(PROMPT_SUGGESTIONS);
 		}, []);
 
 		const handlePromptClick = useCallback((promptId: string) => {
@@ -2420,48 +2327,48 @@ export const ChatPanel = forwardRef<ChatPanelHandle, ChatPanelProps>(
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
 							>
-								<div className="flex items-center justify-center gap-2 flex-wrap">
-									{visiblePrompts.slice(0, 3).map((template) => {
-										const Icon = template.icon;
-										return (
-											<button
-												key={template.id}
-												type="button"
-												onClick={() => handlePromptClick(template.id)}
-												className="group flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap rounded-xl transition-all duration-200 border"
-												style={{
-													background: "var(--color-surface)",
-													borderColor: "var(--color-border)",
-													color: "var(--color-text-secondary)",
-												}}
-											>
-												<Icon className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity duration-200" />
-												{template.label}
-											</button>
-										);
-									})}
-								</div>
-								<div className="flex items-center justify-center gap-2 flex-wrap">
-									{visiblePrompts.slice(3, 7).map((template) => {
-										const Icon = template.icon;
-										return (
-											<button
-												key={template.id}
-												type="button"
-												onClick={() => handlePromptClick(template.id)}
-												className="group flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap rounded-xl transition-all duration-200 border"
-												style={{
-													background: "var(--color-surface)",
-													borderColor: "var(--color-border)",
-													color: "var(--color-text-secondary)",
-												}}
-											>
-												<Icon className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity duration-200" />
-												{template.label}
-											</button>
-										);
-									})}
-								</div>
+							<div className="flex items-center justify-center gap-2 flex-wrap">
+								{visiblePrompts.slice(0, 3).map((template) => {
+									const Icon = template.icon;
+									return (
+										<button
+											key={template.id}
+											type="button"
+											onClick={() => handlePromptClick(template.id)}
+											className="group flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap rounded-xl transition-all duration-200 border"
+											style={{
+												background: "var(--color-surface)",
+												borderColor: "var(--color-border)",
+												color: "var(--color-text-secondary)",
+											}}
+										>
+											<Icon className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity duration-200" />
+											{template.label}
+										</button>
+									);
+								})}
+							</div>
+							<div className="flex items-center justify-center gap-2 flex-wrap">
+								{visiblePrompts.slice(3).map((template) => {
+									const Icon = template.icon;
+									return (
+										<button
+											key={template.id}
+											type="button"
+											onClick={() => handlePromptClick(template.id)}
+											className="group flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium whitespace-nowrap rounded-xl transition-all duration-200 border"
+											style={{
+												background: "var(--color-surface)",
+												borderColor: "var(--color-border)",
+												color: "var(--color-text-secondary)",
+											}}
+										>
+											<Icon className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 transition-opacity duration-200" />
+											{template.label}
+										</button>
+									);
+								})}
+							</div>
 							</motion.div>
 						</div>
 					) : messages.length === 0 ? (

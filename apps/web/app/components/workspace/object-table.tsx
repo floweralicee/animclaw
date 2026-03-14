@@ -123,7 +123,7 @@ function resolveEntryMetaValue(
 
 function EnumBadge({ value, enumValues, enumColors }: { value: string; enumValues?: string[]; enumColors?: string[] }) {
 	const idx = enumValues?.indexOf(value) ?? -1;
-	const color = idx >= 0 && enumColors ? enumColors[idx] : "#94a3b8";
+	const color = idx >= 0 && enumColors ? enumColors[idx] : "var(--color-enum-default)";
 	return (
 		<span
 			className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium"
@@ -195,7 +195,7 @@ function RelationCell({
 function TagChip({ tag }: { tag: string }) {
 	const formatted = formatWorkspaceFieldValue(tag);
 	const isLink = formatted.kind === "link" && formatted.href;
-	const chipStyle = { background: "rgba(148, 163, 184, 0.12)", border: "1px solid var(--color-border)" };
+	const chipStyle = { background: "var(--color-chip-muted-bg)", border: "1px solid var(--color-border)" };
 	if (isLink) {
 		return (
 			<a
@@ -267,7 +267,7 @@ function TagsInput({
 				<span
 					key={tag}
 					className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-xs font-medium"
-					style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}
+					style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}
 				>
 					{tag}
 					<button
@@ -830,7 +830,7 @@ export function ObjectTable({
 			type="button"
 			onClick={() => void handleBulkDelete()}
 			className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium"
-			style={{ background: "rgba(220, 38, 38, 0.08)", color: "var(--color-error)", border: "1px solid rgba(220, 38, 38, 0.2)" }}
+			style={{ background: "var(--diff-del-bg)", color: "var(--color-error)", border: "1px solid var(--diff-del-border)" }}
 		>
 			<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg>
 			Delete

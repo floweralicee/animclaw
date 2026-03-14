@@ -32,17 +32,10 @@ import type { PanelConfig } from "./types";
 
 // --- Color palette derived from CSS variables + accessible defaults ---
 
+/* Catppuccin Mocha hex values for Recharts (CSS vars may not resolve in SVG) */
 const CHART_PALETTE = [
-  "#2563eb", // accent
-  "#60a5fa", // blue
-  "#22c55e", // green
-  "#f59e0b", // amber
-  "#c084fc", // purple
-  "#fb923c", // orange
-  "#14b8a6", // teal
-  "#f43f5e", // rose
-  "#a78bfa", // violet
-  "#38bdf8", // sky
+  "#89b4fa", "#89dceb", "#a6e3a1", "#fab387", "#cba6f7",
+  "#f9e2af", "#94e2d5", "#f38ba8", "#b4befe", "#74c7ec",
 ];
 
 type ChartPanelProps = {

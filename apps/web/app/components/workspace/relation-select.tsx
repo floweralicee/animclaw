@@ -159,7 +159,7 @@ export function RelationSelect({
 							className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium"
 							style={{
 								background: "rgba(96, 165, 250, 0.1)",
-								color: "#60a5fa",
+								color: "var(--color-link)",
 								border: "1px solid rgba(96, 165, 250, 0.2)",
 							}}
 						>
@@ -168,7 +168,7 @@ export function RelationSelect({
 								type="button"
 								onClick={(e) => { e.stopPropagation(); removeId(id); }}
 								className="ml-0.5 hover:opacity-70"
-								style={{ color: "#60a5fa" }}
+								style={{ color: "var(--color-link)" }}
 							>
 								<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
 									<path d="M18 6 6 18" /><path d="m6 6 12 12" />

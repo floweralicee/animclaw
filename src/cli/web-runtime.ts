@@ -493,10 +493,7 @@ export function readLastKnownWebPort(stateDir: string): number {
  *    falling back to the standalone root node_modules/ when the original
  *    target is missing (e.g. .pnpm/ was removed by a prior flatten).
  */
-function dereferenceRuntimeNodeModules(
-  runtimeAppDir: string,
-  standaloneDir: string,
-): void {
+function dereferenceRuntimeNodeModules(runtimeAppDir: string, standaloneDir: string): void {
   const nmDir = path.join(runtimeAppDir, "node_modules");
   mkdirSync(nmDir, { recursive: true });
 
@@ -576,11 +573,7 @@ function resolveRemainingSymlinks(nmDir: string, rootNm: string): void {
   }
 }
 
-function resolveScopeSymlinks(
-  scopeDir: string,
-  scopeName: string,
-  rootNm: string,
-): void {
+function resolveScopeSymlinks(scopeDir: string, scopeName: string, rootNm: string): void {
   let scopeEntries: string[];
   try {
     scopeEntries = readdirSync(scopeDir);
@@ -598,11 +591,7 @@ function resolveScopeSymlinks(
   }
 }
 
-function resolveSymlinkedPackage(
-  linkPath: string,
-  packageName: string,
-  rootNm: string,
-): void {
+function resolveSymlinkedPackage(linkPath: string, packageName: string, rootNm: string): void {
   try {
     const target = readlinkSync(linkPath);
     const resolved = path.isAbsolute(target)
@@ -645,14 +634,8 @@ function resolveSymlinkedPackage(
  */
 function ensureSeedAssets(runtimeAppDir: string, packageRoot: string): void {
   const pairs: Array<[src: string, dst: string]> = [
-    [
-      path.join(packageRoot, "assets", "seed"),
-      path.join(runtimeAppDir, "assets", "seed"),
-    ],
-    [
-      path.join(packageRoot, "skills"),
-      path.join(runtimeAppDir, "skills"),
-    ],
+    [path.join(packageRoot, "assets", "seed"), path.join(runtimeAppDir, "assets", "seed")],
+    [path.join(packageRoot, "skills"), path.join(runtimeAppDir, "skills")],
   ];
   for (const [src, dst] of pairs) {
     if (!existsSync(src)) continue;
@@ -677,10 +660,7 @@ function ensureStaticAssets(runtimeAppDir: string, packageRoot: string): void {
       path.join(packageRoot, "apps", "web", ".next", "static"),
       path.join(runtimeAppDir, ".next", "static"),
     ],
-    [
-      path.join(packageRoot, "apps", "web", "public"),
-      path.join(runtimeAppDir, "public"),
-    ],
+    [path.join(packageRoot, "apps", "web", "public"), path.join(runtimeAppDir, "public")],
   ];
   for (const [src, dst] of pairs) {
     if (existsSync(dst) || !existsSync(src)) continue;

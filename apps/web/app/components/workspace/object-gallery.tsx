@@ -58,7 +58,7 @@ function getEnumBadge(
 ): { text: string; color: string } | null {
 	if (!val || !field.enum_values) {return null;}
 	const idx = field.enum_values.indexOf(val);
-	const color = idx >= 0 && field.enum_colors?.[idx] ? field.enum_colors[idx] : "#94a3b8";
+	const color = idx >= 0 && field.enum_colors?.[idx] ? field.enum_colors[idx] : "var(--color-enum-default)";
 	return { text: val, color };
 }
 
@@ -143,9 +143,9 @@ function GalleryCard({
 											const fmt = formatWorkspaceFieldValue(tag);
 											const isLink = fmt.kind === "link" && fmt.href;
 											return isLink ? (
-												<a key={tag} href={fmt.href!} target={fmt.linkType === "url" || fmt.linkType === "file" ? "_blank" : undefined} rel={fmt.linkType === "url" || fmt.linkType === "file" ? "noopener noreferrer" : undefined} onClick={(e) => e.stopPropagation()} className="inline-flex items-center px-1.5 py-0 rounded text-[11px] font-medium hover:underline underline-offset-2" style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-accent)" }}>{fmt.text}</a>
+												<a key={tag} href={fmt.href!} target={fmt.linkType === "url" || fmt.linkType === "file" ? "_blank" : undefined} rel={fmt.linkType === "url" || fmt.linkType === "file" ? "noopener noreferrer" : undefined} onClick={(e) => e.stopPropagation()} className="inline-flex items-center px-1.5 py-0 rounded text-[11px] font-medium hover:underline underline-offset-2" style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-accent)" }}>{fmt.text}</a>
 											) : (
-												<span key={tag} className="inline-flex items-center px-1.5 py-0 rounded text-[11px] font-medium" style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-text-muted)" }}>{tag}</span>
+												<span key={tag} className="inline-flex items-center px-1.5 py-0 rounded text-[11px] font-medium" style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-text-muted)" }}>{tag}</span>
 											);
 										})}
 										{tags.length > 3 && <span className="text-[10px]" style={{ color: "var(--color-text-muted)" }}>+{tags.length - 3}</span>}

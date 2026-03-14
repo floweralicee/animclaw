@@ -9,7 +9,10 @@ export function registerBootstrapCommand(program: Command) {
   program
     .command("bootstrap")
     .description("Bootstrap AnimClaw on top of OpenClaw and open the web UI")
-    .option("--profile <name>", "Compatibility flag; non-animclaw values are ignored with a warning")
+    .option(
+      "--profile <name>",
+      "Compatibility flag; non-animclaw values are ignored with a warning",
+    )
     .option("--force-onboard", "Run onboarding even if config already exists", false)
     .option("--non-interactive", "Skip prompts where possible", false)
     .option("--yes", "Auto-approve install prompts", false)

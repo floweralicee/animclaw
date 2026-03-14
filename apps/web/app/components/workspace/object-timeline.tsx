@@ -67,9 +67,10 @@ const SIDEBAR_WIDTH = 200;
 const BAR_HEIGHT = 28;
 const HANDLE_WIDTH = 8;
 
+/* Catppuccin Mocha hex values for timeline bars */
 const PALETTE = [
-	"#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6",
-	"#06b6d4", "#ec4899", "#14b8a6", "#f97316", "#6366f1",
+	"#89b4fa", "#a6e3a1", "#fab387", "#f38ba8", "#cba6f7",
+	"#94e2d5", "#f5c2e7", "#89dceb", "#f9e2af", "#b4befe",
 ];
 
 // ---------------------------------------------------------------------------

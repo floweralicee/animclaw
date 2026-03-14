@@ -746,7 +746,13 @@ describe("bootstrapCommand always-onboard behavior", () => {
     expect(workspaceConfigSetCalls.length).toBeGreaterThan(0);
     const lastArgs = workspaceConfigSetCalls.at(-1)?.args ?? [];
     expect(lastArgs).toEqual(
-      expect.arrayContaining(["--profile", "animclaw", "config", "set", "agents.defaults.workspace"]),
+      expect.arrayContaining([
+        "--profile",
+        "animclaw",
+        "config",
+        "set",
+        "agents.defaults.workspace",
+      ]),
     );
     const configuredWorkspace = lastArgs.at(-1) ?? "";
     expect(configuredWorkspace).toContain(path.join(".openclaw-animclaw", "workspace"));
@@ -1129,8 +1135,7 @@ describe("bootstrapCommand always-onboard behavior", () => {
 
     const npmGlobalCalls = spawnCalls.filter(
       (call) =>
-        call.command === "npm" &&
-        (call.args.includes("-g") || call.args.includes("--global")),
+        call.command === "npm" && (call.args.includes("-g") || call.args.includes("--global")),
     );
 
     expect(npmGlobalCalls.length).toBeGreaterThan(0);

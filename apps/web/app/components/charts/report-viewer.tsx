@@ -224,7 +224,7 @@ export function ReportViewer({ config: propConfig, reportPath }: ReportViewerPro
         </p>
         <p
           className="text-xs px-3 py-2 rounded-lg max-w-md text-center"
-          style={{ background: "var(--color-surface)", color: "#f87171" }}
+          style={{ background: "var(--color-surface)", color: "var(--color-error)" }}
         >
           {configError}
         </p>
@@ -388,12 +388,12 @@ function PanelCard({
             className="flex flex-col items-center justify-center gap-2"
             style={{ height: 320 }}
           >
-            <p className="text-xs" style={{ color: "#f87171" }}>
+            <p className="text-xs" style={{ color: "var(--color-error)" }}>
               Query error
             </p>
             <p
               className="text-[10px] px-2 py-1 rounded max-w-xs text-center"
-              style={{ background: "rgba(248, 113, 113, 0.1)", color: "#f87171" }}
+              style={{ background: "var(--diff-del-bg)", color: "var(--color-error)" }}
             >
               {data.error}
             </p>

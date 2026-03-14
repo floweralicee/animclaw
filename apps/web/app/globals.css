@@ -1,143 +1,254 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Theme System — Light (default) & Dark (.dark)
+   Theme System — Catppuccin Latte (light) & Mocha (dark)
+   https://github.com/catppuccin/catppuccin
    ============================================================ */
 
 :root {
+  /* Catppuccin Latte palette */
+  --ctp-rosewater: #dc8a78;
+  --ctp-flamingo: #dd7878;
+  --ctp-pink: #ea76cb;
+  --ctp-mauve: #8839ef;
+  --ctp-red: #d20f39;
+  --ctp-maroon: #e64553;
+  --ctp-peach: #fe640b;
+  --ctp-yellow: #df8e1d;
+  --ctp-green: #40a02b;
+  --ctp-teal: #179299;
+  --ctp-sky: #04a5e5;
+  --ctp-sapphire: #209fb5;
+  --ctp-blue: #1e66f5;
+  --ctp-lavender: #7287fd;
+  --ctp-text: #4c4f69;
+  --ctp-subtext1: #5c5f77;
+  --ctp-subtext0: #6c6f85;
+  --ctp-overlay2: #7c7f93;
+  --ctp-overlay1: #8c8fa1;
+  --ctp-overlay0: #9ca0b0;
+  --ctp-surface2: #acb0be;
+  --ctp-surface1: #bcc0cc;
+  --ctp-surface0: #ccd0da;
+  --ctp-base: #eff1f5;
+  --ctp-mantle: #e6e9ef;
+  --ctp-crust: #dce0e8;
+
   /* Background / Surface */
-  --color-bg: #f5f5f4;
-  --color-surface: #ffffff;
-  --color-sidebar-bg: #ffffff;
-  --color-main-bg: rgba(250, 250, 249, 0.5);
-  --color-surface-hover: #f5f4f1;
-  --color-surface-raised: #ffffff;
+  --color-bg: var(--ctp-base);
+  --color-surface: var(--ctp-mantle);
+  --color-sidebar-bg: var(--ctp-crust);
+  --color-main-bg: var(--ctp-base);
+  --color-surface-hover: var(--ctp-surface1);
+  --color-surface-raised: var(--ctp-surface0);
 
   /* Borders */
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-border-strong: rgba(0, 0, 0, 0.14);
+  --color-border: rgba(76, 79, 105, 0.12);
+  --color-border-strong: rgba(76, 79, 105, 0.2);
 
   /* Text */
-  --color-text: #1c1c1a;
-  --color-text-secondary: #44443e;
-  --color-text-muted: #8a8a82;
+  --color-text: var(--ctp-text);
+  --color-text-secondary: var(--ctp-subtext1);
+  --color-text-muted: var(--ctp-subtext0);
 
   /* Accent (blue) */
-  --color-accent: rgba(37, 99, 235, 0.9);
-  --color-accent-hover: #1d4ed8;
-  --color-accent-light: rgba(37, 99, 235, 0.08);
+  --color-accent: var(--ctp-blue);
+  --color-accent-hover: var(--ctp-sapphire);
+  --color-accent-light: rgba(30, 102, 245, 0.1);
 
   /* Chat */
-  --color-user-bubble: #eae8e4;
-  --color-user-bubble-text: #1c1c1a;
-  --color-chat-input-bg: rgba(255, 255, 255, 0.8);
-  /* Chat sidebar (right) — stone-style selected/active, light theme */
-  --color-chat-sidebar-active-bg: #f5f5f4;
-  --color-chat-sidebar-active-text: #44403c;
-  --color-chat-sidebar-muted: #57534e;
+  --color-user-bubble: var(--ctp-surface0);
+  --color-user-bubble-text: var(--ctp-text);
+  --color-chat-input-bg: rgba(230, 233, 239, 0.9);
+  --color-chat-sidebar-active-bg: var(--ctp-surface1);
+  --color-chat-sidebar-active-text: var(--ctp-text);
+  --color-chat-sidebar-muted: var(--ctp-subtext0);
 
   /* Semantic */
-  --color-success: #16a34a;
-  --color-warning: #d97706;
-  --color-error: #dc2626;
-  --color-info: #2563eb;
+  --color-success: var(--ctp-green);
+  --color-warning: var(--ctp-yellow);
+  --color-error: var(--ctp-red);
+  --color-info: var(--ctp-blue);
 
   /* Glassmorphism */
-  --color-glass: rgba(255, 255, 255, 0.72);
-  --color-glass-border: rgba(255, 255, 255, 0.85);
-  --color-bg-glass: rgba(250, 250, 249, 0.8);
+  --color-glass: rgba(239, 241, 245, 0.8);
+  --color-glass-border: rgba(220, 224, 232, 0.9);
+  --color-bg-glass: rgba(239, 241, 245, 0.9);
 
   /* Object type chips */
-  --color-chip-object: rgba(37, 99, 235, 0.08);
-  --color-chip-object-text: #2563eb;
-  --color-chip-document: rgba(96, 165, 250, 0.08);
-  --color-chip-document-text: #3b82f6;
-  --color-chip-database: rgba(147, 51, 234, 0.08);
-  --color-chip-database-text: #9333ea;
-  --color-chip-report: rgba(22, 163, 74, 0.08);
-  --color-chip-report-text: #16a34a;
+  --color-chip-object: rgba(30, 102, 245, 0.12);
+  --color-chip-object-text: var(--ctp-blue);
+  --color-chip-document: rgba(4, 165, 229, 0.12);
+  --color-chip-document-text: var(--ctp-sky);
+  --color-chip-database: rgba(136, 57, 239, 0.12);
+  --color-chip-database-text: var(--ctp-mauve);
+  --color-chip-report: rgba(64, 160, 43, 0.12);
+  --color-chip-report-text: var(--ctp-green);
+
+  /* File/DB type colors (for components) */
+  --color-file-image: var(--ctp-green);
+  --color-file-image-bg: rgba(64, 160, 43, 0.12);
+  --color-file-video: var(--ctp-mauve);
+  --color-file-video-bg: rgba(136, 57, 239, 0.12);
+  --color-file-audio: var(--ctp-peach);
+  --color-file-audio-bg: rgba(254, 100, 11, 0.12);
+  --color-file-pdf: var(--ctp-red);
+  --color-file-pdf-bg: rgba(210, 15, 57, 0.12);
+  --color-file-code: var(--ctp-blue);
+  --color-file-code-bg: rgba(30, 102, 245, 0.12);
+  --color-file-document: var(--ctp-overlay1);
+  --color-file-document-bg: rgba(140, 143, 161, 0.12);
+  --color-file-folder: var(--ctp-peach);
+  --color-file-folder-bg: rgba(254, 100, 11, 0.12);
+  --color-file-other: var(--ctp-overlay0);
+  --color-file-other-bg: rgba(156, 160, 176, 0.1);
+  --color-db-int: var(--ctp-mauve);
+  --color-db-bool: var(--ctp-peach);
+  --color-db-text: var(--ctp-green);
+  --color-db-timestamp: var(--ctp-sky);
+  --color-db-json: var(--ctp-peach);
+  --color-enum-default: var(--ctp-overlay1);
+  --color-link: var(--ctp-blue);
+  --color-link-alt: var(--ctp-mauve);
+  --color-chip-muted-bg: rgba(140, 143, 161, 0.12);
 
   /* Diff viewer */
-  --diff-add-bg: rgba(22, 163, 74, 0.09);
-  --diff-add-text: #166534;
-  --diff-add-badge: #16a34a;
-  --diff-del-bg: rgba(220, 38, 38, 0.07);
-  --diff-del-text: #991b1b;
-  --diff-del-badge: #dc2626;
+  --diff-add-bg: rgba(64, 160, 43, 0.12);
+  --diff-add-text: var(--ctp-green);
+  --diff-add-badge: var(--ctp-green);
+  --diff-del-bg: rgba(210, 15, 57, 0.1);
+  --diff-del-border: rgba(210, 15, 57, 0.25);
+  --diff-del-text: var(--ctp-red);
+  --diff-del-badge: var(--ctp-red);
 
   /* Shadow */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(76, 79, 105, 0.08);
+  --shadow-md: 0 2px 8px rgba(76, 79, 105, 0.1);
+  --shadow-lg: 0 4px 16px rgba(76, 79, 105, 0.12);
+  --shadow-xl: 0 8px 32px rgba(76, 79, 105, 0.14);
 }
 
 .dark {
+  /* Catppuccin Mocha palette */
+  --ctp-rosewater: #f5e0dc;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-pink: #f5c2e7;
+  --ctp-mauve: #cba6f7;
+  --ctp-red: #f38ba8;
+  --ctp-maroon: #eba0ac;
+  --ctp-peach: #fab387;
+  --ctp-yellow: #f9e2af;
+  --ctp-green: #a6e3a1;
+  --ctp-teal: #94e2d5;
+  --ctp-sky: #89dceb;
+  --ctp-sapphire: #74c7ec;
+  --ctp-blue: #89b4fa;
+  --ctp-lavender: #b4befe;
+  --ctp-text: #cdd6f4;
+  --ctp-subtext1: #bac2de;
+  --ctp-subtext0: #a6adc8;
+  --ctp-overlay2: #9399b2;
+  --ctp-overlay1: #7f849c;
+  --ctp-overlay0: #6c7086;
+  --ctp-surface2: #585b70;
+  --ctp-surface1: #45475a;
+  --ctp-surface0: #313244;
+  --ctp-base: #1e1e2e;
+  --ctp-mantle: #181825;
+  --ctp-crust: #11111b;
+
   /* Background / Surface */
-  --color-bg: #0c0c0b;
-  --color-surface: #161615;
-  --color-sidebar-bg: #141413;
-  --color-main-bg: #161615;
-  --color-surface-hover: #1e1e1c;
-  --color-surface-raised: #1a1a18;
+  --color-bg: var(--ctp-base);
+  --color-surface: var(--ctp-mantle);
+  --color-sidebar-bg: var(--ctp-crust);
+  --color-main-bg: var(--ctp-base);
+  --color-surface-hover: var(--ctp-surface0);
+  --color-surface-raised: var(--ctp-surface0);
 
   /* Borders */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.14);
+  --color-border: rgba(205, 214, 244, 0.08);
+  --color-border-strong: rgba(205, 214, 244, 0.14);
 
   /* Text */
-  --color-text: #ececea;
-  --color-text-secondary: #b8b8b0;
-  --color-text-muted: #78776f;
+  --color-text: var(--ctp-text);
+  --color-text-secondary: var(--ctp-subtext1);
+  --color-text-muted: var(--ctp-subtext0);
 
-  /* Accent (blue, brighter for dark) */
-  --color-accent: #3b82f6;
-  --color-accent-hover: #60a5fa;
-  --color-accent-light: rgba(59, 130, 246, 0.12);
+  /* Accent (blue) */
+  --color-accent: var(--ctp-blue);
+  --color-accent-hover: var(--ctp-sapphire);
+  --color-accent-light: rgba(137, 180, 250, 0.12);
 
   /* Chat */
-  --color-user-bubble: #1e1e1c;
-  --color-user-bubble-text: #ececea;
-  --color-chat-input-bg: #1e1e1c;
-  /* Chat sidebar (right) — stone-style selected/active, dark theme */
-  --color-chat-sidebar-active-bg: #1e1e1c;
-  --color-chat-sidebar-active-text: #ececea;
-  --color-chat-sidebar-muted: #78776f;
+  --color-user-bubble: var(--ctp-surface0);
+  --color-user-bubble-text: var(--ctp-text);
+  --color-chat-input-bg: var(--ctp-surface0);
+  --color-chat-sidebar-active-bg: var(--ctp-surface0);
+  --color-chat-sidebar-active-text: var(--ctp-text);
+  --color-chat-sidebar-muted: var(--ctp-subtext0);
 
   /* Semantic */
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
+  --color-success: var(--ctp-green);
+  --color-warning: var(--ctp-yellow);
+  --color-error: var(--ctp-red);
+  --color-info: var(--ctp-blue);
 
   /* Glassmorphism */
-  --color-glass: rgba(22, 22, 21, 0.72);
-  --color-glass-border: rgba(255, 255, 255, 0.06);
-  --color-bg-glass: rgba(22, 22, 21, 0.8);
+  --color-glass: rgba(30, 30, 46, 0.8);
+  --color-glass-border: rgba(49, 50, 68, 0.8);
+  --color-bg-glass: rgba(30, 30, 46, 0.9);
 
   /* Object type chips */
-  --color-chip-object: rgba(59, 130, 246, 0.12);
-  --color-chip-object-text: #60a5fa;
-  --color-chip-document: rgba(96, 165, 250, 0.12);
-  --color-chip-document-text: #93c5fd;
-  --color-chip-database: rgba(147, 51, 234, 0.12);
-  --color-chip-database-text: #c084fc;
-  --color-chip-report: rgba(34, 197, 94, 0.12);
-  --color-chip-report-text: #4ade80;
+  --color-chip-object: rgba(137, 180, 250, 0.12);
+  --color-chip-object-text: var(--ctp-blue);
+  --color-chip-document: rgba(137, 220, 235, 0.12);
+  --color-chip-document-text: var(--ctp-sky);
+  --color-chip-database: rgba(203, 166, 247, 0.12);
+  --color-chip-database-text: var(--ctp-mauve);
+  --color-chip-report: rgba(166, 227, 161, 0.12);
+  --color-chip-report-text: var(--ctp-green);
+
+  /* File/DB type colors (for components) */
+  --color-file-image: var(--ctp-green);
+  --color-file-video: var(--ctp-mauve);
+  --color-file-audio: var(--ctp-peach);
+  --color-file-pdf: var(--ctp-red);
+  --color-file-code: var(--ctp-blue);
+  --color-file-document: var(--ctp-overlay1);
+  --color-file-folder: var(--ctp-peach);
+  --color-file-folder-bg: rgba(250, 179, 135, 0.12);
+  --color-file-other: var(--ctp-overlay0);
+  --color-file-other-bg: rgba(108, 112, 134, 0.1);
+  --color-file-image-bg: rgba(166, 227, 161, 0.12);
+  --color-file-video-bg: rgba(203, 166, 247, 0.12);
+  --color-file-audio-bg: rgba(250, 179, 135, 0.12);
+  --color-file-pdf-bg: rgba(243, 139, 168, 0.12);
+  --color-file-code-bg: rgba(137, 180, 250, 0.12);
+  --color-file-document-bg: rgba(127, 132, 156, 0.12);
+  --color-db-int: var(--ctp-mauve);
+  --color-db-bool: var(--ctp-peach);
+  --color-db-text: var(--ctp-green);
+  --color-db-timestamp: var(--ctp-sky);
+  --color-db-json: var(--ctp-peach);
+  --color-enum-default: var(--ctp-overlay1);
+  --color-link: var(--ctp-blue);
+  --color-link-alt: var(--ctp-mauve);
+  --color-chip-muted-bg: rgba(127, 132, 156, 0.12);
 
   /* Diff viewer */
-  --diff-add-bg: rgba(34, 197, 94, 0.1);
-  --diff-add-text: #4ade80;
-  --diff-add-badge: #22c55e;
-  --diff-del-bg: rgba(239, 68, 68, 0.1);
-  --diff-del-text: #f87171;
-  --diff-del-badge: #ef4444;
+  --diff-add-bg: rgba(166, 227, 161, 0.12);
+  --diff-add-text: var(--ctp-green);
+  --diff-add-badge: var(--ctp-green);
+  --diff-del-bg: rgba(243, 139, 168, 0.12);
+  --diff-del-border: rgba(243, 139, 168, 0.3);
+  --diff-del-text: var(--ctp-red);
+  --diff-del-badge: var(--ctp-red);
 
   /* Shadow */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Disable iframe pointer events during sidebar resize so the
@@ -147,8 +258,16 @@ body.resizing iframe {
 }
 
 /* ============================================================
-   Fonts — Bookerly (local)
+   Fonts — SmileySans (main) + Bookerly (local)
    ============================================================ */
+
+@font-face {
+  font-family: "SmileySans";
+  src: url("/fonts/SmileySans-Oblique.ttf") format("truetype");
+  font-weight: 400;
+  font-style: oblique;
+  font-display: swap;
+}
 
 @font-face {
   font-family: "Bookerly";
@@ -202,6 +321,10 @@ body {
 }
 
 /* Font utilities */
+.font-smileysan {
+  font-family: "SmileySans", sans-serif;
+}
+
 .font-instrument {
   font-family: "Instrument Serif", serif;
 }
@@ -212,7 +335,7 @@ body {
 
 /* Message bubbles and assistant text: use Bookerly for a polished reading experience. */
 .chat-message-font {
-  font-family: "Bookerly", Georgia, "Times New Roman", serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .chat-user-html-content p {
@@ -323,6 +446,7 @@ a,
   color: var(--color-text);
   line-height: 1.75;
   font-size: 0.9375rem;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .workspace-prose h1,
@@ -347,7 +471,7 @@ a,
 }
 
 .workspace-prose h2 {
-  font-family: "Instrument Serif", serif;
+  font-family: "SmileySans", sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
   border-bottom: 1px solid var(--color-border);
@@ -1009,6 +1133,7 @@ a,
   font-size: 0.95rem;
   line-height: 1.75;
   color: var(--color-text);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .rich-doc-page .tiptap:focus {
@@ -1032,6 +1157,7 @@ a,
 }
 
 .rich-doc-page .tiptap h2 {
+  font-family: "SmileySans", sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   margin: 1.25rem 0 0.5rem;
@@ -1335,7 +1461,7 @@ a,
   line-height: 1.8;
   overflow-wrap: anywhere;
   word-break: break-word;
-  font-family: "Bookerly", Georgia, "Times New Roman", serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .chat-prose>*:first-child {
@@ -1360,13 +1486,13 @@ a,
 }
 
 .chat-prose h1 {
-  font-family: inherit;
+  font-family: "Instrument Serif", serif;
   font-size: 1.6em;
   font-weight: 600;
 }
 
 .chat-prose h2 {
-  font-family: inherit;
+  font-family: "SmileySans", sans-serif;
   font-size: 1.35em;
   font-weight: 600;
 }
@@ -1588,9 +1714,9 @@ a,
 }
 
 .report-block-btn-danger:hover {
-  background: rgba(220, 38, 38, 0.08);
+  background: var(--diff-del-bg);
   color: var(--color-error);
-  border-color: rgba(220, 38, 38, 0.25);
+  border-color: var(--diff-del-border);
 }
 
 .report-block-source {
@@ -1629,7 +1755,7 @@ a,
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  background: rgba(220, 38, 38, 0.04);
+  background: var(--diff-del-bg);
   color: var(--color-error);
   font-size: 0.8rem;
 }

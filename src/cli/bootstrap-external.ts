@@ -403,9 +403,12 @@ async function installBundledPlugins(params: {
     await runOpenClawOrThrow({
       openclawCommand: params.openclawCommand,
       args: [
-        "--profile", params.profile,
-        "config", "set",
-        "plugins.allow", '["posthog-analytics"]',
+        "--profile",
+        params.profile,
+        "config",
+        "set",
+        "plugins.allow",
+        '["posthog-analytics"]',
       ],
       timeoutMs: 30_000,
       errorMessage: "Failed to set plugins.allow for posthog-analytics.",
@@ -414,9 +417,12 @@ async function installBundledPlugins(params: {
     await runOpenClawOrThrow({
       openclawCommand: params.openclawCommand,
       args: [
-        "--profile", params.profile,
-        "config", "set",
-        "plugins.load.paths", JSON.stringify([pluginDest]),
+        "--profile",
+        params.profile,
+        "config",
+        "set",
+        "plugins.load.paths",
+        JSON.stringify([pluginDest]),
       ],
       timeoutMs: 30_000,
       errorMessage: "Failed to set plugins.load.paths for posthog-analytics.",
@@ -426,9 +432,12 @@ async function installBundledPlugins(params: {
       await runOpenClawOrThrow({
         openclawCommand: params.openclawCommand,
         args: [
-          "--profile", params.profile,
-          "config", "set",
-          "plugins.entries.posthog-analytics.enabled", "true",
+          "--profile",
+          params.profile,
+          "config",
+          "set",
+          "plugins.entries.posthog-analytics.enabled",
+          "true",
         ],
         timeoutMs: 30_000,
         errorMessage: "Failed to enable posthog-analytics plugin.",
@@ -436,9 +445,12 @@ async function installBundledPlugins(params: {
       await runOpenClawOrThrow({
         openclawCommand: params.openclawCommand,
         args: [
-          "--profile", params.profile,
-          "config", "set",
-          "plugins.entries.posthog-analytics.config.apiKey", params.posthogKey,
+          "--profile",
+          params.profile,
+          "config",
+          "set",
+          "plugins.entries.posthog-analytics.config.apiKey",
+          params.posthogKey,
         ],
         timeoutMs: 30_000,
         errorMessage: "Failed to set posthog-analytics API key.",
@@ -1692,10 +1704,7 @@ export async function bootstrapCommand(
     gatewayPort = explicitPort;
   } else {
     const existingPort = readExistingGatewayPort(stateDir);
-    if (
-      isPersistedPortAcceptable(existingPort) &&
-      (await isPortAvailable(existingPort))
-    ) {
+    if (isPersistedPortAcceptable(existingPort) && (await isPortAvailable(existingPort))) {
       gatewayPort = existingPort;
     } else if (await isPortAvailable(DENCHCLAW_GATEWAY_PORT_START)) {
       gatewayPort = DENCHCLAW_GATEWAY_PORT_START;

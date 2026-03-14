@@ -1,6 +1,16 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import {
+  emitGeneration,
+  emitToolSpan,
+  emitTrace,
+  emitCustomEvent,
+  extractToolNamesFromMessages,
+  extractUsageFromMessages,
+  normalizeOutputForPostHog,
+  buildTraceState,
+  extractInputMessages,
+} from "../../extensions/posthog-analytics/lib/event-mappers.js";
 import { TraceContextManager } from "../../extensions/posthog-analytics/lib/trace-context.js";
-import { emitGeneration, emitToolSpan, emitTrace, emitCustomEvent, extractToolNamesFromMessages, extractUsageFromMessages, normalizeOutputForPostHog, buildTraceState, extractInputMessages } from "../../extensions/posthog-analytics/lib/event-mappers.js";
 
 function createMockPostHog() {
   return {
@@ -12,22 +22,29 @@ function createMockPostHog() {
 describe("extractToolNamesFromMessages", () => {
   it("extracts tool names from OpenAI-format tool_calls in assistant messages", () => {
     const messages = [
-      { role: "assistant", tool_calls: [{ function: { name: "web_search" } }, { function: { name: "exec" } }] },
+      {
+        role: "assistant",
+        tool_calls: [{ function: { name: "web_search" } }, { function: { name: "exec" } }],
+      },
     ];
     expect(extractToolNamesFromMessages(messages)).toEqual(["web_search", "exec"]);
   });
 
   it("extracts tool names from Anthropic-format content blocks with type tool_use", () => {
     const messages = [
-      { role: "assistant", content: [{ type: "tool_use", name: "read_file" }, { type: "text", text: "hello" }] },
+      {
+        role: "assistant",
+        content: [
+          { type: "tool_use", name: "read_file" },
+          { type: "text", text: "hello" },
+        ],
+      },
     ];
     expect(extractToolNamesFromMessages(messages)).toEqual(["read_file"]);
   });
 
   it("extracts tool names from tool result messages with role=tool", () => {
-    const messages = [
-      { role: "tool", name: "exec", content: "output" },
-    ];
+    const messages = [{ role: "tool", name: "exec", content: "output" }];
     expect(extractToolNamesFromMessages(messages)).toEqual(["exec"]);
   });
 
@@ -51,9 +68,17 @@ describe("extractUsageFromMessages", () => {
   it("sums input/output tokens and cost across assistant messages", () => {
     const messages = [
       { role: "user", content: "hello" },
-      { role: "assistant", content: "hi", usage: { input: 10, output: 50, cost: { total: 0.001 } } },
+      {
+        role: "assistant",
+        content: "hi",
+        usage: { input: 10, output: 50, cost: { total: 0.001 } },
+      },
       { role: "user", content: "more" },
-      { role: "assistant", content: "sure", usage: { input: 20, output: 100, cost: { total: 0.002 } } },
+      {
+        role: "assistant",
+        content: "sure",
+        usage: { input: 20, output: 100, cost: { total: 0.002 } },
+      },
     ];
     const result = extractUsageFromMessages(messages);
     expect(result.inputTokens).toBe(30);
@@ -73,15 +98,17 @@ describe("extractUsageFromMessages", () => {
   });
 
   it("handles assistant messages without usage field", () => {
-    const messages = [
-      { role: "assistant", content: "hi" },
-    ];
+    const messages = [{ role: "assistant", content: "hi" }];
     const result = extractUsageFromMessages(messages);
     expect(result.inputTokens).toBe(0);
   });
 
   it("returns zeros for non-array input", () => {
-    expect(extractUsageFromMessages(null)).toEqual({ inputTokens: 0, outputTokens: 0, totalCostUsd: 0 });
+    expect(extractUsageFromMessages(null)).toEqual({
+      inputTokens: 0,
+      outputTokens: 0,
+      totalCostUsd: 0,
+    });
   });
 });
 
@@ -171,11 +198,17 @@ describe("emitGeneration", () => {
     traceCtx.setModel("sess-1", "anthropic/claude-4-sonnet");
     traceCtx.setInput("sess-1", [{ role: "user", content: "hello" }], false);
 
-    emitGeneration(ph, traceCtx, "sess-1", {
-      usage: { inputTokens: 10, outputTokens: 20 },
-      cost: { totalUsd: 0.001 },
-      output: [{ role: "assistant", content: "hi" }],
-    }, false);
+    emitGeneration(
+      ph,
+      traceCtx,
+      "sess-1",
+      {
+        usage: { inputTokens: 10, outputTokens: 20 },
+        cost: { totalUsd: 0.001 },
+        output: [{ role: "assistant", content: "hi" }],
+      },
+      false,
+    );
 
     expect(ph.capture).toHaveBeenCalledOnce();
     const call = ph.capture.mock.calls[0][0];
@@ -194,9 +227,15 @@ describe("emitGeneration", () => {
     traceCtx.startTrace("s", "r");
     traceCtx.setInput("s", [{ role: "user", content: "sensitive" }], true);
 
-    emitGeneration(ph, traceCtx, "s", {
-      output: [{ role: "assistant", content: "also sensitive" }],
-    }, true);
+    emitGeneration(
+      ph,
+      traceCtx,
+      "s",
+      {
+        output: [{ role: "assistant", content: "also sensitive" }],
+      },
+      true,
+    );
 
     const props = ph.capture.mock.calls[0][0].properties;
     const input = props.$ai_input as Array<Record<string, unknown>>;
@@ -221,10 +260,16 @@ describe("emitGeneration", () => {
 
   it("sets $ai_total_cost_usd when cost is positive (via event.usage path)", () => {
     traceCtx.startTrace("s", "r");
-    emitGeneration(ph, traceCtx, "s", {
-      usage: { inputTokens: 10, outputTokens: 20 },
-      cost: { totalUsd: 0.05 },
-    }, true);
+    emitGeneration(
+      ph,
+      traceCtx,
+      "s",
+      {
+        usage: { inputTokens: 10, outputTokens: 20 },
+        cost: { totalUsd: 0.05 },
+      },
+      true,
+    );
     expect(ph.capture.mock.calls[0][0].properties.$ai_total_cost_usd).toBe(0.05);
   });
 
@@ -248,7 +293,11 @@ describe("emitGeneration", () => {
     traceCtx.startTrace("s", "r");
     const messages = [
       { role: "user", content: "What is 2 + 2?" },
-      { role: "assistant", content: "The answer is 4.", usage: { input: 15, output: 8, cost: { total: 0.0005 } } },
+      {
+        role: "assistant",
+        content: "The answer is 4.",
+        usage: { input: 15, output: 8, cost: { total: 0.0005 } },
+      },
     ];
     emitGeneration(ph, traceCtx, "s", { messages }, true);
     const props = ph.capture.mock.calls[0][0].properties;
@@ -302,7 +351,9 @@ describe("emitGeneration", () => {
   });
 
   it("never throws even if PostHog capture throws (prevents gateway crash)", () => {
-    ph.capture.mockImplementation(() => { throw new Error("PostHog down"); });
+    ph.capture.mockImplementation(() => {
+      throw new Error("PostHog down");
+    });
     traceCtx.startTrace("s", "r");
     expect(() => emitGeneration(ph, traceCtx, "s", {}, true)).not.toThrow();
   });
@@ -350,9 +401,15 @@ describe("emitGeneration", () => {
     traceCtx.startTrace("s", "r");
     traceCtx.setInput("s", [{ role: "user", content: "from trace" }], false);
 
-    emitGeneration(ph, traceCtx, "s", {
-      output: [{ role: "assistant", content: "reply" }],
-    }, false);
+    emitGeneration(
+      ph,
+      traceCtx,
+      "s",
+      {
+        output: [{ role: "assistant", content: "reply" }],
+      },
+      false,
+    );
 
     const input = ph.capture.mock.calls[0][0].properties.$ai_input;
     expect(input).toEqual([{ role: "user", content: "from trace" }]);
@@ -431,9 +488,7 @@ describe("buildTraceState", () => {
       { role: "user", content: "Question 2" },
       { role: "assistant", content: "Answer 2" },
     ]);
-    expect(outputState).toEqual([
-      { role: "assistant", content: "Answer 2" },
-    ]);
+    expect(outputState).toEqual([{ role: "assistant", content: "Answer 2" }]);
   });
 
   it("interleaves tool calls and results chronologically", () => {
@@ -456,14 +511,24 @@ describe("buildTraceState", () => {
   it("redacts content in privacy mode but keeps role and tool metadata", () => {
     const messages = [
       { role: "user", content: "secret" },
-      { role: "assistant", content: [{ type: "text", text: "classified" }, { type: "toolCall", name: "exec" }] },
+      {
+        role: "assistant",
+        content: [
+          { type: "text", text: "classified" },
+          { type: "toolCall", name: "exec" },
+        ],
+      },
     ];
     const { inputState, outputState } = buildTraceState(messages, true);
     expect((inputState as any[])[0]).toEqual({ role: "user", content: "[REDACTED]" });
     expect((inputState as any[])[1].content).toBe("[REDACTED]");
-    expect((inputState as any[])[1].tool_calls).toEqual([{ type: "function", function: { name: "exec" } }]);
+    expect((inputState as any[])[1].tool_calls).toEqual([
+      { type: "function", function: { name: "exec" } },
+    ]);
     expect(outputState).toHaveLength(1);
-    expect((outputState as any[])[0].tool_calls).toEqual([{ type: "function", function: { name: "exec" } }]);
+    expect((outputState as any[])[0].tool_calls).toEqual([
+      { type: "function", function: { name: "exec" } },
+    ]);
   });
 
   it("preserves tool call names on assistant messages in privacy mode (tool type always visible)", () => {
@@ -475,8 +540,12 @@ describe("buildTraceState", () => {
       },
     ];
     const { inputState, outputState } = buildTraceState(messages, true);
-    expect((inputState as any[])[0].tool_calls).toEqual([{ type: "function", function: { name: "web_search" } }]);
-    expect((outputState as any[])[0].tool_calls).toEqual([{ type: "function", function: { name: "web_search" } }]);
+    expect((inputState as any[])[0].tool_calls).toEqual([
+      { type: "function", function: { name: "web_search" } },
+    ]);
+    expect((outputState as any[])[0].tool_calls).toEqual([
+      { type: "function", function: { name: "web_search" } },
+    ]);
   });
 
   it("returns undefined for empty or non-array input", () => {

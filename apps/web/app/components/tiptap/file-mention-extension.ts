@@ -15,18 +15,18 @@ export type FileMentionAttrs = {
 
 /** Resolve mention pill colors from the mention type or filename extension. */
 function mentionColors(label: string, mentionType?: string): { bg: string; fg: string } {
-	if (mentionType === "object") {return { bg: "rgba(14,165,233,0.15)", fg: "#0ea5e9" };}
-	if (mentionType === "entry") {return { bg: "rgba(34,197,94,0.15)", fg: "#22c55e" };}
+	if (mentionType === "object") {return { bg: "var(--color-chip-object)", fg: "var(--color-chip-object-text)" };}
+	if (mentionType === "entry") {return { bg: "var(--color-chip-report)", fg: "var(--color-chip-report-text)" };}
 	const ext = label.split(".").pop()?.toLowerCase() ?? "";
 	if (
 		["jpg", "jpeg", "png", "gif", "webp", "svg", "bmp", "ico", "tiff", "heic"].includes(ext)
 	)
-		{return { bg: "rgba(16,185,129,0.15)", fg: "#10b981" };}
+		{return { bg: "var(--color-file-image-bg)", fg: "var(--color-file-image)" };}
 	if (["mp4", "webm", "mov", "avi", "mkv", "flv"].includes(ext))
-		{return { bg: "rgba(139,92,246,0.15)", fg: "#8b5cf6" };}
+		{return { bg: "var(--color-file-video-bg)", fg: "var(--color-file-video)" };}
 	if (["mp3", "wav", "ogg", "aac", "flac", "m4a"].includes(ext))
-		{return { bg: "rgba(245,158,11,0.15)", fg: "#f59e0b" };}
-	if (ext === "pdf") {return { bg: "rgba(239,68,68,0.15)", fg: "#ef4444" };}
+		{return { bg: "var(--color-file-audio-bg)", fg: "var(--color-file-audio)" };}
+	if (ext === "pdf") {return { bg: "var(--color-file-pdf-bg)", fg: "var(--color-file-pdf)" };}
 	if (
 		[
 			"js", "ts", "tsx", "jsx", "py", "rb", "go", "rs", "java",
@@ -34,12 +34,12 @@ function mentionColors(label: string, mentionType?: string): { bg: string; fg: s
 			"toml", "md", "sh", "bash", "sql", "swift", "kt",
 		].includes(ext)
 	)
-		{return { bg: "rgba(59,130,246,0.15)", fg: "#3b82f6" };}
+		{return { bg: "var(--color-file-code-bg)", fg: "var(--color-file-code)" };}
 	if (
 		["doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "rtf", "csv"].includes(ext)
 	)
-		{return { bg: "rgba(107,114,128,0.15)", fg: "#6b7280" };}
-	return { bg: "rgba(107,114,128,0.10)", fg: "#9ca3af" };
+		{return { bg: "var(--color-file-document-bg)", fg: "var(--color-file-document)" };}
+	return { bg: "var(--color-file-other-bg)", fg: "var(--color-file-other)" };
 }
 
 /**

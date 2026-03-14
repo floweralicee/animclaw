@@ -87,14 +87,14 @@ function buildBreadcrumbs(
 }
 
 const pickerColors: Record<string, { bg: string; fg: string }> = {
-	folder: { bg: "rgba(245, 158, 11, 0.12)", fg: "#f59e0b" },
-	image: { bg: "rgba(16, 185, 129, 0.12)", fg: "#10b981" },
-	video: { bg: "rgba(139, 92, 246, 0.12)", fg: "#8b5cf6" },
-	audio: { bg: "rgba(245, 158, 11, 0.12)", fg: "#f59e0b" },
-	pdf: { bg: "rgba(239, 68, 68, 0.12)", fg: "#ef4444" },
-	code: { bg: "rgba(59, 130, 246, 0.12)", fg: "#3b82f6" },
-	document: { bg: "rgba(107, 114, 128, 0.12)", fg: "#6b7280" },
-	other: { bg: "rgba(107, 114, 128, 0.08)", fg: "#9ca3af" },
+	folder: { bg: "var(--color-file-folder-bg)", fg: "var(--color-file-folder)" },
+	image: { bg: "var(--color-file-image-bg)", fg: "var(--color-file-image)" },
+	video: { bg: "var(--color-file-video-bg)", fg: "var(--color-file-video)" },
+	audio: { bg: "var(--color-file-audio-bg)", fg: "var(--color-file-audio)" },
+	pdf: { bg: "var(--color-file-pdf-bg)", fg: "var(--color-file-pdf)" },
+	code: { bg: "var(--color-file-code-bg)", fg: "var(--color-file-code)" },
+	document: { bg: "var(--color-file-document-bg)", fg: "var(--color-file-document)" },
+	other: { bg: "var(--color-file-other-bg)", fg: "var(--color-file-other)" },
 };
 
 // ── Icons ──

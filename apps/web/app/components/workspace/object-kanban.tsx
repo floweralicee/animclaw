@@ -43,6 +43,17 @@ type ObjectKanbanProps = {
   onRefresh?: () => void;
 };
 
+// --- Icons ---
+
+function WritingIcon() {
+	return (
+		<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" style={{ color: "var(--color-text-muted)" }}>
+			<path d="M12 20h9" />
+			<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+		</svg>
+	);
+}
+
 // --- Helpers ---
 
 /** Safely convert unknown (DuckDB) value to string for display. */
@@ -215,7 +226,7 @@ function CardContent({
                           rel={fmt.linkType === "url" || fmt.linkType === "file" ? "noopener noreferrer" : undefined}
                           onClick={(e) => e.stopPropagation()}
                           className="inline-flex items-center px-1.5 py-0 rounded text-[11px] font-medium hover:underline underline-offset-2"
-                          style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-accent)" }}
+                          style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-accent)" }}
                         >
                           {fmt.text}
                         </a>
@@ -223,7 +234,7 @@ function CardContent({
                         <span
                           key={tag}
                           className="inline-flex items-center px-1.5 py-0 rounded text-[11px] font-medium"
-                          style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-text-muted)" }}
+                          style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-text-muted)" }}
                         >
                           {tag}
                         </span>
@@ -236,7 +247,7 @@ function CardContent({
                 ) : field.type === "relation" ? (
                   <span
                     className="truncate inline-flex items-center gap-0.5"
-                    style={{ color: "#60a5fa" }}
+                    style={{ color: "var(--color-link)" }}
                   >
                     <svg
                       width="8"
@@ -281,7 +292,7 @@ function EnumBadgeMini({
   enumColors?: string[];
 }) {
   const idx = enumValues?.indexOf(value) ?? -1;
-  const color = idx >= 0 && enumColors ? enumColors[idx] : "#94a3b8";
+  const color = idx >= 0 && enumColors ? enumColors[idx] : "var(--color-enum-default)";
 
   return (
     <span
@@ -382,10 +393,14 @@ function DroppableColumn({
         className="flex items-center gap-2 px-3 py-2.5 border-b"
         style={{ borderColor: "var(--color-border)" }}
       >
-        <span
-          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-          style={{ background: color }}
-        />
+        {columnName === "Pre-Production" ? (
+          <WritingIcon />
+        ) : (
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+            style={{ background: color }}
+          />
+        )}
         {editingName ? (
           <input
             ref={inputRef}
@@ -505,13 +520,13 @@ export function ObjectKanban({
     if (statuses.length > 0) {
       return statuses.map((s) => ({
         name: s.name,
-        color: s.color ?? "#94a3b8",
+        color: s.color ?? "var(--color-enum-default)",
       }));
     }
     if (groupField?.enum_values) {
       return groupField.enum_values.map((v, i) => ({
         name: v,
-        color: groupField.enum_colors?.[i] ?? "#94a3b8",
+        color: groupField.enum_colors?.[i] ?? "var(--color-enum-default)",
       }));
     }
     const unique = new Set<string>();
@@ -519,7 +534,7 @@ export function ObjectKanban({
       const val = groupField ? e[groupField.name] : undefined;
       if (val) {unique.add(safeString(val));}
     }
-    return Array.from(unique).map((v) => ({ name: v, color: "#94a3b8" }));
+    return Array.from(unique).map((v) => ({ name: v, color: "var(--color-enum-default)" }));
   }, [statuses, groupField, localEntries]);
 
   // Group entries by column

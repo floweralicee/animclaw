@@ -46,9 +46,7 @@ export function track(event: string, properties?: Record<string, unknown>): void
   if (!isTelemetryEnabled()) return;
 
   if (process.env.ANIMCLAW_TELEMETRY_DEBUG === "1") {
-    process.stderr.write(
-      `[telemetry:debug] ${JSON.stringify({ event, properties }, null, 2)}\n`,
-    );
+    process.stderr.write(`[telemetry:debug] ${JSON.stringify({ event, properties }, null, 2)}\n`);
     return;
   }
 

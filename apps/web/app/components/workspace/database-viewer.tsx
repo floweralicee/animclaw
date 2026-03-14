@@ -118,21 +118,21 @@ function formatRowCount(n: number): string {
 function typeDisplay(dtype: string): { label: string; color: string } {
   const t = dtype.toUpperCase();
   if (t.includes("INT") || t.includes("BIGINT") || t.includes("SMALLINT") || t.includes("TINYINT") || t.includes("HUGEINT"))
-    {return { label: "int", color: "#c084fc" };}
+    {return { label: "int", color: "var(--color-db-int)" };}
   if (t.includes("FLOAT") || t.includes("DOUBLE") || t.includes("DECIMAL") || t.includes("NUMERIC") || t.includes("REAL"))
-    {return { label: "float", color: "#c084fc" };}
+    {return { label: "float", color: "var(--color-db-int)" };}
   if (t.includes("BOOL"))
-    {return { label: "bool", color: "#f59e0b" };}
+    {return { label: "bool", color: "var(--color-db-bool)" };}
   if (t.includes("VARCHAR") || t.includes("TEXT") || t.includes("STRING") || t.includes("CHAR") || t === "UUID" || t === "BLOB")
-    {return { label: t.includes("UUID") ? "uuid" : "text", color: "#22c55e" };}
+    {return { label: t.includes("UUID") ? "uuid" : "text", color: "var(--color-db-text)" };}
   if (t.includes("TIMESTAMP") || t.includes("DATETIME"))
-    {return { label: "timestamp", color: "#60a5fa" };}
+    {return { label: "timestamp", color: "var(--color-db-timestamp)" };}
   if (t.includes("DATE"))
-    {return { label: "date", color: "#60a5fa" };}
+    {return { label: "date", color: "var(--color-db-timestamp)" };}
   if (t.includes("TIME"))
-    {return { label: "time", color: "#60a5fa" };}
+    {return { label: "time", color: "var(--color-db-timestamp)" };}
   if (t.includes("JSON"))
-    {return { label: "json", color: "#fb923c" };}
+    {return { label: "json", color: "var(--color-db-json)" };}
   return { label: dtype.toLowerCase(), color: "var(--color-text-muted)" };
 }
 
@@ -391,7 +391,7 @@ export function DatabaseViewer({ dbPath, filename }: DatabaseViewerProps) {
         </p>
         <p
           className="text-xs px-3 py-2 rounded-lg max-w-md text-center"
-          style={{ background: "var(--color-surface)", color: "#f87171" }}
+          style={{ background: "var(--color-surface)", color: "var(--color-error)" }}
         >
           {error}
         </p>
@@ -457,7 +457,7 @@ export function DatabaseViewer({ dbPath, filename }: DatabaseViewerProps) {
                     if (!isActive) {(e.currentTarget as HTMLElement).style.background = "transparent";}
                   }}
                 >
-                  <span className="flex-shrink-0" style={{ color: isView ? "#60a5fa" : "var(--color-accent)" }}>
+                  <span className="flex-shrink-0" style={{ color: isView ? "var(--color-link)" : "var(--color-accent)" }}>
                     {isView ? <ViewIcon /> : <TableIcon />}
                   </span>
                   <span className="truncate flex-1">{t.table_name}</span>
@@ -600,9 +600,9 @@ function TableDataPanel({
             onClick={onToggleSchema}
             className="text-[10px] px-2 py-0.5 rounded-full cursor-pointer transition-colors duration-100"
             style={{
-              background: showSchema ? "rgba(96, 165, 250, 0.15)" : "var(--color-surface)",
-              color: showSchema ? "#60a5fa" : "var(--color-text-muted)",
-              border: `1px solid ${showSchema ? "#60a5fa" : "var(--color-border)"}`,
+              background: showSchema ? "var(--color-chip-document)" : "var(--color-surface)",
+              color: showSchema ? "var(--color-link)" : "var(--color-text-muted)",
+              border: `1px solid ${showSchema ? "var(--color-link)" : "var(--color-border)"}`,
             }}
           >
             Schema
@@ -795,7 +795,7 @@ function QueryPanel({
           <div className="px-4 py-3">
             <div
               className="px-3 py-2 rounded-lg text-xs"
-              style={{ background: "rgba(248, 113, 113, 0.1)", color: "#f87171", border: "1px solid rgba(248, 113, 113, 0.2)" }}
+              style={{ background: "var(--diff-del-bg)", color: "var(--color-error)", border: "1px solid var(--diff-del-border)" }}
             >
               {queryError}
             </div>
@@ -966,7 +966,7 @@ function CellContent({ value }: { value: unknown }) {
 
   if (typeof value === "boolean") {
     return (
-      <span style={{ color: value ? "#22c55e" : "#f87171" }}>
+      <span style={{ color: value ? "var(--color-success)" : "var(--color-error)" }}>
         {value ? "true" : "false"}
       </span>
     );

@@ -223,7 +223,7 @@ export function CreateWorkspaceDialog({ isOpen, onClose, onCreated }: CreateWork
                 <p
                   className="text-sm px-3 py-2 rounded-lg"
                   style={{
-                    background: "rgba(220, 38, 38, 0.08)",
+                    background: "var(--diff-del-bg)",
                     color: "var(--color-error)",
                   }}
                 >

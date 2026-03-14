@@ -122,7 +122,7 @@ function YamlLine({ line }: { line: string }) {
     return (
       <>
         <span>{indent}</span>
-        <span style={{ color: "#60a5fa" }}>{key}</span>
+        <span style={{ color: "var(--color-link)" }}>{key}</span>
         <span style={{ color: "var(--color-text-muted)" }}>{colon}</span>
         <YamlValue value={value} />
       </>
@@ -164,7 +164,7 @@ function YamlValue({ value }: { value: string }) {
 
   // Number
   if (/^-?\d+(\.\d+)?$/.test(trimmed)) {
-    return <span style={{ color: "#c084fc" }}> {trimmed}</span>;
+    return <span style={{ color: "var(--color-link-alt)" }}> {trimmed}</span>;
   }
 
   // Null

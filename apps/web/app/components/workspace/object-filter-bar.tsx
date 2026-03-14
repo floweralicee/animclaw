@@ -376,7 +376,7 @@ function EnumValueEditor({
 			<div className="flex flex-wrap gap-1">
 				{enumValues.map((opt, idx) => {
 					const isSelected = selected.includes(opt);
-					const color = enumColors?.[idx] ?? "#94a3b8";
+					const color = enumColors?.[idx] ?? "var(--color-enum-default)";
 					return (
 						<button
 							key={opt}

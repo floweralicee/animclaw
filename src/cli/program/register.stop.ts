@@ -7,7 +7,10 @@ export function registerStopCommand(program: Command) {
   program
     .command("stop")
     .description("Stop AnimClaw managed web runtime on the configured port")
-    .option("--profile <name>", "Compatibility flag; non-animclaw values are ignored with a warning")
+    .option(
+      "--profile <name>",
+      "Compatibility flag; non-animclaw values are ignored with a warning",
+    )
     .option("--web-port <port>", "Web runtime port override")
     .option("--json", "Output summary as JSON", false)
     .action(async (opts) => {

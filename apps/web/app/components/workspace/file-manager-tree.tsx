@@ -158,9 +158,18 @@ function ChatBubbleIcon() {
 
 function AppNodeIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ctp-lavender)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" />
       <rect width="7" height="7" x="3" y="14" rx="1" /><rect width="7" height="7" x="14" y="14" rx="1" />
+    </svg>
+  );
+}
+
+function CameraIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+      <circle cx="12" cy="13" r="3" />
     </svg>
   );
 }
@@ -208,6 +217,9 @@ function NodeIcon({ node, open }: { node: TreeNode; open?: boolean }) {
   }
   switch (node.type) {
     case "object":
+      if (node.icon === "camera" || node.name === "shot") {
+        return <CameraIcon />;
+      }
       return node.defaultView === "kanban" ? <KanbanIcon /> : <TableIcon />;
     case "document":
       return <DocumentIcon />;
@@ -242,10 +254,10 @@ function NodeIcon({ node, open }: { node: TreeNode; open?: boolean }) {
 function typeColor(node: TreeNode): string {
   switch (node.type) {
     case "object": return "var(--color-accent)";
-    case "document": return "#60a5fa";
-    case "database": return "#c084fc";
-    case "report": return "#22c55e";
-    case "app": return "#6366f1";
+    case "document": return "var(--color-chip-document-text)";
+    case "database": return "var(--color-chip-database-text)";
+    case "report": return "var(--color-chip-report-text)";
+    case "app": return "var(--ctp-lavender)";
     default: return "var(--color-text-muted)";
   }
 }

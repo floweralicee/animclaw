@@ -686,19 +686,19 @@ YAML
 
 ## Field Types Reference
 
-| Type     | Description                           | Storage                   | Query Cast  |
-| -------- | ------------------------------------- | ------------------------- | ----------- |
-| text     | General text, names, descriptions     | VARCHAR                   | none        |
-| email    | Email addresses (validated)           | VARCHAR                   | none        |
-| phone    | Phone numbers (normalized)            | VARCHAR                   | none        |
-| number   | Numeric values (prices, scores)       | VARCHAR                   | `::NUMERIC` |
-| boolean  | Yes/no flags                          | "true"/"false"            | `= 'true'`  |
-| date     | ISO 8601 dates                        | VARCHAR                   | `::DATE`    |
-| richtext | Rich text for Notes fields            | VARCHAR                   | none        |
-| user     | Member ID from workspace_context.yaml | VARCHAR                   | none        |
-| enum     | Dropdown with predefined values       | VARCHAR                   | none        |
-| relation | Link to entry in another object       | VARCHAR (entry ID)        | none        |
-| tags     | Free-form string array (labels, tags) | VARCHAR (JSON array str)  | none        |
+| Type     | Description                           | Storage                  | Query Cast  |
+| -------- | ------------------------------------- | ------------------------ | ----------- |
+| text     | General text, names, descriptions     | VARCHAR                  | none        |
+| email    | Email addresses (validated)           | VARCHAR                  | none        |
+| phone    | Phone numbers (normalized)            | VARCHAR                  | none        |
+| number   | Numeric values (prices, scores)       | VARCHAR                  | `::NUMERIC` |
+| boolean  | Yes/no flags                          | "true"/"false"           | `= 'true'`  |
+| date     | ISO 8601 dates                        | VARCHAR                  | `::DATE`    |
+| richtext | Rich text for Notes fields            | VARCHAR                  | none        |
+| user     | Member ID from workspace_context.yaml | VARCHAR                  | none        |
+| enum     | Dropdown with predefined values       | VARCHAR                  | none        |
+| relation | Link to entry in another object       | VARCHAR (entry ID)       | none        |
+| tags     | Free-form string array (labels, tags) | VARCHAR (JSON array str) | none        |
 
 ### System Timestamp Columns (Always Present)
 

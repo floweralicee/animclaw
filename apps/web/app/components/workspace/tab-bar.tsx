@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { type Tab, HOME_TAB_ID } from "@/lib/tab-state";
+import { HanaLogo } from "../hana-logo";
 import { appServeUrl } from "./app-viewer";
 
 type TabBarProps = {
@@ -133,7 +134,7 @@ export function TabBar({
               title={isHome ? "Home (New Chat)" : undefined}
             >
               {isHome ? (
-                <HomeIcon />
+                <HanaLogo size={15} animated={true} />
               ) : (
                 <>
                   {tab.pinned && <PinIcon />}
@@ -256,7 +257,7 @@ function TabIcon({ type, icon, appPath }: { type: string; icon?: string; appPath
 
   switch (type) {
     case "home":
-      return <HomeIcon />;
+      return <HanaLogo size={13} animated={true} />;
     case "app":
       return <AppIcon />;
     case "chat":
@@ -282,15 +283,6 @@ function PinIcon() {
   return (
     <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none" className="flex-shrink-0" style={{ opacity: 0.5 }}>
       <circle cx="12" cy="12" r="4" />
-    </svg>
-  );
-}
-
-function HomeIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" style={{ opacity: 0.7 }}>
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
   );
 }

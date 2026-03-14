@@ -3,12 +3,16 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { confirm, isCancel, spinner } from "@clack/prompts";
+import { DENCHCLAW_DEFAULT_GATEWAY_PORT } from "../config/paths.js";
 import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
 import { stylePromptMessage } from "../terminal/prompt-style.js";
 import { theme } from "../terminal/theme.js";
-import { DENCHCLAW_DEFAULT_GATEWAY_PORT } from "../config/paths.js";
 import { VERSION } from "../version.js";
 import { applyCliProfileEnv } from "./profile.js";
+import {
+  installWebRuntimeLaunchAgent,
+  uninstallWebRuntimeLaunchAgent,
+} from "./web-runtime-launchd.js";
 import {
   DEFAULT_WEB_APP_PORT,
   ensureManagedWebRuntime,
@@ -25,10 +29,10 @@ import {
   waitForWebRuntime,
 } from "./web-runtime.js";
 import {
-  installWebRuntimeLaunchAgent,
-  uninstallWebRuntimeLaunchAgent,
-} from "./web-runtime-launchd.js";
-import { discoverWorkspaceDirs, syncManagedSkills, type SkillSyncResult } from "./workspace-seed.js";
+  discoverWorkspaceDirs,
+  syncManagedSkills,
+  type SkillSyncResult,
+} from "./workspace-seed.js";
 
 type SpawnResult = {
   code: number;
@@ -336,9 +340,13 @@ async function restartGatewayDaemon(params: {
   await runOpenClawCommand({
     openclawCommand,
     args: [
-      "--profile", params.profile,
-      "gateway", "install", "--force",
-      "--port", String(params.gatewayPort),
+      "--profile",
+      params.profile,
+      "gateway",
+      "install",
+      "--force",
+      "--port",
+      String(params.gatewayPort),
     ],
     timeoutMs: 2 * 60_000,
   }).catch(() => ({ code: 1, stdout: "", stderr: "install failed" }));
@@ -346,11 +354,7 @@ async function restartGatewayDaemon(params: {
   s?.message("Starting gateway daemon…");
   const startResult = await runOpenClawCommand({
     openclawCommand,
-    args: [
-      "--profile", params.profile,
-      "gateway", "start",
-      "--port", String(params.gatewayPort),
-    ],
+    args: ["--profile", params.profile, "gateway", "start", "--port", String(params.gatewayPort)],
     timeoutMs: 2 * 60_000,
   }).catch(() => ({ code: 1, stdout: "", stderr: "start failed" }));
 
@@ -429,10 +433,7 @@ export async function updateWebRuntimeCommand(
     denchVersion: VERSION,
     port: selectedPort,
     gatewayPort,
-    startFn:
-      process.platform === "darwin"
-        ? (p) => installWebRuntimeLaunchAgent(p)
-        : undefined,
+    startFn: process.platform === "darwin" ? (p) => installWebRuntimeLaunchAgent(p) : undefined,
   });
 
   const summary: UpdateWebRuntimeSummary = {
@@ -471,7 +472,9 @@ export async function updateWebRuntimeCommand(
         ),
       );
     }
-    runtime.log(`Skills synced: ${summary.skillSync.syncedSkills.join(", ")} (${summary.skillSync.workspaceDirs.length} workspace${summary.skillSync.workspaceDirs.length === 1 ? "" : "s"})`);
+    runtime.log(
+      `Skills synced: ${summary.skillSync.syncedSkills.join(", ")} (${summary.skillSync.workspaceDirs.length} workspace${summary.skillSync.workspaceDirs.length === 1 ? "" : "s"})`,
+    );
     runtime.log(`Web runtime: ${summary.ready ? "ready" : "not ready"}`);
     if (!summary.ready) {
       runtime.log(theme.warn(summary.reason));

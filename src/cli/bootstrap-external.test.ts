@@ -307,9 +307,7 @@ describe("bootstrap-external rollout env helpers", () => {
     expect(resolveBootstrapRolloutStage({ OPENCLAW_BOOTSTRAP_ROLLOUT: "internal" })).toBe(
       "internal",
     );
-    expect(resolveBootstrapRolloutStage({ ANIMCLAW_BOOTSTRAP_ROLLOUT: "invalid" })).toBe(
-      "default",
-    );
+    expect(resolveBootstrapRolloutStage({ ANIMCLAW_BOOTSTRAP_ROLLOUT: "invalid" })).toBe("default");
   });
 
   it("detects legacy fallback via either env namespace", () => {
@@ -336,19 +334,13 @@ describe("readExistingGatewayPort", () => {
   });
 
   it("falls back to config.json when openclaw.json is absent (legacy config support)", () => {
-    writeFileSync(
-      path.join(stateDir, "config.json"),
-      JSON.stringify({ gateway: { port: 19005 } }),
-    );
+    writeFileSync(path.join(stateDir, "config.json"), JSON.stringify({ gateway: { port: 19005 } }));
     expect(readExistingGatewayPort(stateDir)).toBe(19005);
   });
 
   it("prefers openclaw.json over config.json when both exist (config precedence)", () => {
     writeConfig(stateDir, { gateway: { port: 19001 } });
-    writeFileSync(
-      path.join(stateDir, "config.json"),
-      JSON.stringify({ gateway: { port: 19099 } }),
-    );
+    writeFileSync(path.join(stateDir, "config.json"), JSON.stringify({ gateway: { port: 19099 } }));
     expect(readExistingGatewayPort(stateDir)).toBe(19001);
   });
 

@@ -7,7 +7,10 @@ export function registerStartCommand(program: Command) {
   program
     .command("start")
     .description("Start AnimClaw managed web runtime without updating assets")
-    .option("--profile <name>", "Compatibility flag; non-animclaw values are ignored with a warning")
+    .option(
+      "--profile <name>",
+      "Compatibility flag; non-animclaw values are ignored with a warning",
+    )
     .option("--web-port <port>", "Web runtime port override")
     .option("--no-open", "Do not open the browser automatically")
     .option("--json", "Output summary as JSON", false)

@@ -40,7 +40,9 @@ const webRuntimeMocks = vi.hoisted(() => ({
     lastGatewayPort: 19001,
   })),
   resolveCliPackageRoot: vi.fn(() => "/tmp/pkg"),
-  resolveManagedWebRuntimeServerPath: vi.fn(() => "/tmp/.openclaw-animclaw/web-runtime/app/server.js"),
+  resolveManagedWebRuntimeServerPath: vi.fn(
+    () => "/tmp/.openclaw-animclaw/web-runtime/app/server.js",
+  ),
   resolveOpenClawCommandOrThrow: vi.fn(() => "/usr/local/bin/openclaw"),
   resolveProfileStateDir: vi.fn(() => "/tmp/.openclaw-animclaw"),
   runOpenClawCommand: vi.fn(async () => ({ code: 0, stdout: '{"ok":true}', stderr: "" })),
@@ -256,12 +258,11 @@ describe("updateWebRuntimeCommand", () => {
   it("syncs managed skills during update and includes result in summary", async () => {
     const runtime = runtimeStub();
 
-    const summary = await updateWebRuntimeCommand(
-      { nonInteractive: true },
-      runtime,
-    );
+    const summary = await updateWebRuntimeCommand({ nonInteractive: true }, runtime);
 
-    expect(workspaceSeedMocks.discoverWorkspaceDirs).toHaveBeenCalledWith("/tmp/.openclaw-animclaw");
+    expect(workspaceSeedMocks.discoverWorkspaceDirs).toHaveBeenCalledWith(
+      "/tmp/.openclaw-animclaw",
+    );
     expect(workspaceSeedMocks.syncManagedSkills).toHaveBeenCalledWith({
       workspaceDirs: ["/tmp/.openclaw-animclaw/workspace"],
       packageRoot: "/tmp/pkg",
@@ -425,9 +426,7 @@ describe("startWebRuntimeCommand", () => {
       process.platform === "darwin"
         ? launchdMocks.installWebRuntimeLaunchAgent
         : webRuntimeMocks.startManagedWebRuntime;
-    expect(startMock).toHaveBeenCalledWith(
-      expect.objectContaining({ gatewayPort: 19001 }),
-    );
+    expect(startMock).toHaveBeenCalledWith(expect.objectContaining({ gatewayPort: 19001 }));
   });
 
   it("falls back to AnimClaw port 19001 when manifest is null (fresh install, prevents 18789 hijack)", async () => {
@@ -439,9 +438,7 @@ describe("startWebRuntimeCommand", () => {
       process.platform === "darwin"
         ? launchdMocks.installWebRuntimeLaunchAgent
         : webRuntimeMocks.startManagedWebRuntime;
-    expect(startMock).toHaveBeenCalledWith(
-      expect.objectContaining({ gatewayPort: 19001 }),
-    );
+    expect(startMock).toHaveBeenCalledWith(expect.objectContaining({ gatewayPort: 19001 }));
   });
 });
 
@@ -515,6 +512,10 @@ describe("restartWebRuntimeCommand", () => {
       ([msg]: [string]) => msg,
     );
     expect(logCalls.some((msg) => typeof msg === "string" && msg.includes("restart"))).toBe(true);
-    expect(logCalls.some((msg) => typeof msg === "string" && /\bstart\b/.test(msg) && !msg.includes("restart"))).toBe(false);
+    expect(
+      logCalls.some(
+        (msg) => typeof msg === "string" && /\bstart\b/.test(msg) && !msg.includes("restart"),
+      ),
+    ).toBe(false);
   });
 });

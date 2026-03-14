@@ -57,7 +57,7 @@ function getEnumBadge(
 ): { text: string; color: string } | null {
 	if (!val || !field.enum_values) {return null;}
 	const idx = field.enum_values.indexOf(val);
-	const color = idx >= 0 && field.enum_colors?.[idx] ? field.enum_colors[idx] : "#94a3b8";
+	const color = idx >= 0 && field.enum_colors?.[idx] ? field.enum_colors[idx] : "var(--color-enum-default)";
 	return { text: val, color };
 }
 
@@ -143,7 +143,7 @@ function ListRow({
 								rel={fmt.linkType === "url" || fmt.linkType === "file" ? "noopener noreferrer" : undefined}
 								onClick={(e) => e.stopPropagation()}
 								className="text-[10px] px-1.5 py-0.5 rounded-full flex-shrink-0 hover:underline underline-offset-2"
-								style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-accent)", border: "1px solid var(--color-border)" }}
+								style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-accent)", border: "1px solid var(--color-border)" }}
 							>
 								{fmt.text}
 							</a>
@@ -151,7 +151,7 @@ function ListRow({
 							<span
 								key={tag}
 								className="text-[10px] px-1.5 py-0.5 rounded-full flex-shrink-0"
-								style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}
+								style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}
 							>
 								{tag}
 							</span>

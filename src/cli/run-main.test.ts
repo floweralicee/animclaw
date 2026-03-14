@@ -71,8 +71,12 @@ describe("run-main delegation and path guards", () => {
 
   it("does not delegate telemetry subcommands to OpenClaw (prevents 'unknown command' error)", () => {
     expect(shouldDelegateToGlobalOpenClaw(["node", "animclaw", "telemetry", "status"])).toBe(false);
-    expect(shouldDelegateToGlobalOpenClaw(["node", "animclaw", "telemetry", "privacy", "on"])).toBe(false);
-    expect(shouldDelegateToGlobalOpenClaw(["node", "animclaw", "telemetry", "privacy", "off"])).toBe(false);
+    expect(shouldDelegateToGlobalOpenClaw(["node", "animclaw", "telemetry", "privacy", "on"])).toBe(
+      false,
+    );
+    expect(
+      shouldDelegateToGlobalOpenClaw(["node", "animclaw", "telemetry", "privacy", "off"]),
+    ).toBe(false);
   });
 
   it("disables delegation when explicit env disable flag is set", () => {

@@ -53,7 +53,10 @@ export function configureProgramHelp(program: Command, ctx: ProgramContext) {
       "--dev",
       "Compatibility flag; AnimClaw always uses --profile animclaw and ~/.openclaw-animclaw",
     )
-    .option("--profile <name>", "Compatibility flag; non-animclaw values are ignored with a warning");
+    .option(
+      "--profile <name>",
+      "Compatibility flag; non-animclaw values are ignored with a warning",
+    );
 
   program.option("--no-color", "Disable ANSI colors", false);
   program.helpOption("-h, --help", "Display help for command");

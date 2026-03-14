@@ -77,6 +77,15 @@ function ReportIcon() {
   );
 }
 
+function CameraIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+      <circle cx="12" cy="13" r="3" />
+    </svg>
+  );
+}
+
 function ChevronIcon({ open }: { open: boolean }) {
   return (
     <svg
@@ -103,6 +112,9 @@ function ChevronIcon({ open }: { open: boolean }) {
 function NodeIcon({ node, open }: { node: TreeNode; open?: boolean }) {
   switch (node.type) {
     case "object":
+      if (node.icon === "camera" || node.name === "shot") {
+        return <CameraIcon />;
+      }
       return node.defaultView === "kanban" ? <KanbanIcon /> : <TableIcon />;
     case "document":
       return <DocumentIcon />;
@@ -150,11 +162,11 @@ function TreeNodeItem({
     node.type === "object"
       ? "var(--color-accent)"
       : node.type === "document"
-        ? "#60a5fa"
+        ? "var(--color-link)"
         : node.type === "database"
-          ? "#c084fc"
+          ? "var(--color-link-alt)"
           : node.type === "report"
-            ? "#22c55e"
+            ? "var(--color-success)"
             : "var(--color-text-muted)";
 
   return (

@@ -306,7 +306,7 @@ export function ProfileSwitcher({
             <p
               className="mx-3 mb-2 mt-1 rounded px-2 py-1 text-xs"
               style={{
-                background: "rgba(220, 38, 38, 0.08)",
+                background: "var(--diff-del-bg)",
                 color: "var(--color-error)",
               }}
             >

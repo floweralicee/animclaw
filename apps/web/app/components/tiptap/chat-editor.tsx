@@ -72,14 +72,14 @@ function getFileCategory(name: string): string {
 }
 
 const categoryColors: Record<string, { bg: string; fg: string }> = {
-	image: { bg: "rgba(16, 185, 129, 0.15)", fg: "#10b981" },
-	video: { bg: "rgba(139, 92, 246, 0.15)", fg: "#8b5cf6" },
-	audio: { bg: "rgba(245, 158, 11, 0.15)", fg: "#f59e0b" },
-	pdf: { bg: "rgba(239, 68, 68, 0.15)", fg: "#ef4444" },
-	code: { bg: "rgba(59, 130, 246, 0.15)", fg: "#3b82f6" },
-	document: { bg: "rgba(107, 114, 128, 0.15)", fg: "#6b7280" },
-	folder: { bg: "rgba(245, 158, 11, 0.15)", fg: "#f59e0b" },
-	other: { bg: "rgba(107, 114, 128, 0.10)", fg: "#9ca3af" },
+	image: { bg: "var(--color-file-image-bg)", fg: "var(--color-file-image)" },
+	video: { bg: "var(--color-file-video-bg)", fg: "var(--color-file-video)" },
+	audio: { bg: "var(--color-file-audio-bg)", fg: "var(--color-file-audio)" },
+	pdf: { bg: "var(--color-file-pdf-bg)", fg: "var(--color-file-pdf)" },
+	code: { bg: "var(--color-file-code-bg)", fg: "var(--color-file-code)" },
+	document: { bg: "var(--color-file-document-bg)", fg: "var(--color-file-document)" },
+	folder: { bg: "var(--color-file-folder-bg)", fg: "var(--color-file-folder)" },
+	other: { bg: "var(--color-file-other-bg)", fg: "var(--color-file-other)" },
 };
 
 function shortenPath(path: string): string {
@@ -436,6 +436,7 @@ export const ChatEditor = forwardRef<ChatEditorHandle, ChatEditorProps>(
 						font-size: ${compact ? "12px" : "14px"};
 						line-height: 1.5;
 						transition: opacity 0.15s ease;
+						font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 					}
 					.chat-editor-content[contenteditable="false"] {
 						opacity: 0.5;

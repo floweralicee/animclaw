@@ -127,7 +127,7 @@ function EnumBadge({
   enumColors?: string[];
 }) {
   const idx = enumValues?.indexOf(value) ?? -1;
-  const color = idx >= 0 && enumColors ? enumColors[idx] : "#94a3b8";
+  const color = idx >= 0 && enumColors ? enumColors[idx] : "var(--color-enum-default)";
   return (
     <span
       className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
@@ -197,7 +197,7 @@ function RelationChips({
             className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium ${handleClick ? "cursor-pointer hover:opacity-80" : ""}`}
             style={{
               background: "rgba(96, 165, 250, 0.1)",
-              color: "#60a5fa",
+              color: "var(--color-link)",
               border: "1px solid rgba(96, 165, 250, 0.2)",
             }}
             title={handleClick ? `Open ${label}` : label}
@@ -216,7 +216,7 @@ function RelationChips({
 function TagsBadges({ value }: { value: unknown }) {
   const tags = parseTagsValue(value);
   if (tags.length === 0) {return <EmptyValue />;}
-  const chipStyle = { background: "rgba(148, 163, 184, 0.12)", border: "1px solid var(--color-border)" };
+  const chipStyle = { background: "var(--color-chip-muted-bg)", border: "1px solid var(--color-border)" };
   return (
     <span className="flex items-center gap-1.5 flex-wrap">
       {tags.map((tag) => {
@@ -287,7 +287,7 @@ function TagsEditInput({
         <span
           key={tag}
           className="inline-flex items-center gap-0.5 px-2.5 py-1 rounded-full text-xs font-medium"
-          style={{ background: "rgba(148, 163, 184, 0.12)", color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}
+          style={{ background: "var(--color-chip-muted-bg)", color: "var(--color-text-muted)", border: "1px solid var(--color-border)" }}
         >
           {tag}
           <button
@@ -363,7 +363,7 @@ function ReverseRelationSection({
             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium cursor-pointer hover:opacity-80"
             style={{
               background: "rgba(192, 132, 252, 0.1)",
-              color: "#c084fc",
+              color: "var(--color-link-alt)",
               border: "1px solid rgba(192, 132, 252, 0.2)",
             }}
             title={`Open ${link.label} in ${relation.sourceObjectName}`}
@@ -410,7 +410,7 @@ function FieldValue({
       );
     case "boolean": {
       const isTrue = value === true || value === "true" || value === "1" || value === "yes";
-      return <span style={{ color: isTrue ? "#22c55e" : "var(--color-text-muted)" }}>{isTrue ? "Yes" : "No"}</span>;
+      return <span style={{ color: isTrue ? "var(--color-success)" : "var(--color-text-muted)" }}>{isTrue ? "Yes" : "No"}</span>;
     }
     case "user":
       return <UserBadge value={value} members={members} />;

@@ -46,9 +46,7 @@ describe("posthog-analytics plugin key fallback", () => {
       POSTHOG_KEY: "built-in-key",
     }));
 
-    const { default: register } = await import(
-      "../../extensions/posthog-analytics/index.js"
-    );
+    const { default: register } = await import("../../extensions/posthog-analytics/index.js");
     const api = createMockApi({ apiKey: "config-key", enabled: true });
     register(api);
 
@@ -60,9 +58,7 @@ describe("posthog-analytics plugin key fallback", () => {
       POSTHOG_KEY: "built-in-key",
     }));
 
-    const { default: register } = await import(
-      "../../extensions/posthog-analytics/index.js"
-    );
+    const { default: register } = await import("../../extensions/posthog-analytics/index.js");
     const api = createMockApi();
     register(api);
 
@@ -74,9 +70,7 @@ describe("posthog-analytics plugin key fallback", () => {
       POSTHOG_KEY: "",
     }));
 
-    const { default: register } = await import(
-      "../../extensions/posthog-analytics/index.js"
-    );
+    const { default: register } = await import("../../extensions/posthog-analytics/index.js");
     const api = createMockApi();
     register(api);
 
@@ -89,9 +83,7 @@ describe("posthog-analytics plugin key fallback", () => {
       POSTHOG_KEY: "built-in-key",
     }));
 
-    const { default: register } = await import(
-      "../../extensions/posthog-analytics/index.js"
-    );
+    const { default: register } = await import("../../extensions/posthog-analytics/index.js");
     const api = createMockApi();
     register(api);
 

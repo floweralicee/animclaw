@@ -66,10 +66,9 @@ describe("getOrCreateAnonymousId", () => {
     const id = getOrCreateAnonymousId();
 
     expect(id).toBe("fresh-install-id");
-    expect(mockMkdirSync).toHaveBeenCalledWith(
-      expect.stringContaining("state-dir"),
-      { recursive: true },
-    );
+    expect(mockMkdirSync).toHaveBeenCalledWith(expect.stringContaining("state-dir"), {
+      recursive: true,
+    });
     expect(mockWriteFileSync).toHaveBeenCalledTimes(1);
     const written = JSON.parse(mockWriteFileSync.mock.calls[0][1]);
     expect(written.anonymousId).toBe("fresh-install-id");
@@ -117,9 +116,7 @@ describe("readTelemetryConfig", () => {
 
   it("includes anonymousId when present in telemetry.json", async () => {
     mockExistsSync.mockReturnValue(true);
-    mockReadFileSync.mockReturnValue(
-      JSON.stringify({ enabled: true, anonymousId: "stored-id" }),
-    );
+    mockReadFileSync.mockReturnValue(JSON.stringify({ enabled: true, anonymousId: "stored-id" }));
 
     const { readTelemetryConfig } = await import("./config.js");
     const config = readTelemetryConfig();
