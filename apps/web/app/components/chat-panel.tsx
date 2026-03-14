@@ -709,6 +709,8 @@ type ChatPanelProps = {
 	onSubagentClick?: (task: string) => void;
 	/** Called when user clicks an inline file path in chat output. */
 	onFilePathClick?: (path: string) => Promise<boolean | void> | boolean | void;
+	/** Called when the agent uses the browser tool to open/navigate to a URL (e.g. video generation site). */
+	onBrowserToolNavigate?: (url: string) => void;
 	/** Called when user deletes the current session (e.g. from header menu). */
 	onDeleteSession?: (sessionId: string) => void;
 	/** Called when user renames the current session. */
@@ -736,6 +738,7 @@ export const ChatPanel = forwardRef<ChatPanelHandle, ChatPanelProps>(
 			onSubagentSpawned,
 			onSubagentClick,
 			onFilePathClick,
+			onBrowserToolNavigate,
 			onDeleteSession,
 			onRenameSession: _onRenameSession,
 			sessionKey: subagentSessionKey,
@@ -924,6 +927,36 @@ export const ChatPanel = forwardRef<ChatPanelHandle, ChatPanelProps>(
 				});
 			});
 		}, [messages]);
+
+		// Notify parent when browser tool opens/navigates to a URL (e.g. video generation site).
+		useEffect(() => {
+			if (!onBrowserToolNavigate || messages.length === 0) {return;}
+			for (let i = messages.length - 1; i >= 0; i--) {
+				const msg = messages[i];
+				if (msg.role !== "assistant") {continue;}
+				const parts = (msg as { parts?: unknown[] }).parts ?? [];
+				for (const part of parts) {
+					const p = part as { type?: string; toolName?: string; title?: string; input?: Record<string, unknown>; args?: Record<string, unknown>; output?: Record<string, unknown> };
+					const toolName = (p.toolName ?? p.title ?? "").toLowerCase();
+					if (toolName !== "browser") {continue;}
+					const args = p.input ?? p.args ?? {};
+					const action = typeof args.action === "string" ? args.action.toLowerCase() : "";
+					if (action !== "open" && action !== "navigate") {continue;}
+					const raw = typeof args.targetUrl === "string" ? args.targetUrl
+						: typeof args.url === "string" ? args.url
+						: (p.output && typeof (p.output as Record<string, unknown>).finalUrl === "string")
+							? (p.output as Record<string, unknown>).finalUrl as string
+							: (p.output && typeof (p.output as Record<string, unknown>).url === "string")
+								? (p.output as Record<string, unknown>).url as string
+								: null;
+					const url = raw?.trim();
+					if (url && (url.startsWith("http://") || url.startsWith("https://") || url.includes("."))) {
+						onBrowserToolNavigate(url.startsWith("http") ? url : `https://${url}`);
+						return;
+					}
+				}
+			}
+		}, [messages, onBrowserToolNavigate]);
 
 		// ── Session persistence helpers ──
 

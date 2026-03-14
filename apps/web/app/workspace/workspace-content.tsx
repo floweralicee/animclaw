@@ -24,6 +24,7 @@ import { DatabaseViewer, DuckDBMissing } from "../components/workspace/database-
 import { RichDocumentEditor, isDocxFile, isTxtFile, textToHtml } from "../components/workspace/rich-document-editor";
 import { Breadcrumbs } from "../components/workspace/breadcrumbs";
 import { ChatSessionsSidebar } from "../components/workspace/chat-sessions-sidebar";
+import { BrowserPreview } from "../components/workspace/browser-preview";
 import { EmptyState } from "../components/workspace/empty-state";
 import { ReportViewer } from "../components/charts/report-viewer";
 import { ChatPanel, type ChatPanelHandle, type SubagentSpawnInfo } from "../components/chat-panel";
@@ -424,6 +425,7 @@ function WorkspacePageInner() {
   const [content, setContent] = useState<ContentState>({ kind: "none" });
   const [showChatSidebar, setShowChatSidebar] = useState(true);
   const [chatSidebarPreview, setChatSidebarPreview] = useState<ChatSidebarPreviewState | null>(null);
+  const [browserPreviewUrl, setBrowserPreviewUrl] = useState<string | null>(null);
 
   // Chat session state
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
@@ -454,6 +456,7 @@ function WorkspacePageInner() {
 
   const handleSelectSubagent = useCallback((sessionKey: string) => {
     setActiveSubagentKey(sessionKey);
+    setBrowserPreviewUrl(null);
   }, []);
 
   const handleBackFromSubagent = useCallback(() => {
@@ -2005,10 +2008,12 @@ function WorkspacePageInner() {
                   onActiveSessionChange={activeSubagent ? undefined : (id) => {
                     setActiveSessionId(id);
                     setActiveSubagentKey(null);
+                    setBrowserPreviewUrl(null);
                   }}
                   onSessionsChange={activeSubagent ? undefined : refreshSessions}
                   onSubagentSpawned={activeSubagent ? undefined : handleSubagentSpawned}
                   onSubagentClick={handleSubagentClickFromChat}
+                  onBrowserToolNavigate={activeSubagent ? undefined : setBrowserPreviewUrl}
                   onFilePathClick={handleFilePathClickFromChat}
                   onDeleteSession={activeSubagent ? undefined : handleDeleteSession}
                   onRenameSession={activeSubagent ? undefined : handleRenameSession}
@@ -2033,11 +2038,13 @@ function WorkspacePageInner() {
                     onSelectSession={(sessionId) => {
                       setActiveSessionId(sessionId);
                       setActiveSubagentKey(null);
+                      setBrowserPreviewUrl(null);
                       void chatRef.current?.loadSession(sessionId);
                     }}
                     onNewSession={() => {
                       setActiveSessionId(null);
                       setActiveSubagentKey(null);
+                      setBrowserPreviewUrl(null);
                       void chatRef.current?.newSession();
                       setChatSessionsOpen(false);
                     }}
@@ -2062,7 +2069,12 @@ function WorkspacePageInner() {
                       max={RIGHT_SIDEBAR_MAX}
                       onResize={setRightSidebarWidth}
                     />
-                    {chatSidebarPreview ? (
+                    {browserPreviewUrl ? (
+                      <BrowserPreview
+                        url={browserPreviewUrl}
+                        onClose={() => setBrowserPreviewUrl(null)}
+                      />
+                    ) : chatSidebarPreview ? (
                       <ChatSidebarPreview
                         preview={chatSidebarPreview}
                         onClose={() => setChatSidebarPreview(null)}
@@ -2079,11 +2091,13 @@ function WorkspacePageInner() {
                         onSelectSession={(sessionId) => {
                           setActiveSessionId(sessionId);
                           setActiveSubagentKey(null);
+                          setBrowserPreviewUrl(null);
                           void chatRef.current?.loadSession(sessionId);
                         }}
                         onNewSession={() => {
                           setActiveSessionId(null);
                           setActiveSubagentKey(null);
+                          setBrowserPreviewUrl(null);
                           void chatRef.current?.newSession();
                         }}
                         onSelectSubagent={handleSelectSubagent}
